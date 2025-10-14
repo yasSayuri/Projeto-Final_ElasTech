@@ -38,11 +38,11 @@ public class ProdutoService {
 	}
 	
 	public List<Produto> ordenarPorOrdemAscendente(){
-		return produtoRepository.findAllByPrecoOrderByPrecoAsc();
+		return produtoRepository.findAllByOrderByPrecoAsc();
 	}
 	
 	public List<Produto> ordenarPorOrdemDescente(){
-		return produtoRepository.findAllByPrecoOrderByPrecoDesc();
+		return produtoRepository.findAllByOrderByPrecoDesc();
 	}
 	
 	public Produto atualizar(Long id, Produto produto) {

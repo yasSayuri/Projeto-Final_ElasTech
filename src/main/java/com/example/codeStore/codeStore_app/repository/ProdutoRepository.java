@@ -11,6 +11,6 @@ import com.example.codeStore.codeStore_app.model.Produto;
 public interface ProdutoRepository extends JpaRepository<Produto, Long> {
 	
 	List<Produto> findByNomeContainingIgnoreCase(String nome);
-	List<Produto> findAllByPrecoOrderByPrecoAsc();
-	List<Produto> findAllByPrecoOrderByPrecoDesc();
+	List<Produto> findAllByOrderByPrecoAsc();
+	List<Produto> findAllByOrderByPrecoDesc();
 }
