@@ -43,89 +43,93 @@
     <a class="back-link" href="/loja.html">Continuar comprando</a>
     <h1 class="page-title">Meu carrinho</h1>
 
-    <section class="cart">
-      <header class="cart-head">
-        <span>Produto</span>
-        <span>Preço</span>
-        <span>Quantidade</span>
-        <span>Total</span>
-      </header>
+    <section class="layout">
+      <section class="cart">
+        <header class="cart-head">
+          <span>Produto</span>
+          <span>Preço</span>
+          <span>Quantidade</span>
+          <span>Total</span>
+        </header>
 
-      <div class="cart-row">
-        <div class="prod">
-          <div class="thumb"></div>
-          <div class="info">
-            <p class="name">Nome produto 1</p>
-            <p class="attrs">atributos produto 1 (cor modelo etc)</p>
+        <div class="cart-body">
+          <div class="cart-row">
+            <div class="prod">
+              <div class="thumb"></div>
+              <div class="info">
+                <p class="name">Nome produto 1</p>
+                <p class="attrs">atributos produto 1 (cor modelo etc)</p>
+              </div>
+            </div>
+            <div class="price">preço produto 1</div>
+            <div class="qty">
+              <button class="btn-qty">−</button>
+              <span>2</span>
+              <button class="btn-qty">+</button>
+            </div>
+            <div class="total">preço total do produto 1</div>
+          </div>
+
+          <div class="cart-row">
+            <div class="prod">
+              <div class="thumb"></div>
+              <div class="info">
+                <p class="name">Nome produto 2</p>
+                <p class="attrs">atributos produto 2(cor modelo etc)</p>
+              </div>
+            </div>
+            <div class="price">preço produto 2</div>
+            <div class="qty">
+              <button class="btn-qty">−</button>
+              <span>1</span>
+              <button class="btn-qty">+</button>
+            </div>
+            <div class="total">preço total do produto 2</div>
+          </div>
+
+          <div class="cart-row">
+            <div class="prod">
+              <div class="thumb"></div>
+              <div class="info">
+                <p class="name">Nome produto 3</p>
+                <p class="attrs">atributos produto 3(cor modelo etc)</p>
+              </div>
+            </div>
+            <div class="price">preço produto 3</div>
+            <div class="qty">
+              <button class="btn-qty">−</button>
+              <span>5</span>
+              <button class="btn-qty">+</button>
+            </div>
+            <div class="total">preço total do produto 3</div>
           </div>
         </div>
-        <div class="price">preço produto 1</div>
-        <div class="qty">
-          <button class="btn-qty">−</button>
-          <span>2</span>
-          <button class="btn-qty">+</button>
-        </div>
-        <div class="total">preço total do produto 1</div>
-      </div>
+      </section>
 
-      <div class="cart-row">
-        <div class="prod">
-          <div class="thumb"></div>
-          <div class="info">
-            <p class="name">Nome produto 2</p>
-            <p class="attrs">atributos produto 2(cor modelo etc)</p>
-          </div>
+      <section class="summary">
+        <div class="payment">
+          <h2>Escolha forma de pagamento:</h2>
+          <label class="pay-opt">
+            <input type="radio" name="pay" checked>
+            <span>PIX</span>
+          </label>
+          <label class="pay-opt">
+            <input type="radio" name="pay">
+            <span>Crédito</span>
+          </label>
+          <label class="pay-opt">
+            <input type="radio" name="pay">
+            <span>Débito</span>
+          </label>
         </div>
-        <div class="price">preço produto 2</div>
-        <div class="qty">
-          <button class="btn-qty">−</button>
-          <span>1</span>
-          <button class="btn-qty">+</button>
-        </div>
-        <div class="total">preço total do produto 2</div>
-      </div>
 
-      <div class="cart-row">
-        <div class="prod">
-          <div class="thumb"></div>
-          <div class="info">
-            <p class="name">Nome produto 3</p>
-            <p class="attrs">atributos produto 3(cor modelo etc)</p>
-          </div>
+        <div class="totals">
+          <div class="line"><span>Subtotal:</span><span>R$: 412,23</span></div>
+          <div class="line sub"><span>cupom:</span><span>R$: -12,00</span></div>
+          <div class="line sub"><span>frete:</span><span>R$: -6,00</span></div>
+          <div class="line total"><span>Total:</span><span>R$: 412,23</span></div>
         </div>
-        <div class="price">preço produto 3</div>
-        <div class="qty">
-          <button class="btn-qty">−</button>
-          <span>5</span>
-          <button class="btn-qty">+</button>
-        </div>
-        <div class="total">preço total do produto 3</div>
-      </div>
-    </section>
-
-    <section class="summary">
-      <div class="payment">
-        <h2>Escolha forma de pagamento:</h2>
-        <label class="pay-opt">
-          <input type="radio" name="pay" checked>
-          <span>PIX</span>
-        </label>
-        <label class="pay-opt">
-          <input type="radio" name="pay">
-          <span>Crédito</span>
-        </label>
-        <label class="pay-opt">
-          <input type="radio" name="pay">
-          <span>Débito</span>
-        </label>
-      </div>
-
-      <div class="totals">
-        <div class="line"><span>Subtotal:</span><span>R$: 412,23</span></div>
-        <div class="line sub"><span>cupom:</span><span>R$: -12,00</span></div>
-        <div class="line sub"><span>frete:</span><span>R$: -6,00</span></div>
-        <div class="line total"><span>Total:</span><span>R$: 412,23</span></div>
-      </div>
+      </section>
     </section>
   </main>
 
