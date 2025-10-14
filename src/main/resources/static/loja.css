@@ -1,0 +1,241 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+/* Estilo geral do menu */
+nav {
+  background-color: #9AD4C6;
+  padding: 12px 20px;
+}
+
+/* Container principal do nav */
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Grupo esquerdo: nome + barra de pesquisa */
+.left-group {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Nome da marca */
+.brand {
+  font-family: "Segoe UI";
+  font-weight: 700;
+  font-size: 1.4rem;
+  color: #ffffff;
+  margin: 0;
+}
+
+/* Barra de pesquisa */
+.search {
+  display: flex;
+  align-items: center;
+  background: #f3f4f6;
+  border-radius: 9999px;
+  padding: 6px 12px;
+  width: 240px;
+}
+
+.sidebar {
+  font-family: "Segoe UI";
+  margin: 10px;
+}
+
+/* adiciona espaço entre o título e os links */
+.sidebar h2 {
+  margin-bottom: 15px; /* espaço abaixo do título */
+  font-size: 1.2rem;
+  color: #333;
+}
+
+/* estilização dos links */
+.sidebar a {
+  display: block; /* cada link em uma linha */
+  text-decoration: none;
+  color: black;
+  margin-bottom: 10px; /* espaço entre os links */
+  transition: color 0.2s ease;
+}
+
+/* efeito hover */
+.sidebar a:hover {
+  color: #1e1e2f;
+}
+
+/* Ícone da lupa */
+.search .icon {
+  margin-right: 8px;
+}
+
+/* Campo de texto */
+.search input {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 0.95rem;
+  width: 100%;
+  color: #111827;
+}
+
+.search input::placeholder {
+  color: #9aa0a6;
+}
+
+/* Ícones à direita */
+.icons {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.icons svg {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.icons svg:hover {
+  transform: scale(1.1);
+}
+
+/* Cabeçalho da sidebar (título acima) */
+.sidebar-header {
+  display: block; /* vertical por padrão */
+  margin-bottom: 15px;
+  position: relative; /* para posicionar o botão de toggle se necessário */
+}
+
+.sidebar {
+  width: 220px;
+  background-color: #f5f5f5;
+  height: 100vh; /* altura total da tela */
+  position: fixed;
+  left: 0;
+  padding: 0; /* remove espaçamento interno */
+  margin: 0; /* remove qualquer margem externa */
+  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+  border-radius: 0; /* remove cantos arredondados */
+  z-index: 1000;
+}
+
+.banner-pagbank img {
+  width: 70%;       
+  height: auto;     
+  display: block;   
+  position: relative; /* permite deslocamento */
+  left: 30%;          /* desloca 10% para a direita */
+  margin: 0;          /* remove qualquer margem existente */
+  padding: 10;
+  margin-top: 30px;   /* mantém deslocamento para baixo */
+}
+
+/* Sidebar fechada */
+.sidebar.closed {
+  transform: translateX(-100%);
+}
+
+/* Links da sidebar */
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar ul li {
+  margin-bottom: 12px;
+}
+
+.sidebar ul li a {
+  text-decoration: none;
+  color: #333;
+  display: block;
+  transition: color 0.2s;
+}
+
+.sidebar ul li a:hover {
+  color: #1e1e2f;
+}
+
+/* Botão de toggle sempre visível no canto esquerdo */
+.toggle-btn {
+  position: fixed;
+  top: 80px; /* ajuste vertical */
+  left: 0;
+  background-color: #1e1e2f;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+  z-index: 1100;
+  transition: transform 0.3s ease;
+  font-size: 1.2rem;
+}
+
+/* Rotaciona a seta quando sidebar aberta */
+.sidebar.open ~ .toggle-btn {
+  transform: rotate(180deg);
+}
+
+/* Ajusta o conteúdo quando a sidebar estiver aberta */
+.content.sidebar-open {
+  margin-left: 240px; /* largura da sidebar + padding */
+}
+
+
+/* Conteúdo principal */
+.content {
+  margin-left: 20px;
+  padding: 40px;
+  transition: margin-left 0.3s ease;
+}
+
+/* Ajusta o conteúdo quando sidebar aberta */
+.content.sidebar-open {
+  margin-left: 240px; /* largura da sidebar + padding */
+}
+
+/* Botão de toggle */
+#toggle-sidebar {
+  position: absolute; /* opcional: fica no canto superior direito da sidebar */
+  top: 0;
+  right: 0;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+/* Rotaciona a setinha ao abrir */
+.sidebar.open #toggle-sidebar {
+  transform: rotate(180deg);
+}
+
+/* Links da sidebar permanecem abaixo */
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar ul li {
+  margin-bottom: 12px;
+}
+
+.sidebar ul li a {
+  text-decoration: none;
+  color: #333;
+  display: block;
+  transition: color 0.2s;
+}
+
+.sidebar ul li a:hover {
+  color: #1e1e2f;
+}
