@@ -3,6 +3,12 @@
     padding: 0px;
 }
 
+body {
+  background-color: #ffffff; /* branco */
+  margin: 0;
+  font-family: "Segoe UI";
+}
+
 /* Estilo geral do menu */
 nav {
   background-color: #9AD4C6;
@@ -238,4 +244,51 @@ nav {
 
 .sidebar ul li a:hover {
   color: #1e1e2f;
+}
+
+/* Section que contém os produtos */
+.card-produtos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  border-radius: 12px;
+  max-width: 1200px; /* opcional: limita largura da section */
+  margin: 40px auto; /* centraliza na página */
+}
+
+/* Cada card individual */
+.produto {
+  font-family: "Segoe UI";
+  color: #ffffff;
+  background-color: #9AD4C6;
+  border-radius: 8px;
+  padding: 10px;
+  font-weight: 400;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* sombra leve */
+  transition: transform 0.3s;
+}
+
+.produto img {
+  width: 180px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.produto:hover {
+  transform: scale(1.05);
+}
+
+.card-produtos img:hover {
+  transform: scale(1.05); /* leve aumento ao passar o mouse */
+}
+
+footer {
+  font-family: "Segoe UI";
+  background-color: #9AD4C6;
+  color: #ffffff;
+  text-align: center;
+  padding: 30px 0;
 }
