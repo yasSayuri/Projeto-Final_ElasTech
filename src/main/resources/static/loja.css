@@ -109,41 +109,17 @@ nav {
   transform: scale(1.1);
 }
 
-/* Cabeçalho da sidebar (título acima) */
-.sidebar-header {
-  display: block; /* vertical por padrão */
-  margin-bottom: 15px;
-  position: relative; /* para posicionar o botão de toggle se necessário */
-}
-
-.sidebar {
-  width: 220px;
-  background-color: #f5f5f5;
-  height: 100vh; /* altura total da tela */
-  position: fixed;
-  left: 0;
-  padding: 0; /* remove espaçamento interno */
-  margin: 0; /* remove qualquer margem externa */
-  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-  transition: transform 0.3s ease;
-  border-radius: 0; /* remove cantos arredondados */
-  z-index: 1000;
-}
-
 .banner-pagbank img {
-  width: 70%;       
+  width: 60%;       
   height: auto;     
   display: block;   
-  position: relative; /* permite deslocamento */
-  left: 30%;          /* desloca 10% para a direita */
-  margin: 0;          /* remove qualquer margem existente */
-  padding: 10;
-  margin-top: 30px;   /* mantém deslocamento para baixo */
-}
-
-/* Sidebar fechada */
-.sidebar.closed {
-  transform: translateX(-100%);
+  position: absolute; 
+  top: 80px;                /* controla o quanto desce */
+  left: 50%;                /* posiciona no centro horizontal */
+  transform: translateX(-50%); /* centraliza corretamente */
+  margin: 0 auto;           
+  padding: 0;               
+  max-width: 90%;           /* garante que não ultrapasse margens laterais */
 }
 
 /* Links da sidebar */
@@ -184,44 +160,11 @@ nav {
   font-size: 1.2rem;
 }
 
-/* Rotaciona a seta quando sidebar aberta */
-.sidebar.open ~ .toggle-btn {
-  transform: rotate(180deg);
-}
-
-/* Ajusta o conteúdo quando a sidebar estiver aberta */
-.content.sidebar-open {
-  margin-left: 240px; /* largura da sidebar + padding */
-}
-
-
 /* Conteúdo principal */
 .content {
   margin-left: 20px;
   padding: 40px;
   transition: margin-left 0.3s ease;
-}
-
-/* Ajusta o conteúdo quando sidebar aberta */
-.content.sidebar-open {
-  margin-left: 240px; /* largura da sidebar + padding */
-}
-
-/* Botão de toggle */
-#toggle-sidebar {
-  position: absolute; /* opcional: fica no canto superior direito da sidebar */
-  top: 0;
-  right: 0;
-  background: none;
-  border: none;
-  font-size: 1.2rem;
-  cursor: pointer;
-  transition: transform 0.3s;
-}
-
-/* Rotaciona a setinha ao abrir */
-.sidebar.open #toggle-sidebar {
-  transform: rotate(180deg);
 }
 
 /* Links da sidebar permanecem abaixo */
@@ -249,7 +192,7 @@ nav {
 /* Section que contém os produtos */
 .card-produtos {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
   padding: 20px;
   border-radius: 12px;
