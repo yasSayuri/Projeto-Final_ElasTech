@@ -109,6 +109,31 @@ nav {
   transform: scale(1.1);
 }
 
+.material-icons {
+  vertical-align: middle;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  color: white;
+}
+
+.material-icons:hover {
+  transform: scale(1.1);
+}
+
+#src-icon {
+  color: #9aa0a6;        
+  font-size: 20px;       
+  margin-right: 8px;    
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: default;        
+}
+
+#src-icon:hover {
+  transform: none;
+}
+
 .banner-pagbank img {
   width: 60%;       
   height: auto;     
