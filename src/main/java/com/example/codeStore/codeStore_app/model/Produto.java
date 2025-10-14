@@ -8,7 +8,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "produtos")
@@ -21,13 +20,14 @@ public class Produto {
 	@Column(nullable = false)
 	private String nome;
 	
-	@NotNull
+	@Column(nullable = false)
 	private String descricao;
 	
 	@Column(nullable = false)
 	private BigDecimal preco;
 	
 	//@Column(nullable = false)
+	@Column(name = "imagem_url")
 	private String imagemURL;
 	
 	
