@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Criar conta • CodeStore</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="register.css">
+</head>
+<body>
+  <div class="shell">
+    <div class="card">
+      <main class="form-side left">
+        <h1 class="title">Criar conta</h1>
+
+        <div class="socials">
+          <button aria-label="Facebook">f</button>
+          <button aria-label="Google">G+</button>
+          <button aria-label="LinkedIn">in</button>
+        </div>
+
+        <div class="divider">ou use seu e-mail para cadastro</div>
+        <div id="mErr" class="msg err" style="display:none">E-mail já cadastrado.</div>
+
+        <form action="/api/usuarios" method="post" autocomplete="on">
+          <div>
+            <label for="nome">Nome</label>
+            <input class="input" id="nome" name="nome" placeholder="Seu nome" required>
+          </div>
+
+          <div>
+            <label for="email">E-mail</label>
+            <input class="input" id="email" name="email" type="email" placeholder="voce@exemplo.com" required>
+          </div>
+
+          <div class="grid-2">
+            <div>
+              <label for="cpf">CPF</label>
+              <input class="input" id="cpf" name="cpf" placeholder="000.000.000-00" required>
+            </div>
+            <div>
+              <label for="telefone">Telefone</label>
+              <input class="input" id="telefone" name="telefone" placeholder="(00) 90000-0000" required>
+            </div>
+          </div>
+
+          <div>
+            <label for="senha">Senha</label>
+            <input class="input" id="senha" name="senha" type="password" placeholder="Crie uma senha" required>
+          </div>
+
+          <button class="btn btn-primary" type="submit">Criar conta</button>
+        </form>
+      </main>
+
+      <aside class="panel-colored right">
+        <div class="panel">
+          <h2>Bem-vindo de volta!</h2>
+          <p>Para continuar conectado, faça login com suas informações pessoais.</p>
+          <a id="goLogin" class="btn btn-ghost" href="/login.html">Entrar</a>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script>
+    const p = new URLSearchParams(location.search);
+    if (p.get('erro') === 'email') document.getElementById('mErr').style.display = 'block';
+
+    const goLogin = document.getElementById('goLogin');
+    goLogin.addEventListener('click', () => {
+      sessionStorage.setItem('transition', 'register-to-login');
+    });
+
+    if (sessionStorage.getItem('transition') === 'login-to-register') {
+      document.body.classList.add('from-login');
+      sessionStorage.removeItem('transition');
+    }
+  </script>
+</body>
+</html>
