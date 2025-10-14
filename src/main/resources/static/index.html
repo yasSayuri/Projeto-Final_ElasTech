@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="login.css">
+  <link rel="stylesheet" href="/login.css">
 </head>
 <body>
   <div class="shell">
@@ -15,28 +15,30 @@
       <aside class="right">
         <div class="panel">
           <h2>Seja bem vindo!</h2>
-          <p>Entre com seus dados para continuar ou crie sua conta</p>
+          <p>Entre com seus dados para continuar ou crie sua conta para começar sua jornada.</p>
           <a class="btn btn-ghost" href="/register.html">Criar conta</a>
         </div>
       </aside>
+
       <main class="left">
-        <div>
-          <div class="brand">
-            <div>
-              <h1 class="title">Entrar em CodeStore</h1>
-              <div class="subtitle">acessar sua conta</div>
-            </div>
+        <div class="brand">
+          <div>
+            <h1 class="title">Entrar em CodeStore</h1>
+            <div class="subtitle">acessar sua conta</div>
           </div>
         </div>
+
         <div class="socials">
           <button aria-label="Entrar com Facebook">f</button>
           <button aria-label="Entrar com Google">G</button>
           <button aria-label="Entrar com LinkedIn">in</button>
         </div>
+
         <div class="divider">ou use seu e-mail</div>
         <div id="mOk" class="msg ok" style="display:none">Cadastro realizado com sucesso. Faça o login.</div>
         <div id="mErr" class="msg err" style="display:none">E-mail ou senha inválidos.</div>
-        <form action="/api/login" method="post" autocomplete="on">
+
+        <form id="loginForm" action="/api/login" method="post" autocomplete="on">
           <div>
             <label for="email">E-mail</label>
             <input class="input" id="email" name="email" type="email" placeholder="Digite seu email..." required>
@@ -53,10 +55,17 @@
       </main>
     </div>
   </div>
+
   <script>
-    const p=new URLSearchParams(location.search);
-    if(p.get('ok')==='1')document.getElementById('mOk').style.display='block';
-    if(p.get('erro')==='1')document.getElementById('mErr').style.display='block';
+    const p = new URLSearchParams(location.search);
+    if (p.get('ok') === '1') document.getElementById('mOk').style.display = 'block';
+    if (p.get('erro') === '1') document.getElementById('mErr').style.display = 'block';
+
+    const form = document.getElementById('loginForm');
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      window.location.href = '/loja.html';
+    });
   </script>
 </body>
 </html>
