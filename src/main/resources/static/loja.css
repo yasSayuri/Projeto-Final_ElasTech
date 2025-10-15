@@ -1,18 +1,38 @@
+:root{
+  --nav-h: 64px;        /* ALTURA do header (ajuste se precisar) */
+  --footer-h: 56px;     /* ALTURA do footer (ajuste se precisar) */
+  --sb-w: 200px;        /* LARGURA da sidebar (igual à sua) */
+  --sb-ml: 20px;        /* margem esquerda atual da sidebar */
+}
+
 * {
     margin: 0px;
     padding: 0px;
 }
 
+html, body {
+  height: 100%;
+}
+
+
 body {
   background-color: #ffffff; /* branco */
   margin: 0;
   font-family: "Segoe UI";
+  min-height: 100vh;        /* ocupa a altura total da viewport */
+  display: flex;
+  flex-direction: column; 
+  overflow: hidden;
 }
 
 /* Estilo geral do menu */
 nav {
   background-color: #9AD4C6;
   padding: 12px 20px;
+    position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;           /* mantém seu layout */
+  align-items: center;
 }
 
 /* Container principal do nav */
@@ -50,7 +70,24 @@ nav {
 
 .sidebar {
   font-family: "Segoe UI";
-  margin: 10px;
+  width: 200px;
+  margin-left: 20px;
+  margin-top: 36px;
+  background: #fff;
+  border: 1px solid #e5e7eb;       
+  border-radius: 12px;                   
+  box-shadow: 0 8px 24px rgba(0,0,0,.08), 
+              0 2px 6px rgba(0,0,0,.06); 
+  padding: 14px;                      
+  box-sizing: border-box;
+  position: fixed;
+  top: calc(var(--nav-h) + 16px);
+  left: var(--sb-ml);
+  width: var(--sb-w);
+  height: calc(100vh - var(--nav-h) - var(--footer-h) - 45px);
+  overflow: auto;            
+  margin: 0;                
+  z-index: 900;
 }
 
 /* adiciona espaço entre o título e os links */
@@ -109,65 +146,55 @@ nav {
   transform: scale(1.1);
 }
 
-/* Cabeçalho da sidebar (título acima) */
-.sidebar-header {
-  display: block; /* vertical por padrão */
-  margin-bottom: 15px;
-  position: relative; /* para posicionar o botão de toggle se necessário */
+.icons .material-icons {
+  vertical-align: middle;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  color: white;
+}
+.icons .material-icons:hover {
+  transform: scale(1.1);
 }
 
-.sidebar {
-  width: 220px;
-  background-color: #f5f5f5;
-  height: 100vh; /* altura total da tela */
-  position: fixed;
-  left: 0;
-  padding: 0; /* remove espaçamento interno */
-  margin: 0; /* remove qualquer margem externa */
-  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-  transition: transform 0.3s ease;
-  border-radius: 0; /* remove cantos arredondados */
-  z-index: 1000;
+#src-icon {
+  color: #9aa0a6;
+  font-size: 20px;
+  margin-right: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
+  transform: none;
+}
+#src-icon:hover {
+  transform: none;
 }
 
 .banner-pagbank img {
-  width: 70%;       
-  height: auto;     
-  display: block;   
-  position: relative; /* permite deslocamento */
-  left: 30%;          /* desloca 10% para a direita */
-  margin: 0;          /* remove qualquer margem existente */
-  padding: 10;
-  margin-top: 30px;   /* mantém deslocamento para baixo */
-}
-
-/* Sidebar fechada */
-.sidebar.closed {
-  transform: translateX(-100%);
+  width: 96.3%;
+  height: 250px;
+  display: block;
+  margin: 5px 20px;
+  position: static;
+  margin-top:5px;
 }
 
 /* Links da sidebar */
-.sidebar ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.sidebar ul li {
-  margin-bottom: 12px;
-}
-
+.sidebar ul { list-style: none; padding: 0; margin: 0; }
+.sidebar ul li { margin-bottom: 12px; }
 .sidebar ul li a {
+  display: block;
   text-decoration: none;
   color: #333;
-  display: block;
-  transition: color 0.2s;
+  padding: 8px 10px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
 }
-
 .sidebar ul li a:hover {
-  color: #1e1e2f;
+  background-color: #9AD4C6;
+  color: #ffffff;
+  transform: scale(1.03);
 }
-
 /* Botão de toggle sempre visível no canto esquerdo */
 .toggle-btn {
   position: fixed;
@@ -184,44 +211,11 @@ nav {
   font-size: 1.2rem;
 }
 
-/* Rotaciona a seta quando sidebar aberta */
-.sidebar.open ~ .toggle-btn {
-  transform: rotate(180deg);
-}
-
-/* Ajusta o conteúdo quando a sidebar estiver aberta */
-.content.sidebar-open {
-  margin-left: 240px; /* largura da sidebar + padding */
-}
-
-
 /* Conteúdo principal */
 .content {
   margin-left: 20px;
   padding: 40px;
   transition: margin-left 0.3s ease;
-}
-
-/* Ajusta o conteúdo quando sidebar aberta */
-.content.sidebar-open {
-  margin-left: 240px; /* largura da sidebar + padding */
-}
-
-/* Botão de toggle */
-#toggle-sidebar {
-  position: absolute; /* opcional: fica no canto superior direito da sidebar */
-  top: 0;
-  right: 0;
-  background: none;
-  border: none;
-  font-size: 1.2rem;
-  cursor: pointer;
-  transition: transform 0.3s;
-}
-
-/* Rotaciona a setinha ao abrir */
-.sidebar.open #toggle-sidebar {
-  transform: rotate(180deg);
 }
 
 /* Links da sidebar permanecem abaixo */
@@ -249,46 +243,118 @@ nav {
 /* Section que contém os produtos */
 .card-produtos {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
   padding: 20px;
   border-radius: 12px;
-  max-width: 1200px; /* opcional: limita largura da section */
+  max-width: none; /* opcional: limita largura da section */
   margin: 40px auto; /* centraliza na página */
 }
 
-/* Cada card individual */
+.card-produtos {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  padding: 20px;
+  border-radius: 12px;
+  max-width: 1200px;
+  margin: 40px auto;
+}
+
 .produto {
   font-family: "Segoe UI";
   color: #ffffff;
   background-color: #9AD4C6;
   border-radius: 8px;
   padding: 10px;
-  font-weight: 400;
-  text-align: center;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* sombra leve */
+  font-weight: 600;
+  text-align: left;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   transition: transform 0.3s;
 }
 
-.produto img {
-  width: 180px;
-  height: 150px;
-  object-fit: cover;
-  border-radius: 8px;
-}
-
 .produto:hover {
-  transform: scale(1.05);
+  transform: scale(1.05);       
 }
 
+.produto img {
+  width: 100%;
+  height: 200px;
+  object-fit: contain;    
+  background: #fff;        
+  border-radius: 8px;
+  display: block;
+}
 .card-produtos img:hover {
-  transform: scale(1.05); /* leve aumento ao passar o mouse */
+  transform: none !important;   
+}
+
+.produto .icon-card {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.produto .icon-card .material-icons {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;           
+  height: 36px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 24px;
+  transition: background-color .2s ease;  
+}
+.produto .icon-card .material-icons:hover {
+  background-color: rgba(255, 255, 255, 0.25);
+}
+
+.produto .icon-card .material-icons:hover {
+  transform: none !important;
 }
 
 footer {
   font-family: "Segoe UI";
-  background-color: #9AD4C6;
-  color: #ffffff;
+  background-color: #a6e7d9;
+  color: #222;
   text-align: center;
-  padding: 30px 0;
+  padding: 15px 0;
+  margin-top: auto;
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  margin-top: 0;             
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  box-shadow: 0 8px 24px rgba(0,0,0,.08)
+}
+
+.layout {
+  display: block;
+  grid-template-columns: 180px 1fr;
+  gap: 0;
+  align-items: start;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  flex: 1 0 auto;
+}
+
+.main{
+  position: relative;
+  margin-left: calc(var(--sb-ml) + var(--sb-w) + 16px);
+  padding: 20px;
+  padding-top: calc(var(--nav-h) + 16px);
+  padding-bottom: calc(var(--footer-h) + 16px);
+  height: calc(100vh - var(--nav-h) - var(--footer-h));
+  overflow-y: auto;         
+}
+
+.main .card-produtos{
+  margin: 8px auto 32px !important; /* top bem menor */
+  gap: 16px;                         /* opcional: grade mais “junta” */
 }
