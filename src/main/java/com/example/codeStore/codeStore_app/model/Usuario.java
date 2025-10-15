@@ -10,23 +10,24 @@ public class Usuario {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@NotBlank
+	@Column(nullable = false)
 	private String nome;
 
-	@NotBlank
+	@Column(nullable = false)
 	@Email
 	private String email;
 
-	@NotBlank
-	@Column(length = 14)
+	@Column(length = 14, nullable = false)
 	private String cpf;
-
-	@NotBlank
-	@Column(length = 20)
+	
+	@Column(length = 20, nullable = false)
 	private String telefone;
 
-	@NotBlank
+	@Column(nullable = false)
 	private String senha;
+	
+	@Column(name = "role")
+	private String roles = "USUARIO COMUM"; 
 
 	public Long getId() {
 		return id;

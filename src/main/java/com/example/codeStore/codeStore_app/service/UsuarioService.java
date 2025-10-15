@@ -1,12 +1,13 @@
 package com.example.codeStore.codeStore_app.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.codeStore.codeStore_app.dto.mapper.UsuarioMapper;
-import com.example.codeStore.codeStore_app.dto.request.UsuarioRequest;
+import com.example.codeStore.codeStore_app.exception.EntidadeNaoEncontradaException;
+import com.example.codeStore.codeStore_app.exception.NegocioException;
 import com.example.codeStore.codeStore_app.model.Usuario;
 import com.example.codeStore.codeStore_app.repository.UsuarioRepository;
 
@@ -14,11 +15,9 @@ import com.example.codeStore.codeStore_app.repository.UsuarioRepository;
 public class UsuarioService {
 
     private final UsuarioRepository repository;
-    private final UsuarioMapper usuarioMapper;
 
-    public UsuarioService(UsuarioRepository repository, UsuarioMapper usuarioMapper) {
+    public UsuarioService(UsuarioRepository repository) {
         this.repository = repository;
-        this.usuarioMapper = usuarioMapper;
     }
 
     @Transactional(readOnly = true)
@@ -28,24 +27,33 @@ public class UsuarioService {
 
     @Transactional(readOnly = true)
     public Usuario obterPorId(Long id) {
-        return repository.findById(id).get();
+        return repository.findById(id)
+        		.orElseThrow(() -> new EntidadeNaoEncontradaException("Usuário não encontrado!"));
+    }
+    
+    @Transactional(readOnly = true)
+    public Usuario obterPorEmail(String email) {
+    	return repository.findByEmail(email)
+    			.orElseThrow(() -> new EntidadeNaoEncontradaException("Usuário não existe!"));
     }
 
     @Transactional
-    public Usuario cadastrarUsuario(UsuarioRequest dto) {
-    	Usuario usuario = usuarioMapper.toEntity(dto); 
+    public Usuario cadastrarUsuario(Usuario usuario) {
+    	Optional<Usuario> emailExistente = repository.findByEmail(usuario.getEmail());
+    	
+    	if(emailExistente.isPresent()) {
+    		throw new NegocioException("Já existe um usuário cadastrado com este email!");
+    	}
         return repository.save(usuario);
     }
 
     @Transactional
-    public Usuario atualizarUsuario(Long id, UsuarioRequest dto) {
-        Usuario existente = obterPorId(id);
-
-        // Atualiza campos editáveis       
-        existente.setNome(dto.getNome());
-		existente.setTelefone(dto.getTelefone());
-		//existente.setSenha(dto.getSenha()); //Validar se será possível alterar senha
-
-        return repository.save(existente);
+    public Usuario atualizarUsuario(Usuario usuario) {
+        return repository.save(usuario);
     }
+    
+	public Boolean existisById(Long id) {
+		return repository.existsById(id);
+	}
+    
 }

@@ -10,6 +10,7 @@ import com.example.codeStore.codeStore_app.model.Usuario;
 
 @Component
 public class UsuarioMapper {
+	
 	public Usuario toEntity(UsuarioRequest pRequest) {
 		Usuario usuario = new Usuario();
 		usuario.setNome(pRequest.getNome());
@@ -18,25 +19,25 @@ public class UsuarioMapper {
 		usuario.setTelefone(pRequest.getTelefone());
 		usuario.setSenha(pRequest.getSenha());
 		return usuario;
-			}
-	
+	}
+
 	public UsuarioResponse toResponse(Usuario usuario) {
 		UsuarioResponse response = new UsuarioResponse();
 		response.setNome(usuario.getNome());
 		response.setEmail(usuario.getEmail());
 		response.setCpf(usuario.getCpf());
 		response.setTelefone(usuario.getTelefone());
-		
+
 		return response;
 	}
-	
+
 	public List<UsuarioResponse> toResponseList(List<Usuario> usuarios) {
 		List<UsuarioResponse> response = new ArrayList<>();
-		
-		for(Usuario usuario: usuarios) {
+
+		for (Usuario usuario : usuarios) {
 			response.add(toResponse(usuario));
 		}
-		
+
 		return response;
 	}
 }

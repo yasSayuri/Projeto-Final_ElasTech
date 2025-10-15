@@ -1,25 +1,29 @@
 package com.example.codeStore.codeStore_app.dto.request;
 
-public class UsuarioRequest {
-	private Long id;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
+public class UsuarioRequest {
+
+	@NotBlank(message = "O nome é obrigatório!")
 	private String nome;
 
+	@Email
+	@NotBlank(message = "O email é obrigatório!")
 	private String email;
 
+	@NotBlank(message = "O CPF é obrigatório!")
 	private String cpf;
 
+	@NotBlank(message = "O telefone é obrigatório!")
+	@Pattern(regexp = "\\d+", message = "O telefone deve conter apenas números.")
 	private String telefone;
 
+	@NotBlank(message = "A senha é obrigatória!")
+	@Size(min = 8, message = "A senha deve ter no mínimo 8 caracteres!")
 	private String senha;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public String getNome() {
 		return nome;

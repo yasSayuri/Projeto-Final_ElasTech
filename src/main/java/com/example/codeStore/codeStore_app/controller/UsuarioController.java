@@ -1,8 +1,7 @@
 package com.example.codeStore.codeStore_app.controller;
 
-import java.net.URI;
-import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.codeStore.codeStore_app.dto.mapper.UsuarioMapper;
@@ -32,35 +32,36 @@ public class UsuarioController {
         this.usuarioMapper = usuarioMapper;
     }
 
-    // GET /api/usuarios -> obterTodos
-    @GetMapping
-    public ResponseEntity<List<UsuarioResponse>> obterTodos() {
-    	List<Usuario> usuarios = service.obterTodos();
-        return ResponseEntity.ok(usuarioMapper.toResponseList(usuarios));
-    }
-
-    // GET /api/usuarios/{id} -> obterPorId
     @GetMapping("/{id}")
     public ResponseEntity<UsuarioResponse> obterPorId(@PathVariable Long id) {
         return ResponseEntity.ok(usuarioMapper.toResponse(service.obterPorId(id)));
     }
-
-    // POST /api/usuarios -> cadastrarUsuario
-    @PostMapping
-    public ResponseEntity<UsuarioResponse> cadastrarUsuario(@Valid @RequestBody UsuarioRequest dto) {
-        Usuario criado = service.cadastrarUsuario(dto);
-        return ResponseEntity
-                .created(URI.create("/api/usuarios/" + criado.getId()))
-                .body(usuarioMapper.toResponse(criado));
+    
+    @GetMapping("buscarEmail/{email}")
+    public ResponseEntity<UsuarioResponse> obterPorEmail(@PathVariable String email) {
+        return ResponseEntity.ok(usuarioMapper.toResponse(service.obterPorEmail(email)));
+    }
+    
+    @PostMapping("/cadastrar")
+    @ResponseStatus(HttpStatus.CREATED)
+    public UsuarioResponse cadastrarUsuario(@Valid @RequestBody UsuarioRequest dto) {
+    	Usuario usuario = usuarioMapper.toEntity(dto);
+    	Usuario usuarioCadastrado = service.cadastrarUsuario(usuario);
+    
+    	return usuarioMapper.toResponse(usuarioCadastrado);
     }
 
-    // PUT /api/usuarios/{id} -> atualizarUsuario
     @PutMapping("/{id}")
-    public ResponseEntity<UsuarioResponse> atualizarUsuario(
-    		@PathVariable Long id,
-            @Valid @RequestBody UsuarioRequest dto
-    ) {
-    	Usuario atualizado = service.atualizarUsuario(id, dto);
+    public ResponseEntity<UsuarioResponse> atualizarUsuario (@PathVariable Long id, 
+    		@Valid @RequestBody UsuarioRequest dto) {
+		
+    	if(!service.existisById(id)) {
+			 return ResponseEntity.notFound().build();
+		}
+    	Usuario usuario = usuarioMapper.toEntity(dto);
+    	usuario.setId(id);
+    	Usuario atualizado = service.atualizarUsuario(usuario);
         return ResponseEntity.ok(usuarioMapper.toResponse(atualizado));
     }
+    
 }
