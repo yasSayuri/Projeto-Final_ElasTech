@@ -3,6 +3,7 @@ package com.example.codeStore.codeStore_app.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -63,5 +64,14 @@ public class UsuarioController {
     	Usuario atualizado = service.atualizarUsuario(usuario);
         return ResponseEntity.ok(usuarioMapper.toResponse(atualizado));
     }
+    
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> excluir(@PathVariable Long id) {
+		if(!service.existisById(id)) {
+			 return ResponseEntity.notFound().build();
+		}
+		service.excluir(id);
+		return ResponseEntity.noContent().build();
+	}
     
 }

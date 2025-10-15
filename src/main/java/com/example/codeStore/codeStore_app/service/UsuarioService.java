@@ -55,5 +55,10 @@ public class UsuarioService {
 	public Boolean existisById(Long id) {
 		return repository.existsById(id);
 	}
+	
+	@Transactional
+	public void excluir(Long id) {
+		repository.deleteById(id);
+	}
     
 }
