@@ -34,11 +34,10 @@ Inclui endpoints para:
 - Armazena informações de usuários, produtos e pedidos.
 - As relações seguem o seguinte modelo:
 
-Usuario (1) — (N) Pedido
-Pedido (N) — (N) Produto
-
-**4. Segurança (Camada de Autenticação e Controle de Acesso)**
-Permite distinguir ações entre usuário comum e administrador, garantindo integridade e segurança nas operações do sistema.
+| Entidade 1 | Cardinalidade | Entidade 2 |
+|------------|---------------|------------|
+| Usuario    | 1 → N         | Pedido     |
+| Pedido     | N → N         | Produto    |
 
 # 📦 Estrutura de Pastas
 
@@ -69,14 +68,14 @@ Permite distinguir ações entre usuário comum e administrador, garantindo inte
 
 # ⚙️ Funcionalidades Principais
 
-👤 Usuário
+👤 **Usuário**
 
 - Visualiza produtos disponíveis
 - Adiciona itens ao carrinho
 - Calcula o total da compra em tempo real
 - Finaliza o pedido
 
-🛠️ Administrador
+🛠️ **Administrador**
 
 - Cadastra, edita e remove produtos
 - Gerencia pedidos (alterando status)
@@ -96,8 +95,9 @@ Entidades Principais:
 
 1️⃣ **Clonar o repositório**
 
-git clone https://github.com/seu-usuario/Projeto-Final_ElasTech.git
-cd ProjetoFinal_ElasTech
+<pre>git clone https://github.com/seu-usuario/Projeto-Final_ElasTech.git
+cd Projeto-Final_ElasTech
+</pre>
 
 2️⃣ **Configurar o Banco de Dados**
 
