@@ -10,35 +10,30 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name="pedidos")
-public class PedidoModel {
+public class Pedido {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
 	
-	@NotBlank
+	@NotNull
 	private int usuarioId;
 	
 	private PedidoStatusEnum status;
 	
-	@NotBlank @DecimalMin(value = "0.00")
     @Column(precision = 15, scale = 2)
 	private BigDecimal subtotal;
 	
-	@NotNull @DecimalMin(value = "0.00")
     @Column(precision = 15, scale = 2)
 	private BigDecimal descontoTotal;
 	
-	@NotNull @DecimalMin(value = "0.00")
     @Column(precision = 15, scale = 2)
 	private BigDecimal frete;
 	
-	@NotBlank @DecimalMin(value = "0.00")
     @Column(precision = 15, scale = 2)
 	private BigDecimal total;
 	
