@@ -21,6 +21,7 @@ body{
   display:flex;
   flex-direction:column;
   overflow:auto;
+  overflow-x:hidden;
 }
 
 /* Estilo geral do menu */
@@ -82,7 +83,7 @@ nav{
   top: calc(var(--nav-h) + 16px);
   left: var(--sb-ml);
   width: var(--sb-w);
-  height: calc(100vh - var(--nav-h) - var(--footer-h) - 45px);
+  height: 77vh;
   overflow: auto;            
   margin: 0;                
   z-index: 900;

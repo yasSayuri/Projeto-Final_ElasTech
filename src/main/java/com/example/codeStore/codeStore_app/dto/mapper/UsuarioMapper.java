@@ -2,11 +2,13 @@ package com.example.codeStore.codeStore_app.dto.mapper;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.stereotype.Component;
 
 import com.example.codeStore.codeStore_app.dto.request.UsuarioRequest;
 import com.example.codeStore.codeStore_app.dto.response.UsuarioResponse;
 import com.example.codeStore.codeStore_app.model.Usuario;
 
+@Component
 public class UsuarioMapper {
 	public Usuario toEntity(UsuarioRequest pRequest) {
 		Usuario usuario = new Usuario();
