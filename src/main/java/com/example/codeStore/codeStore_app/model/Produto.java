@@ -2,8 +2,12 @@ package com.example.codeStore.codeStore_app.model;
 
 import java.math.BigDecimal;
 
+import com.example.codeStore.codeStore_app.enums.CategoriaProduto;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -26,9 +30,9 @@ public class Produto {
 	@Column(nullable = false)
 	private BigDecimal preco;
 	
-	//@Column(nullable = false)
-	@Column(name = "imagem_url")
-	private String imagemURL;
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false, name = "categoria_produto")
+	private CategoriaProduto categoriaProduto;
 	
 	
 	public Long getId() {
@@ -62,15 +66,13 @@ public class Produto {
 	public void setPreco(BigDecimal preco) {
 		this.preco = preco;
 	}
-	
-	public String getImagemURL() {
-		return imagemURL;
-	}
-	
-	public void setImagemURL(String imagemURL) {
-		this.imagemURL = imagemURL;
-	}
-	
-	
 
+	public CategoriaProduto getCategoriaProduto() {
+		return categoriaProduto;
+	}
+
+	public void setCategoriaProduto(CategoriaProduto categoriaProduto) {
+		this.categoriaProduto = categoriaProduto;
+	}
+	
 }

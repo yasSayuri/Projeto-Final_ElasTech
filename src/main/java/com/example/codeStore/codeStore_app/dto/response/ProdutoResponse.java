@@ -4,11 +4,20 @@ import java.math.BigDecimal;
 
 public class ProdutoResponse {
 	
+	private Long id;
 	private String nome;
 	private String descricao;
 	private BigDecimal preco;
-	private String imagemURL;
+	private String categoriaProduto;
 	
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public String getNome() {
 		return nome;
@@ -34,12 +43,12 @@ public class ProdutoResponse {
 		this.preco = preco;
 	}
 
-	public String getImagemURL() {
-		return imagemURL;
+	public String getCategoriaProduto() {
+		return categoriaProduto;
 	}
 
-	public void setImagemURL(String imagemURL) {
-		this.imagemURL = imagemURL;
+	public void setCategoriaProduto(String categoriaProduto) {
+		this.categoriaProduto = categoriaProduto;
 	}
 	
 
