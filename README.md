@@ -71,7 +71,7 @@ Permite distinguir ações entre usuário comum e administrador, garantindo inte
 
 # 📦 Estrutura de Pastas
 
-```CodeStore/
+CodeStore/
 ├── backend/
 │   ├── src/main/java/com/codestore/
 │   │   ├── controller/
