@@ -34,12 +34,12 @@ public class ProdutoController {
 		this.produtoMapper = produtoMapper;
 	}
 	
-	@GetMapping("/produtos")
+	@GetMapping
 	public List<ProdutoResponse> pesquisarTodos(){
 		return produtoMapper.toListDTO(produtoService.buscarTodos());
 	}
 	
-	@GetMapping("produto/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<ProdutoResponse> buscarPorId(@PathVariable Long id) {
 		Produto produto = produtoService.buscarPorId(id);
 		return ResponseEntity.ok(produtoMapper.toResponse(produto));
@@ -50,19 +50,19 @@ public class ProdutoController {
 		return produtoMapper.toListDTO(produtoService.buscarPorNome(nome));
 	}
 	
-	@GetMapping("produto/precoAsc")
+	@GetMapping("/precoAsc")
 	public List<ProdutoResponse> precoAscendente(){
 		List<Produto> pList = produtoService.ordenarPorOrdemAscendente();
 		return produtoMapper.toListDTO(pList);
 	}
 	
-	@GetMapping("produto/precoDesc")
+	@GetMapping("/precoDesc")
 	public List<ProdutoResponse> precoDescendente(){
 		List<Produto> pList = produtoService.ordenarPorOrdemDescente();
 		return produtoMapper.toListDTO(pList);
 	}
 	
-	@PostMapping("produto/salvar")
+	@PostMapping("/salvar")
 	@ResponseStatus(HttpStatus.CREATED)
 	public ProdutoResponse salvar(@Valid @RequestBody ProdutoRequest pRequest) {
 		Produto produto = produtoMapper.toEntity(pRequest);
@@ -71,7 +71,7 @@ public class ProdutoController {
 		return produtoMapper.toResponse(produtoSalvo);
 	}
 	
-	@PutMapping("produto/atualizar/{id}")
+	@PutMapping("/atualizar/{id}")
 	public ResponseEntity<ProdutoResponse> atualizarProduto(@PathVariable Long id, 
 			@Valid @RequestBody ProdutoRequest pRequest) {
 		
