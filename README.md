@@ -165,3 +165,10 @@ O CodeStore oferece:
 ✅ Boas práticas de código (camadas separadas, validação, tratamento de exceções)
 
 ✅ Documentação completa
+
+| Integrante           | GitHub                                    | Cargo                                      | Foto                                                                 |
+|----------------------|-------------------------------------------|-------------------------------------------|----------------------------------------------------------------------|
+| Maria de Fátima      | [alvesmariadefatima](https://github.com/alvesmariadefatima) | UX Designer & Desenvolvedora Full-Stack  | <img src="https://avatars.githubusercontent.com/u/94319702?v=4" width="80"/> |
+| Yasmin Sayuri        | [yasSayuri](https://github.com/yasSayuri) | UX Designer & Desenvolvedora Full-Stack  | <img src="https://avatars.githubusercontent.com/u/122479117?v=4" width="80"/> |
+| Delfina Vicente             | [Delfina8](https://github.com/Delfina8)   | Desenvolvedora Backend                    | <img src="https://avatars.githubusercontent.com/u/112349738?v=4" width="80"/> |
+| Beatriz Balestrieiro | [beatrizbalestrieiro](https://github.com/beatrizbalestrieiro) | Desenvolvedora Frontend                   | <img src="https://avatars.githubusercontent.com/u/237589687?v=4" width="80"/> |
