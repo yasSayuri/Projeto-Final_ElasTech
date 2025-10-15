@@ -46,6 +46,7 @@ Exibe produtos, permite adicionar ao carrinho e finalizar compras de forma dinâ
 
 
 **2. Backend (API REST Spring Boot)**
+
 Responsável por toda a lógica de negócio, validações e persistência de dados.
 Inclui endpoints para:
 
@@ -56,6 +57,7 @@ Controle de status de pedidos (“pendente”, “pago”, “enviado”);
 Operações CRUD restritas ao administrador.
 
 **3. Banco de Dados (MySQL)**
+
 Armazena informações de usuários, produtos e pedidos.
 As relações seguem o seguinte modelo:
 
