@@ -49,30 +49,66 @@
   <main class="perfil-container">
     <h1>Meu Perfil</h1>
     <div class="perfil-content">
-      <img src="assets/avatar.svg" alt="Avatar" class="avatar">
+      <img src="https://cdn-icons-png.flaticon.com/512/6997/6997662.png" alt="Avatar" class="avatar">
 
       <section class="info-section">
         <h2>Informações Pessoais</h2>
-        <p><strong>Nome:</strong> Nome Usuário 
-          <img src="assets/edit-icon.svg" alt="Editar" class="edit-icon">
-        </p>
-        <p><strong>Email:</strong> usuario@gmail.com 
-          <img src="assets/edit-icon.svg" alt="Editar" class="edit-icon">
-        </p>
-        <p><strong>Telefone:</strong> (xx) xxxxx-xxxx 
-          <img src="assets/edit-icon.svg" alt="Editar" class="edit-icon">
-        </p>
+        <p><strong>Nome:</strong> Nome Usuário <img src="assets/edit-icon.svg" class="edit-icon" alt="Editar"></p>
+        <p><strong>Email:</strong> usuario@gmail.com <img src="assets/edit-icon.svg" class="edit-icon" alt="Editar"></p>
+        <p><strong>Telefone:</strong> (xx) xxxxx-xxxx <img src="assets/edit-icon.svg" class="edit-icon" alt="Editar"></p>
 
         <h2>Endereço de Entrega</h2>
-        <p>Rua Exemplo, 123 - Centro, São Paulo/SP 
-          <img src="assets/edit-icon.svg" alt="Editar" class="edit-icon">
-        </p>
+        <p>Rua Exemplo, 123 - Centro, São Paulo/SP <img src="assets/edit-icon.svg" class="edit-icon" alt="Editar"></p>
       </section>
+    </div>
 
-      <div class="buttons">
-        <button class="btn-save">Salvar alterações</button>
-        <button class="btn-back">Voltar à loja</button>
-      </div>
+    <hr class="divider">
+
+    <!-- Meus pedidos -->
+    <section class="pedidos">
+      <h2>Meus pedidos</h2>
+      <table class="tabela-pedidos">
+        <thead>
+          <tr>
+            <th>Pedido</th>
+            <th>Total</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="pedido-info">
+                <div class="foto-produto"><img src="assets/cel1.jpg" alt="Celular"></div>
+                <div class="detalhes-pedido">
+                  <strong>id pedido</strong><br>
+                  iPhone 15 Roxo
+                </div>
+              </div>
+            </td>
+            <td>R$ 49,90</td>
+            <td><span class="status entregue">Entregue</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="pedido-info">
+                <div class="foto-produto"><img src="assets/computador-desktop-apple.jpg" alt="Computador"></div>
+                <div class="detalhes-pedido">
+                  <strong>id pedido</strong><br>
+                  Computador Desktop Apple
+                </div>
+              </div>
+            </td>
+            <td>R$ 99,90</td>
+            <td><span class="status processando">Processando</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <div class="buttons">
+      <button class="btn-save">Salvar alterações</button>
+      <button class="btn-back">Voltar à loja</button>
     </div>
   </main>
 

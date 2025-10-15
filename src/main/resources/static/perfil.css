@@ -6,106 +6,148 @@
 }
 
 /* Cabeçalho */
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #b2e2d7;
-  padding: 10px 20px;
-}
-
-.logo {
-  font-weight: bold;
-  color: #004d40;
-  font-size: 1.2em;
-}
-
-.search-bar input {
-  width: 250px;
-  padding: 6px 10px;
-  border: none;
-  border-radius: 6px;
-}
-
-.user-area {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: #004d40;
-}
-
-/* Corpo principal */
 .perfil-container {
-  text-align: center;
-  padding: 30px;
+  
+  margin-left: 50px;      /* centraliza horizontalmente */
 }
-
 .perfil-container h1 {
-  margin-bottom: 20px;
   color: #222;
+  margin-bottom: 20px;
 }
 
 .perfil-content {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 15px;
+  align-items: flex-start;
+  gap: 40px;
+  
 }
 
 .avatar {
-  width: 120px;
+  width: 150px;
   border-radius: 50%;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
-.info-section {
-  text-align: left;
-  margin-top: 20px;
-}
-
 .info-section h2 {
-  margin-top: 15px;
-  margin-bottom: 8px;
+  margin-top: 10px;
   color: #333;
 }
 
 .info-section p {
   margin: 6px 0;
-  font-size: 15px;
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
+  font-size: 15px;
 }
 
-/* Ícone SVG */
 .edit-icon {
   width: 16px;
   height: 16px;
   cursor: pointer;
-  transition: transform 0.2s ease, filter 0.2s ease;
   filter: invert(40%) sepia(20%) saturate(300%) hue-rotate(120deg);
+  transition: transform 0.2s ease;
 }
 
 .edit-icon:hover {
   transform: scale(1.2);
-  filter: invert(25%) sepia(60%) saturate(600%) hue-rotate(100deg);
+}
+
+/* Linha divisória */
+.divider {
+  margin: 30px 0;
+  border: 0;
+  height: 1px;
+  background-color: #ccc;
+}
+
+/* Meus pedidos */
+.pedidos h2 {
+  margin-bottom: 15px;
+  color: #222;
+}
+
+.tabela-pedidos {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabela-pedidos th {
+  text-align: left;
+  font-weight: 600;
+  padding-bottom: 10px;
+  color: #333;
+}
+
+.tabela-pedidos td {
+  padding: 12px 0;
+  border-top: 1px solid #eee;
+  vertical-align: top;
+}
+
+.pedido-info {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.foto-produto {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+  gap: 6px;
+  background-color: #f9f9f9;
+  padding: 6px;
+  border-radius: 8px;
+  width: 120px;
+}
+
+.foto-produto img {
+  width: 100%;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
+
+.detalhes-pedido {
+  font-size: 14px;
+}
+
+.status {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.status.entregue {
+  background-color: #d5f3d7;
+  color: #1b7a29;
+}
+
+.status.processando {
+  background-color: #ffe8c2;
+  color: #b17200;
 }
 
 /* Botões */
 .buttons {
   display: flex;
   gap: 15px;
-  margin-top: 25px;
+  margin-top: 30px;
+  justify-content: center;
 }
 
 .btn-save {
   background-color: #a0d5c1;
   color: white;
   border: none;
-  padding: 10px 20px;
+  padding: 12px 24px;
   border-radius: 8px;
   cursor: pointer;
   transition: 0.3s;
+  font-weight: 600;
 }
 
 .btn-save:hover {
@@ -116,10 +158,11 @@
   background-color: white;
   border: 2px solid #a0d5c1;
   color: #3ba58c;
-  padding: 10px 20px;
+  padding: 12px 24px;
   border-radius: 8px;
   cursor: pointer;
   transition: 0.3s;
+  font-weight: 600;
 }
 
 .btn-back:hover {
