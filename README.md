@@ -39,12 +39,13 @@ MySQL 8+
 
 O projeto é dividido em quatro camadas principais:
 
-*1. Frontend (Vitrine da Loja)*
+**1. Frontend (Vitrine da Loja)**
+
 Interface desenvolvida em HTML, CSS e JS.
 Exibe produtos, permite adicionar ao carrinho e finalizar compras de forma dinâmica (sem recarregar a página).
 
 
-*2. Backend (API REST Spring Boot)*
+**2. Backend (API REST Spring Boot)**
 Responsável por toda a lógica de negócio, validações e persistência de dados.
 Inclui endpoints para:
 
@@ -54,7 +55,7 @@ Controle de status de pedidos (“pendente”, “pago”, “enviado”);
 
 Operações CRUD restritas ao administrador.
 
-*3. Banco de Dados (MySQL)*
+**3. Banco de Dados (MySQL)**
 Armazena informações de usuários, produtos e pedidos.
 As relações seguem o seguinte modelo:
 
@@ -63,12 +64,12 @@ Usuario (1) — (N) Pedido
 Pedido (N) — (N) Produto
 
 
-*4. Segurança (Camada de Autenticação e Controle de Acesso)*
+**4. Segurança (Camada de Autenticação e Controle de Acesso)**
 Permite distinguir ações entre usuário comum e administrador, garantindo integridade e segurança nas operações do sistema.
 
 # 📦 Estrutura de Pastas
 
-CodeStore/
+```CodeStore/
 ├── backend/
 │   ├── src/main/java/com/codestore/
 │   │   ├── controller/
@@ -93,7 +94,7 @@ CodeStore/
 │   └── assets/
 │       └── imagens-produtos/
 │
-└── README.md
+└── README.md```
 
 # ⚙️ Funcionalidades Principais
 
