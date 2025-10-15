@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./admin.css">
+    <title>CodeStore - Gestão de Estoque</title>
+</head>
+<body>
+    <nav>
+        <div class="nav-inner">
+            <div class="left-group">
+                <p class="brand">CodeStore</p>
+
+                <form class="search" role="search" action="/buscar" method="GET" aria-label="Pesquisar">
+                    <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none">
+                        <path d="M11 19c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8z"
+                              stroke="#7a7a7a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M21 21l-4.35-4.35"
+                              stroke="#7a7a7a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <input id="search-input" name="q" type="search" placeholder="Pesquisar..." />
+                </form>
+            </div>
+
+            <div class="icons">
+                <a class="cart-link" href="./carrinho.html" aria-label="Ir para o carrinho">
+                    <svg class="cart" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none">
+                        <path d="M6 6h15l-1.5 9h-13L6 6z" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <circle cx="9" cy="20" r="1" fill="#ffffff"/>
+                        <circle cx="18" cy="20" r="1" fill="#ffffff"/>
+                    </svg>
+                </a>
+
+                <svg class="favorite" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="12" r="11" stroke="#FFD700" stroke-width="2" fill="transparent"/>
+                    <path d="M12 17s-5-3.3-5-7a3 3 0 0 1 6 0 3 3 0 0 1 6 0c0 3.7-5 7-5 7z"
+                          fill="#FFD700" stroke="#FFD700" stroke-width="1.5"/>
+                </svg>
+
+                <svg class="user" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="8" r="4" stroke="#ffffff" stroke-width="2"/>
+                    <path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>Categorias</h2>
+                <ul>
+                    <li><a href="#">Computadores</a></li>
+                    <li><a href="#">Notebooks</a></li>
+                    <li><a href="#">Tablets</a></li>
+                    <li><a href="#">Smartphones</a></li>
+                    <li><a href="#">Acessórios</a></li>
+                    <li><a href="#">Periféricos</a></li>
+                    <li><a href="#">Componentes</a></li>
+                    <li><a href="#">Ofertas</a></li>
+                    <li><a href="#">Lançamentos</a></li>
+                    <li><a href="#">Marcas</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <main class="content">
+            <h2>Estoque de produtos</h2>
+        </main>
+
+        <div>
+            <button class="btn-novo-produto">+ Novo Produto</button>
+        </div>
+    </div>
+
+    <footer>
+        CodeStore - Todos os Direitos Reservados
+    </footer>
+</body>
+</html>
