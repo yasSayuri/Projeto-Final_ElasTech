@@ -1,0 +1,218 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+body {
+    font-family: "Segoe UI";
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* altura mínima da tela */
+    margin: 0;
+}
+
+/* Estilo geral do menu */
+nav {
+  background-color: #9AD4C6;
+  padding: 12px 20px;
+}
+
+/* Container principal do nav */
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Grupo esquerdo: nome + barra de pesquisa */
+.left-group {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Nome da marca */
+.brand {
+  font-family: "Segoe UI";
+  font-weight: 700;
+  font-size: 1.4rem;
+  color: #ffffff;
+  margin: 0;
+}
+
+/* Barra de pesquisa */
+.search {
+  display: flex;
+  align-items: center;
+  background: #f3f4f6;
+  border-radius: 9999px;
+  padding: 6px 12px;
+  width: 240px;
+}
+
+.sidebar {
+  font-family: "Segoe UI";
+  margin: 10px;
+}
+
+/* adiciona espaço entre o título e os links */
+.sidebar h2 {
+  margin-bottom: 15px; /* espaço abaixo do título */
+  font-size: 1.2rem;
+  color: #333;
+}
+
+/* estilização dos links */
+.sidebar a {
+  display: block; /* cada link em uma linha */
+  text-decoration: none;
+  color: black;
+  margin-bottom: 10px; /* espaço entre os links */
+  transition: color 0.2s ease;
+}
+
+/* efeito hover */
+.sidebar a:hover {
+  color: #1e1e2f;
+}
+
+/* Ícone da lupa */
+.search .icon {
+  margin-right: 8px;
+}
+
+/* Campo de texto */
+.search input {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 0.95rem;
+  width: 100%;
+  color: #111827;
+}
+
+.search input::placeholder {
+  color: #9aa0a6;
+}
+
+/* Ícones à direita */
+.icons {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.icons svg {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.icons svg:hover {
+  transform: scale(1.1);
+}
+
+.banner-pagbank img {
+  width: 60%;       
+  height: auto;     
+  display: block;   
+  position: absolute; 
+  top: 80px;                /* controla o quanto desce */
+  left: 50%;                /* posiciona no centro horizontal */
+  transform: translateX(-50%); /* centraliza corretamente */
+  margin: 0 auto;           
+  padding: 0;               
+  max-width: 90%;           /* garante que não ultrapasse margens laterais */
+}
+
+/* Links da sidebar */
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar ul li {
+  margin-bottom: 12px;
+}
+
+.sidebar ul li a {
+  text-decoration: none;
+  color: #333;
+  display: block;
+  transition: color 0.2s;
+}
+
+.sidebar ul li a:hover {
+  color: #1e1e2f;
+}
+
+/* Conteúdo principal */
+.content {
+  margin-left: 20px;
+  padding: 40px;
+  transition: margin-left 0.3s ease;
+}
+
+/* Links da sidebar permanecem abaixo */
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar ul li {
+  margin-bottom: 12px;
+}
+
+.sidebar ul li a {
+  text-decoration: none;
+  color: #333;
+  display: block;
+  transition: color 0.2s;
+}
+
+.sidebar ul li a:hover {
+  color: #1e1e2f;
+}
+
+/* Conteúdo principal */
+.content {
+    flex: 1; /* ocupa o restante do espaço */
+    display: flex;
+    flex-direction: column; /* garante que o título fique no topo */
+    padding: 0 20px; /* espaçamento lateral */
+}
+
+/* Container principal: ocupa espaço restante */
+.main-container {
+    flex: 1; /* expande para empurrar o footer para baixo */
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+}
+
+/* Título h2 */
+.content h2 {
+    margin-top: 0;       /* remove margem padrão superior */
+    margin-bottom: 20px; /* espaço abaixo do título */
+    font-size: 24px;     /* tamanho maior do título */
+    font-weight: bold;
+    color: #333;
+}
+
+.btn-novo-produto {
+  background-color: #9AD4C6;
+  color: #ffffff;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+}
+
+footer {
+  font-family: "Segoe UI";
+  background-color: #9AD4C6;
+  color: #ffffff;
+  text-align: center;
+  padding: 30px 0;
+  margin-top: 0;
+}
