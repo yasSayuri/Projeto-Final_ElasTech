@@ -1,0 +1,159 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Arial", sans-serif;
+}
+
+/* Cabeçalho */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #b2e2d7;
+  padding: 10px 20px;
+}
+
+.logo {
+  font-weight: bold;
+  color: #004d40;
+  font-size: 1.2em;
+}
+
+.search-bar input {
+  width: 250px;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 6px;
+}
+
+.user-area {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #004d40;
+}
+
+/* Corpo principal */
+.perfil-container {
+  text-align: center;
+  padding: 30px;
+}
+
+.perfil-container h1 {
+  margin-bottom: 20px;
+  color: #222;
+}
+
+.perfil-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.avatar {
+  width: 120px;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.info-section {
+  text-align: left;
+  margin-top: 20px;
+}
+
+.info-section h2 {
+  margin-top: 15px;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.info-section p {
+  margin: 6px 0;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Ícone SVG */
+.edit-icon {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  transition: transform 0.2s ease, filter 0.2s ease;
+  filter: invert(40%) sepia(20%) saturate(300%) hue-rotate(120deg);
+}
+
+.edit-icon:hover {
+  transform: scale(1.2);
+  filter: invert(25%) sepia(60%) saturate(600%) hue-rotate(100deg);
+}
+
+/* Botões */
+.buttons {
+  display: flex;
+  gap: 15px;
+  margin-top: 25px;
+}
+
+.btn-save {
+  background-color: #a0d5c1;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-save:hover {
+  background-color: #7fc0a7;
+}
+
+.btn-back {
+  background-color: white;
+  border: 2px solid #a0d5c1;
+  color: #3ba58c;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-back:hover {
+  background-color: #eaf6f1;
+}
+
+/* Rodapé */
+.footer {
+  background-color: #b2e2d7;
+  text-align: center;
+  padding: 10px;
+  font-size: 14px;
+  color: #004d40;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+  .perfil-container {
+    padding: 20px;
+  }
+
+  .buttons {
+    flex-direction: column;
+  }
+
+  .search-bar input {
+    width: 150px;
+  }
+}
+
+.perfil-container {
+  margin-top: calc(var(--nav-h) + 20px);
+  padding-top: 20px;
+}

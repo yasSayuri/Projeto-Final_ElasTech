@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+ <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Entrar • CodeStore</title>
+  <link rel="stylesheet" href="perfil.css">
+  <link rel="stylesheet" href="./loja.css"> 
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+</head>
+<body>
+  <!-- Cabeçalho -->
+  <nav>  
+    <div class="nav-inner"> 
+      <div class="left-group"> 
+        <p class="brand">CodeStore</p>
+
+        <form class="search" role="search" action="/buscar" method="GET" aria-label="Pesquisar"> 
+          <span class="material-icons" id="src-icon" style="color: #9aa0a6;">search</span>
+          <input id="search-input" name="q" type="search" placeholder="Pesquisar..." />
+        </form>
+      </div>
+
+	  <div class="icons">
+	    <div class="cart-wrap" id="cartWrap" aria-haspopup="true" aria-expanded="false">
+	      <a class="cart-link" href="./carrinho.html" aria-label="Ir para o carrinho">
+	        <span class="material-icons">shopping_cart</span>
+	      </a>
+
+	      <div class="mini-cart" id="miniCart" role="dialog" aria-label="Prévia do carrinho">
+	        <div class="mini-arrow"></div>
+	        <div class="mini-cart-body" id="miniCartBody"></div>
+	        <div class="mini-cart-footer">
+	          <div class="mini-total"><span>Total:</span><span id="miniTotal">R$ 0,00</span></div>
+	          <a href="./carrinho.html" class="btn-mini">Ver carrinho</a>
+	        </div>
+	      </div>
+	    </div>
+
+	    <span class="material-icons" style="color: #FFD700;">favorite</span>
+      <a class="cart-link" href="./perfil.html" aria-label="Ir para o perfil">
+	        <span class="material-icons">person</span>
+	      </a>
+	  </div>
+    </div>
+  </nav>
+
+  <!-- Conteúdo principal -->
+  <main class="perfil-container">
+    <h1>Meu Perfil</h1>
+    <div class="perfil-content">
+      <img src="assets/avatar.svg" alt="Avatar" class="avatar">
+
+      <section class="info-section">
+        <h2>Informações Pessoais</h2>
+        <p><strong>Nome:</strong> Nome Usuário 
+          <img src="assets/edit-icon.svg" alt="Editar" class="edit-icon">
+        </p>
+        <p><strong>Email:</strong> usuario@gmail.com 
+          <img src="assets/edit-icon.svg" alt="Editar" class="edit-icon">
+        </p>
+        <p><strong>Telefone:</strong> (xx) xxxxx-xxxx 
+          <img src="assets/edit-icon.svg" alt="Editar" class="edit-icon">
+        </p>
+
+        <h2>Endereço de Entrega</h2>
+        <p>Rua Exemplo, 123 - Centro, São Paulo/SP 
+          <img src="assets/edit-icon.svg" alt="Editar" class="edit-icon">
+        </p>
+      </section>
+
+      <div class="buttons">
+        <button class="btn-save">Salvar alterações</button>
+        <button class="btn-back">Voltar à loja</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Rodapé -->
+  <footer class="footer">
+    <p>CodeStore - Todos os Direitos Reservados</p>
+  </footer>
+</body>
+<script src="./script.js"></script>
+</html>
