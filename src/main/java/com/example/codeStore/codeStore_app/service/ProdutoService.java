@@ -45,13 +45,6 @@ public class ProdutoService {
 		return produtoRepository.findAllByOrderByPrecoDesc();
 	}
 	
-	public Produto atualizar(Long id, Produto produto) {
-		Produto pr = produtoRepository.findById(id)
-				.orElseThrow(() -> new EntidadeNaoEncontradaException("Não é possível atualizar um produto que não existe!"));
-		
-		return produtoRepository.save(produto);
-	}
-	
 	@Transactional
 	public void excluir(Long id) {
 		produtoRepository.deleteById(id);
@@ -60,7 +53,6 @@ public class ProdutoService {
 	public Boolean existisById(Long id) {
 		return produtoRepository.existsById(id);
 	}
-
 	
 
 }

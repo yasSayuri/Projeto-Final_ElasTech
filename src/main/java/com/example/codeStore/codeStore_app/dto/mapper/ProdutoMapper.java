@@ -1,5 +1,8 @@
 package com.example.codeStore.codeStore_app.dto.mapper;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Component;
 
 import com.example.codeStore.codeStore_app.dto.request.ProdutoRequest;
@@ -11,24 +14,30 @@ public class ProdutoMapper {
 	
 	public Produto toEntity(ProdutoRequest pRequest) {
 		Produto produto = new Produto();
-		//produto.setId(pRequest.getId());
 		produto.setNome(pRequest.getNome());
 		produto.setDescricao(pRequest.getDescricao());
 		produto.setPreco(pRequest.getPreco());
-		produto.setImagemURL(pRequest.getImagemURL());
+		produto.setCategoriaProduto(pRequest.getCategoriaProduto());
 		return produto;
 	}
 	
 	public ProdutoResponse toResponse(Produto produto) {
-		ProdutoResponse p2 = new ProdutoResponse();
-		p2.setNome(produto.getNome());
-		p2.setDescricao(produto.getDescricao());
-		p2.setPreco(produto.getPreco());
-		p2.setImagemURL(produto.getImagemURL());
+		ProdutoResponse produto2 = new ProdutoResponse();
+		produto2.setId(produto.getId());
+		produto2.setNome(produto.getNome());
+		produto2.setDescricao(produto.getDescricao());
+		produto2.setPreco(produto.getPreco());
+		produto2.setCategoriaProduto(produto.getCategoriaProduto().name());
 		
-		return p2;
+		return produto2;
 	}
 	
+	public List<ProdutoResponse> toListDTO(List<Produto> produtos){
+		return produtos
+				.stream()
+				.map(this::toResponse)
+				.collect(Collectors.toList());
+	}
 	
 
 }
