@@ -191,8 +191,13 @@ Seção administrativa funcional e intuitiva.
 # 🧰 Critérios Atendidos
 
 ✅ CRUD completo de produtos
+
 ✅ Carrinho dinâmico com cálculo em tempo real
+
 ✅ Fluxo de criação e atualização de pedidos
+
 ✅ Modelagem relacional correta (Usuário–Pedido–Produto)
+
 ✅ Boas práticas de código (camadas separadas, validação, tratamento de exceções)
+
 ✅ Documentação completa
