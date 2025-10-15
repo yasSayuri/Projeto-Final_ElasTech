@@ -1,8 +1,7 @@
 :root{
-  --nav-h: 64px;        /* ALTURA do header (ajuste se precisar) */
-  --footer-h: 56px;     /* ALTURA do footer (ajuste se precisar) */
-  --sb-w: 200px;        /* LARGURA da sidebar (igual à sua) */
-  --sb-ml: 20px;        /* margem esquerda atual da sidebar */
+  --nav-h:64px;
+  --sb-w:200px;
+  --sb-ml:20px;
 }
 
 * {
@@ -14,32 +13,31 @@ html, body {
   height: 100%;
 }
 
-
-body {
-  background-color: #ffffff; /* branco */
-  margin: 0;
-  font-family: "Segoe UI";
-  min-height: 100vh;        /* ocupa a altura total da viewport */
-  display: flex;
-  flex-direction: column; 
-  overflow: hidden;
+body{
+  background:#fff;
+  margin:0;
+  font-family:"Segoe UI";
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  overflow:auto;
 }
 
 /* Estilo geral do menu */
-nav {
-  background-color: #9AD4C6;
-  padding: 12px 20px;
-    position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 1000;           /* mantém seu layout */
-  align-items: center;
+nav{
+  background:#9AD4C6;
+  padding:12px 20px;
+  position:fixed;
+  top:0;left:0;right:0;
+  z-index:1000;
+  align-items:center;
 }
 
 /* Container principal do nav */
-.nav-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.nav-inner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
 }
 
 /* Grupo esquerdo: nome + barra de pesquisa */
@@ -316,45 +314,35 @@ nav {
   transform: none !important;
 }
 
-footer {
-  font-family: "Segoe UI";
-  background-color: #a6e7d9;
-  color: #222;
-  text-align: center;
-  padding: 15px 0;
-  margin-top: auto;
-  position: fixed;
-  bottom: 0; left: 0; right: 0;
-  margin-top: 0;             
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  box-shadow: 0 8px 24px rgba(0,0,0,.08)
+/* Footer FIXO e 100% da largura da viewport */
+footer{
+  width:100%;
+  background:#a6e7d9;
+  color:#222;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:16px;
+  box-shadow:0 -6px 18px rgba(0,0,0,.06);
 }
 
-.layout {
-  display: block;
-  grid-template-columns: 180px 1fr;
-  gap: 0;
-  align-items: start;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  flex: 1 0 auto;
+
+.layout{
+  display:block;
+  width:100%;
+  flex:1 0 auto;
 }
 
+/* Conteúdo rolável (banner + produtos) */
 .main{
-  position: relative;
-  margin-left: calc(var(--sb-ml) + var(--sb-w) + 16px);
-  padding: 20px;
-  padding-top: calc(var(--nav-h) + 16px);
-  padding-bottom: calc(var(--footer-h) + 16px);
-  height: calc(100vh - var(--nav-h) - var(--footer-h));
-  overflow-y: auto;         
+  position:relative;
+  margin-left:calc(var(--sb-ml) + var(--sb-w) + 16px);
+  padding:20px;
+  padding-top:calc(var(--nav-h) + 16px);
+  padding-bottom:32px;
 }
 
 .main .card-produtos{
-  margin: 8px auto 32px !important; /* top bem menor */
-  gap: 16px;                         /* opcional: grade mais “junta” */
+  margin: 8px auto 32px !important;
+  gap: 16px;                         
 }
