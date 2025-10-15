@@ -347,3 +347,145 @@ footer{
   margin: 8px auto 32px !important;
   gap: 16px;                         
 }
+
+/* mensagens de adicionar */
+.toast {
+  position: fixed;
+  top: 10%;                
+  left: 50%;           
+  transform: translate(-50%, -50%);
+  background: #FFD166;      
+  color: white;
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+  opacity: 0;
+  transition: all 0.3s ease;
+  z-index: 2000;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1.05);
+}
+
+/* hover do carrinho */
+.cart-wrap { position: relative; }
+
+.mini-cart {
+  position: absolute;
+  top: 44px;       
+  right: -8px;
+  width: 320px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 22px rgba(0,0,0,.18);
+  border: 1px solid #e5e7eb;
+  padding: 12px 12px 14px;
+  display: none;
+  z-index: 1100;
+}
+
+.cart-wrap.open .mini-cart { display: block; }
+
+.mini-arrow{
+  position: absolute;
+  top: -8px;
+  right: 20px;
+  width: 16px; height: 16px;
+  background: #fff;
+  border-left: 1px solid #e5e7eb;
+  border-top: 1px solid #e5e7eb;
+  transform: rotate(45deg);
+}
+
+.mini-cart-body{
+  max-height: 340px;
+  overflow: auto;
+  padding-right: 4px;
+}
+
+.mini-empty{
+  padding: 10px 6px;
+  color:#6b7280;
+  text-align:center;
+}
+
+.mini-row{
+  display: grid;
+  grid-template-columns: 56px 1fr 28px;
+  gap: 10px;
+  align-items: center;
+  padding: 10px 6px;
+  border-radius: 10px;
+  border: 1px solid #f1f5f9;
+  background: #fff;
+}
+.mini-row + .mini-row{ margin-top: 8px; }
+
+.mini-thumb{
+  width: 56px; height: 56px;
+  border-radius: 8px;
+  background: #e5e7eb center/cover no-repeat;
+}
+
+.mini-info .mini-name{
+  font-weight: 700;
+  line-height: 1.2;
+  color:#0f172a;
+}
+
+.mini-info .mini-attrs{
+  color:#6b7280;
+  font-size:.9rem;
+  margin-top: 2px;
+}
+
+.mini-price{
+  color:#ef4444;          
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+.mini-cart-footer{
+  border-top:1px solid #e5e7eb;
+  margin-top: 12px;
+  padding-top: 10px;
+}
+
+.mini-total{
+  display:flex; justify-content:space-between; align-items:center;
+  font-weight: 700;
+  margin-bottom:10px;
+}
+
+.btn-mini{
+  display:block;
+  text-align:center;
+  background:#9AD4C6;
+  color:#0f172a;
+  text-decoration:none;
+  padding:10px 12px;
+  border-radius:10px;
+  font-weight:700;
+}
+
+.mini-delete {
+  color: #ef4444;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  align-self: center;        
+  justify-self: end;         
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.mini-delete:hover {
+  transform: scale(1.2);
+  color: #b71c1c;
+}
+
+@media (hover:hover){
+  .cart-wrap:hover .mini-cart{ display:block; }
+}

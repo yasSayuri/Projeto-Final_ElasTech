@@ -56,6 +56,12 @@ public class PedidoService {
 
         return repository.save(existente);
     }
+    
+    @Transactional
+    public void excluir(Long id) {
+        repository.deleteById(id);
+    }
+
 
     /* ================== REGRAS DE NEGÓCIO ================== */
 
