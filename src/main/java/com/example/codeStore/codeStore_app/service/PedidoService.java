@@ -61,7 +61,8 @@ public class PedidoService {
 
     // Regra exemplo: frete grátis para subtotal >= 200; caso contrário, frete fixo 20.00
     private void aplicarFreteERecalcularTotal(Pedido pedido) {
-        BigDecimal subtotal = pedido.getSubtotal();
+
+    	BigDecimal subtotal = pedido.getSubtotal();
         BigDecimal desconto = pedido.getDescontoTotal();
 
         BigDecimal frete;

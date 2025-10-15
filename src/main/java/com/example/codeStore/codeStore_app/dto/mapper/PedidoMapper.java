@@ -9,11 +9,9 @@ import org.springframework.stereotype.Component;
 import com.example.codeStore.codeStore_app.dto.request.PedidoRequest;
 import com.example.codeStore.codeStore_app.dto.response.PedidoResponse;
 import com.example.codeStore.codeStore_app.model.Pedido;
-import com.example.codeStore.codeStore_app.model.Produto;
 
 @Component
-public class PedidoMapper {
-	
+public class PedidoMapper {	
 	public Pedido toEntity(PedidoRequest pRequest) {
 		Pedido produto = new Pedido();
 		//produto.setId(pRequest.getId());
@@ -45,10 +43,6 @@ public class PedidoMapper {
 			response.add(toResponse(pedido));
 		}
 		
-		return response;
-		
-	}
-	
-	
-
+		return response;	
+	}	
 }
