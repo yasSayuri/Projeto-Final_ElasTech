@@ -94,7 +94,7 @@ Permite distinguir ações entre usuário comum e administrador, garantindo inte
 │   └── assets/
 │       └── imagens-produtos/
 │
-└── README.md```
+└── README.md
 
 # ⚙️ Funcionalidades Principais
 
