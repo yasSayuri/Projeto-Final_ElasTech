@@ -175,17 +175,28 @@ const iconeFavorito = id => {
 };
 const iconeCarrinho = '<span class="material-icons add-cart">shopping_cart</span>';
 
+function calcDesconto(preco, pct){ return Number((preco*(1-pct/100)).toFixed(2)); }
+
 function cardTemplate(p){
+  const temDesc = p.descontoPercent>0;
+  const precoFinal = temDesc? calcDesconto(p.preco, p.descontoPercent) : p.preco;
+  const esgotado = p.status==='ESGOTADO' || p.quantidade<=0;
+
   return `
-    <div class="produto" data-id="${p.id}">
-      <img src="${p.img}" alt="${p.nome}">
-      <p>${p.nome}</p>
-      <p>${formatarPreco(p.preco)}</p>
-      <div class="icon-card">
-        ${iconeFavorito(p.id)}
-        ${iconeCarrinho}
-      </div>
-    </div>`;
+  <div class="produto ${esgotado?'card-disabled':''}" data-id="${p.id}">
+    ${temDesc?`<span class="ribbon">${p.descontoPercent}% OFF</span>`:''}
+    <img src="${p.img}" alt="${p.nome}">
+    <p>${p.nome}</p>
+    <div class="preco-wrap">
+      ${temDesc?`<span class="preco-old">${formatarPreco(p.preco)}</span>`:''}
+      <span class="preco-new">${formatarPreco(precoFinal)}</span>
+    </div>
+    ${esgotado?`<span class="tag-status tag-esgotado">Esgotado</span>`:''}
+    <div class="icon-card">
+      ${iconeFavorito(p.id)}
+      <span class="material-icons add-cart ${esgotado?'disabled':''}">shopping_cart</span>
+    </div>
+  </div>`;
 }
 
 function applySort(list){
@@ -454,6 +465,21 @@ function mostrarToast(mensagem) {
   setTimeout(() => toast.classList.add('show'), 50);
   setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 250); }, 2200);
 }
+
+function mapProdutoAPI(p){
+  const id = Number(p.id);
+  const override = localStorage.getItem(imgKey(id));
+  return {
+    id,
+    nome: p.nome,
+    preco: Number(p.preco),
+    img: override || p.imagemUrl || IMG_BY_ID[id] || './assets/placeholder.png',
+    categoria: normalizeCategoria(p.categoriaProduto),
+    quantidade: Number(p.quantidade ?? 0) // <-- NOVO: vem do backend
+  };
+}
+
+
 
 // ====== BOOT ======
 (async function bootstrapLoja(){

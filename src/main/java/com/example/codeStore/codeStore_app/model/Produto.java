@@ -34,6 +34,9 @@ public class Produto {
 	@Column(nullable = false, name = "categoria_produto")
 	private CategoriaProduto categoriaProduto;
 	
+	@Column(nullable = false)
+    private Integer quantidade = 0;
+	
 	public Long getId() {
 		return id;
 	}
@@ -74,5 +77,12 @@ public class Produto {
 		this.categoriaProduto = categoriaProduto;
 	}
 	
+	public Integer getQuantidade() {
+		return quantidade;
+	}
+	
+    public void setQuantidade(Integer quantidade) {
+    	this.quantidade = quantidade; 
+    }
 	
 }

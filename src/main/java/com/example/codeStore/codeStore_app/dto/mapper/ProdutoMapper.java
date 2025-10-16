@@ -18,6 +18,7 @@ public class ProdutoMapper {
 		produto.setDescricao(pRequest.getDescricao());
 		produto.setPreco(pRequest.getPreco());
 		produto.setCategoriaProduto(pRequest.getCategoriaProduto());
+        produto.setQuantidade(pRequest.getQuantidade() == null ? 0 : pRequest.getQuantidade()); 
 
 		return produto;
 	}
@@ -29,6 +30,7 @@ public class ProdutoMapper {
 		produto2.setDescricao(produto.getDescricao());
 		produto2.setPreco(produto.getPreco());
 		produto2.setCategoriaProduto(produto.getCategoriaProduto().name());
+		produto2.setQuantidade(produto.getQuantidade());
 		
 		return produto2;
 	}

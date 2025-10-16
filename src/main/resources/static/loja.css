@@ -660,3 +660,14 @@ footer{
   color: #0f172a;
   font-weight: 700;
 }
+
+.produto{position:relative}
+.ribbon{position:absolute;top:8px;left:8px;padding:6px 8px;border-radius:8px;background:#ffb020;color:#fff;font-weight:900;font-size:.8rem}
+.preco-wrap{display:flex;gap:8px;align-items:baseline}
+.preco-old{text-decoration:line-through;color:#6b7280;font-weight:600;font-size:.95rem}
+
+.tag-status{position:absolute;bottom:12px;left:12px;padding:8px 12px;border-radius:999px;font-weight:900;font-size:.85rem}
+.tag-esgotado{background:#e66d6d;color:black}
+.card-disabled{opacity:.6;filter:grayscale(20%)}
+.icon-card .material-icons.disabled{opacity:.35;pointer-events:none}
+

@@ -43,23 +43,34 @@
 
 
   <main class="main">
-    <div class="header-produtos">
-      <h2>Estoque de produtos</h2>
+	<div class="header-produtos">
+	  <h2>Estoque de produtos</h2>
 
-      <div class="header-buttons">
-        <a href="./dados.html" class="btn-dados">
-          <span class="material-icons">local_shipping</span>
-          Dados de rastreio
-        </a>
+	  <div class="header-buttons">
+	    <a href="./dados.html" class="btn-dados">
+	      <span class="material-icons">local_shipping</span>
+	      Dados de rastreio
+	    </a>
 
-        <button class="btn-novo-produto" id="novoProdutoBtn">
-          <span class="material-icons">add</span>
-          Cadastrar Produtos
-        </button>
-      </div>
-    </div>
+	    <button class="btn-novo-produto" id="novoProdutoBtn">
+	      <span class="material-icons">add</span>
+	      Cadastrar Produtos
+	    </button>
+	  </div>
+	</div>
 
-    <div id="lista-produtos"></div>
+	<form id="buscaForm" class="estoque-search" role="search" aria-label="Pesquisar produto">
+	  <span class="material-icons">search</span>
+	  <input id="buscaInput" type="search" placeholder="Pesquisar produto por nome..." />
+	  <button type="submit">Buscar</button>
+	</form>
+
+	<section class="estoque-wrap">
+	  <div class="estoque-head">
+	    <span>Produto</span><span>Categoria</span><span>Preço</span><span>Quantidade</span><span>Status</span>
+	  </div>
+	  <div class="estoque-body" id="lista-produtos"></div>
+	</section>
   </main>
 
   <footer>
