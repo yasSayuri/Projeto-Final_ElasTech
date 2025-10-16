@@ -3,16 +3,15 @@
   const byId = (id) => document.getElementById(id);
   const jget = (k) => { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } };
 
-  // ===== Toast helper (igual ao resto do site)
-  function mostrarToast(msg){
+  function mostrarToast(msg) {
     const antigo = document.querySelector('.toast');
     if (antigo) antigo.remove();
     const t = document.createElement('div');
     t.className = 'toast';
     t.textContent = msg;
     document.body.appendChild(t);
-    requestAnimationFrame(()=> t.classList.add('show'));
-    setTimeout(()=>{ t.classList.remove('show'); setTimeout(()=>t.remove(), 250); }, 2200);
+    requestAnimationFrame(() => t.classList.add('show'));
+    setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 250); }, 2200);
   }
 
   let user = jget('user');
@@ -41,7 +40,9 @@
     if (d.length === 10) return `(${d.slice(0,2)}) ${d.slice(2,6)}-${d.slice(6)}`;
     return s || '';
   }
+
   function cap(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : s; }
+
   function getSpanVal(span, field) {
     if (!span) return '';
     const input = span.querySelector('input');
@@ -49,14 +50,16 @@
     const text = (span.textContent || '').trim();
     return field === 'telefone' ? text.replace(/\D/g, '') : text;
   }
-  function brl(v){ const n = Number(v ?? 0); return n.toLocaleString('pt-BR', { style:'currency', currency:'BRL' }); }
-  function statusClass(s){
-    const k = String(s||'').toUpperCase();
-    if (['ENTREGUE','PAGO','ENVIADO'].includes(k)) return 'entregue';
+
+  function brl(v) { const n = Number(v ?? 0); return n.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }); }
+  function statusClass(s) {
+    const k = String(s || '').toUpperCase();
+    if (['ENTREGUE', 'PAGO', 'ENVIADO'].includes(k)) return 'entregue';
     if (k === 'CANCELADO') return 'cancelado';
     return 'processando';
   }
-  function totalPedido(p){
+
+  function totalPedido(p) {
     const subtotal = Number(p.subtotal ?? 0);
     const desconto = Number(p.descontoTotal ?? 0);
     const frete = Number(p.frete ?? 0);
@@ -70,14 +73,14 @@
     try { return JSON.parse(localStorage.getItem(key) || '{}'); } catch { return {}; }
   }
 
-  function categoriasSnapshot(pedidoId){
+  function categoriasSnapshot(pedidoId) {
     const store = getCategoriasStore();
     const entry = store[String(pedidoId)];
     if (!entry) return '—';
     return (typeof entry === 'string') ? entry : (entry.categorias || '—');
   }
 
-  function thumbSnapshot(pedidoId){
+  function thumbSnapshot(pedidoId) {
     const store = getCategoriasStore();
     const entry = store[String(pedidoId)];
     if (!entry || typeof entry === 'string') return null;
@@ -86,79 +89,72 @@
 
   async function init() {
     const u = await ensureUser();
-	// toggle do formulário de troca de senha
-	const btnToggleSenha = byId('btnToggleSenha');
-	const formSenha = byId('formSenha');
-
-	if (btnToggleSenha && formSenha) {
-	  btnToggleSenha.addEventListener('click', () => {
-	    const aberto = getComputedStyle(formSenha).display !== 'none';
-	    // alterna visibilidade
-	    formSenha.style.display = aberto ? 'none' : 'block';
-	    // acessibilidade e rótulo
-	    btnToggleSenha.setAttribute('aria-expanded', String(!aberto));
-	    btnToggleSenha.textContent = aberto ? 'Alterar senha' : 'Cancelar';
-
-	    // limpa erros e foca o primeiro campo quando abrir
-	    if (!aberto) {
-	      const ns = byId('novaSenha');
-	      const cs = byId('confirmaSenha');
-	      const err1 = byId('err-senha');
-	      const err2 = byId('err-confirma');
-	      if (ns) ns.value = '';
-	      if (cs) cs.value = '';
-	      if (err1) { err1.textContent = ''; err1.style.display = 'none'; }
-	      if (err2) { err2.textContent = ''; err2.style.display = 'none'; }
-	      setTimeout(() => ns?.focus(), 0);
-	    }
-	  });
-	}
-
     if (!u) return;
-	
-	const btnExcluir = byId('btnExcluirConta');
-	const modalExcluir = byId('modalExcluir');
-	const btnConfirmarExcluir = byId('btnConfirmarExcluir');
-	const btnCancelarExcluir = byId('btnCancelarExcluir');
 
-	if (btnExcluir && modalExcluir) {
-	  btnExcluir.addEventListener('click', () => {
-	    modalExcluir.classList.add('show');
-	  });
+    const isAdmin = String(u.role || '').toUpperCase() === 'ADMIN';
 
-	  btnCancelarExcluir?.addEventListener('click', () => {
-	    modalExcluir.classList.remove('show');
-	  });
+    // === Toggle senha ===
+    const btnToggleSenha = byId('btnToggleSenha');
+    const formSenha = byId('formSenha');
+    if (btnToggleSenha && formSenha) {
+      btnToggleSenha.addEventListener('click', () => {
+        const aberto = getComputedStyle(formSenha).display !== 'none';
+        formSenha.style.display = aberto ? 'none' : 'block';
+        btnToggleSenha.setAttribute('aria-expanded', String(!aberto));
+        btnToggleSenha.textContent = aberto ? 'Alterar senha' : 'Cancelar';
+        if (!aberto) {
+          const ns = byId('novaSenha');
+          const cs = byId('confirmaSenha');
+          const err1 = byId('err-senha');
+          const err2 = byId('err-confirma');
+          if (ns) ns.value = '';
+          if (cs) cs.value = '';
+          if (err1) { err1.textContent = ''; err1.style.display = 'none'; }
+          if (err2) { err2.textContent = ''; err2.style.display = 'none'; }
+          setTimeout(() => ns?.focus(), 0);
+        }
+      });
+    }
 
-	  btnConfirmarExcluir?.addEventListener('click', async () => {
-	    const u = await ensureUser();
-	    if (!u) return;
-	    try {
-	      const r = await fetch(`/api/usuarios/${u.id}`, { method: 'DELETE' });
-	      if (r.ok || r.status === 204) {
-	        modalExcluir.classList.remove('show');
-	        localStorage.clear();
-	        window.location.href = './index.html?account=deleted';
-	        return;
-	      }
-	      mostrarToast('Erro ao excluir conta.');
-	    } catch {
-	      mostrarToast('Falha de conexão.');
-	    }
-	  });
-	}
+    // === Modal de exclusão ===
+    const btnExcluir = byId('btnExcluirConta');
+    const modalExcluir = byId('modalExcluir');
+    const btnConfirmarExcluir = byId('btnConfirmarExcluir');
+    const btnCancelarExcluir = byId('btnCancelarExcluir');
+    if (btnExcluir && modalExcluir) {
+      btnExcluir.addEventListener('click', () => modalExcluir.classList.add('show'));
+      btnCancelarExcluir?.addEventListener('click', () => modalExcluir.classList.remove('show'));
+      btnConfirmarExcluir?.addEventListener('click', async () => {
+        const me = await ensureUser();
+        if (!me) return;
+        try {
+          const r = await fetch(`/api/usuarios/${me.id}`, { method: 'DELETE' });
+          if (r.ok || r.status === 204) {
+            modalExcluir.classList.remove('show');
+            localStorage.clear();
+            window.location.href = './index.html?account=deleted';
+            return;
+          }
+          mostrarToast('Erro ao excluir conta.');
+        } catch {
+          mostrarToast('Falha de conexão.');
+        }
+      });
+    }
 
+    // === Dados do usuário ===
     const vNome = byId('vNome'), vEmail = byId('vEmail'), vTelefone = byId('vTelefone');
-    if (vNome) vNome.textContent = u.nome || u.name || '';
+    if (vNome) vNome.textContent = u.nome || '';
     if (vEmail) vEmail.textContent = u.email || '';
-    if (vTelefone) vTelefone.textContent = formatTelefone(u.telefone || u.phone || '');
+    if (vTelefone) vTelefone.textContent = formatTelefone(u.telefone || '');
 
     const original = {
       nome: (vNome?.textContent || '').trim(),
       email: (vEmail?.textContent || '').trim(),
-      telefone: (u.telefone || u.phone || '').replace(/\D/g, ''),
+      telefone: (u.telefone || '').replace(/\D/g, ''),
     };
 
+    // === Edição inline ===
     document.querySelectorAll('.edit-icon[data-field]').forEach((icon) => {
       icon.addEventListener('click', () => {
         const field = icon.getAttribute('data-field');
@@ -180,21 +176,20 @@
         input.addEventListener('keydown', (e) => {
           if (e.key === 'Enter') input.blur();
           if (e.key === 'Escape') {
-            span.textContent = field === 'telefone' ? formatTelefone(original.telefone) :
-              (field === 'nome' ? original.nome : original.email);
+            span.textContent = field === 'telefone' ? formatTelefone(original.telefone)
+              : (field === 'nome' ? original.nome : original.email);
           }
         });
       });
     });
 
+    // === Botão Salvar ===
     $('.btn-save')?.addEventListener('click', async () => {
       ['nome','email','telefone'].forEach(k => { const el = byId('err-' + k); if (el) { el.textContent=''; el.style.display='none'; } });
-
       const nomeAtual = getSpanVal(vNome, 'nome');
       const emailAtual = getSpanVal(vEmail, 'email');
       const telAtual   = getSpanVal(vTelefone, 'telefone');
-
-      const draft = { nome: (nomeAtual||'').trim(), email: (emailAtual||'').trim(), telefone: (telAtual||'').replace(/\D/g,'') };
+      const draft = { nome: nomeAtual.trim(), email: emailAtual.trim(), telefone: telAtual.replace(/\D/g,'') };
       const payload = {};
       if (draft.nome !== original.nome) payload.nome = draft.nome;
       if (draft.email !== original.email) payload.email = draft.email;
@@ -204,8 +199,6 @@
       if (f && f.style.display !== 'none') {
         const s1 = byId('novaSenha')?.value?.trim() || '';
         const s2 = byId('confirmaSenha')?.value?.trim() || '';
-        if (byId('err-senha')) { byId('err-senha').textContent=''; byId('err-senha').style.display='none'; }
-        if (byId('err-confirma')) { byId('err-confirma').textContent=''; byId('err-confirma').style.display='none'; }
         if (s1 || s2) {
           if (s1.length < 8) { byId('err-senha').textContent='Mínimo 8 caracteres'; byId('err-senha').style.display='block'; return; }
           if (s1 !== s2) { byId('err-confirma').textContent='As senhas não conferem'; byId('err-confirma').style.display='block'; return; }
@@ -213,18 +206,14 @@
         }
       }
 
-      if (!Object.keys(payload).length) {
-        mostrarToast('Nada para atualizar.');
-        return;
-      }
+      if (!Object.keys(payload).length) return mostrarToast('Nada para atualizar.');
 
       try {
         const r = await fetch(`/api/usuarios/${u.id}`, {
-          method:'PATCH',
-          headers:{'Content-Type':'application/json'},
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
-
         if (r.ok) {
           const updated = await r.json();
           user = { ...u, ...updated };
@@ -232,59 +221,56 @@
           if (vNome) vNome.textContent = user.nome || '';
           if (vEmail) vEmail.textContent = user.email || '';
           if (vTelefone) vTelefone.textContent = formatTelefone(user.telefone || '');
-          original.nome = (vNome?.textContent || '').trim();
-          original.email = (vEmail?.textContent || '').trim();
-          original.telefone = (user.telefone || '').replace(/\D/g, '');
-          if (f) { const ns = byId('novaSenha'); const cs = byId('confirmaSenha'); if (ns) ns.value=''; if (cs) cs.value=''; }
-
           mostrarToast('Dados atualizados com sucesso!');
-          return;
-        }
-
-        if (r.status === 400) {
-          const j = await r.json().catch(() => null);
-          if (j?.errors) {
-            for (const [field, message] of Object.entries(j.errors)) {
-              const el = byId('err-' + field);
-              if (el) { el.textContent = message; el.style.display = 'block'; }
-            }
-            return;
-          }
-          mostrarToast(j?.message || 'Erro de validação.');
-          return;
-        }
-
-        if (r.status === 409) {
-          const j = await r.json().catch(() => null);
-          const el = byId('err-email');
-          if (el) { el.textContent = (j?.message || 'E-mail já cadastrado.'); el.style.display = 'block'; }
-          return;
-        }
-
-        mostrarToast('Erro ao salvar alterações.');
-      } catch {
-        mostrarToast('Falha de conexão.');
-      }
+        } else mostrarToast('Erro ao salvar alterações.');
+      } catch { mostrarToast('Falha de conexão.'); }
     });
 
-	const isAdmin = String(u.role || '').toUpperCase() === 'ADMIN';
-	if (isAdmin) {
-	  document.querySelector('.pedidos')?.remove();
-	  document.querySelector('.divider')?.remove();
-	} else {
-	  carregarPedidosDoUsuario(u.id);
-	}
+    // === Personalização Admin ===
+    if (isAdmin) {
+      // remove seção de pedidos
+      document.querySelector('.pedidos')?.remove();
+      document.querySelector('.divider')?.remove();
 
+      // botão voltar → estoque
+      const back = document.querySelector('.back-link');
+      if (back) {
+        back.textContent = 'Voltar ao estoque';
+        back.href = './admin.html';
+      }
+
+      // cabeçalho admin
+      const header = document.querySelector('header');
+      if (header) {
+        header.innerHTML = `
+          <nav class="admin-nav">
+            <div class="brand">CodeStore</div>
+            <h1 class="admin-title">Painel Administrativo</h1>
+            <div class="logout-area">
+              <button id="logoutBtn" class="btn-mini logout">
+                <span class="material-icons">logout</span> Sair
+              </button>
+            </div>
+          </nav>
+        `;
+        byId('logoutBtn')?.addEventListener('click', () => {
+          localStorage.clear();
+          window.location.href = './index.html';
+        });
+      }
+    } else {
+      carregarPedidosDoUsuario(u.id);
+    }
   }
 
-  function carregarPedidosDoUsuario(uid){
+  function carregarPedidosDoUsuario(uid) {
     fetch(`/api/pedidos/usuario/${uid}`)
       .then(r => r.ok ? r.json() : Promise.reject(r))
       .then(lista => renderPedidos(Array.isArray(lista) ? lista : []))
       .catch(() => renderPedidos([]));
   }
 
-  function renderPedidos(pedidos){
+  function renderPedidos(pedidos) {
     const tbody = document.querySelector('.tabela-pedidos tbody');
     if (!tbody) return;
 
@@ -296,7 +282,6 @@
     tbody.innerHTML = pedidos.map(p => {
       const placeholder = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='80'><rect width='120' height='80' fill='%23f3f4f6'/></svg>";
       const thumb = thumbSnapshot(p.id) || placeholder;
-
       return `
         <tr>
           <td>
@@ -312,8 +297,7 @@
           </td>
           <td>${brl(totalPedido(p))}</td>
           <td><span class="status ${statusClass(p.status)}">${p.status ?? 'PENDENTE'}</span></td>
-        </tr>
-      `;
+        </tr>`;
     }).join('');
   }
 
