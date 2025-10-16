@@ -84,6 +84,5 @@ public class PedidoResponse {
 	public void setTotal(BigDecimal total) {
 		this.total = total;
 	}
-	
 
 }
