@@ -52,12 +52,14 @@
   }
 
   function brl(v) { const n = Number(v ?? 0); return n.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }); }
-  function statusClass(s) {
-    const k = String(s || '').toUpperCase();
-    if (['ENTREGUE', 'PAGO', 'ENVIADO'].includes(k)) return 'entregue';
+  function statusClass(s){
+    const k = String(s||'').toUpperCase();
+    if (k === 'ENTREGUE' || k === 'PAGO') return 'entregue';  
+    if (k === 'ENVIADO') return 'processando';                 
     if (k === 'CANCELADO') return 'cancelado';
-    return 'processando';
+    return 'processando'; 
   }
+
 
   function totalPedido(p) {
     const subtotal = Number(p.subtotal ?? 0);
@@ -85,6 +87,34 @@
     const entry = store[String(pedidoId)];
     if (!entry || typeof entry === 'string') return null;
     return entry.thumb || null;
+  }
+  
+  // --- Simulação de mudança de status a cada 10s (PENDENTE → ENVIADO → ENTREGUE)
+  let statusTimer = null;
+  const STATUS_FLOW = ['PENDENTE', 'ENVIADO', 'ENTREGUE'];
+
+  function startFakeStatusCycle(){
+    const rows = document.querySelectorAll('.tabela-pedidos tbody tr');
+    if (!rows.length) return;
+
+    const itens = [...rows].map(row => {
+      const span = row.querySelector('.status');
+      if (!span) return null;
+      const atual = (span.textContent || '').trim().toUpperCase();
+      let idx = STATUS_FLOW.indexOf(atual);
+      if (idx < 0) idx = 0;
+      return { span, idx };
+    }).filter(Boolean);
+
+    clearInterval(statusTimer);
+    statusTimer = setInterval(() => {
+      itens.forEach(item => {
+        item.idx = (item.idx + 1) % STATUS_FLOW.length;
+        const novo = STATUS_FLOW[item.idx];
+        item.span.textContent = novo;
+        item.span.className = 'status ' + statusClass(novo);
+      });
+    }, 10000); // 10 segundos
   }
 
   async function init() {
@@ -339,6 +369,7 @@
           <td><span class="status ${statusClass(p.status)}">${p.status ?? 'PENDENTE'}</span></td>
         </tr>`;
     }).join('');
+	startFakeStatusCycle();
   }
 
   init();
