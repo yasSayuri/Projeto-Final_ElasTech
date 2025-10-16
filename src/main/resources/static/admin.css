@@ -11,6 +11,10 @@ body{
   background:#fff;
 }
 
+.btn-editar {
+	background-color: #2CFF05;
+}
+
 nav{
   background:#9AD4C6;
   padding:12px 20px;
