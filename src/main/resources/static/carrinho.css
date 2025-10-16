@@ -97,8 +97,13 @@ nav {
   display: inline-block;
   color: #099683;
   text-decoration: none;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   cursor: pointer;
+}
+
+.back-link:hover {
+  color: #06695f;
+  text-decoration: underline;
 }
 
 .page-title {
@@ -367,4 +372,8 @@ footer{
 }
 
 .toast.stacked { top: auto; bottom: 24px; transform: translateX(-50%) scale(1); }
+
+.profile-link {
+  margin-right: 24px;
+}
 

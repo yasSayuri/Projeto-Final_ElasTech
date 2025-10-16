@@ -8,6 +8,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="register.css">
+  <style>
+    .field-error { color: #b50028; font-size: 12px; margin-top: 4px; display: none; }
+  </style>
 </head>
 <body>
   <div class="shell">
@@ -62,6 +65,7 @@
                 <input type="checkbox" id="isAdmin">
                 <label for="isAdmin">Administrador</label>
               </div>
+              <div id="err-role" class="field-error"></div>
             </div>
           </div>
 
@@ -80,6 +84,15 @@
   </div>
 
   <script>
+    const goLogin = document.getElementById('goLogin');
+    goLogin.addEventListener('click', () => {
+      sessionStorage.setItem('transition', 'login-to-register');
+    });
+    if (sessionStorage.getItem('transition') === 'login-to-register') {
+      document.body.classList.add('from-login');
+      sessionStorage.removeItem('transition');
+    }
+
     const form = document.getElementById('registerForm');
     const isAdmin = document.getElementById('isAdmin');
 
@@ -116,24 +129,27 @@
         }
 
         if (r.status === 409) {
-          const msg = await r.text();
-          document.getElementById('err-email').textContent = msg || 'E-mail já cadastrado.';
-          document.getElementById('err-email').style.display = 'block';
+          let msg = 'E-mail já cadastrado.';
+          try { const j = await r.json(); if (j.message) msg = j.message; } catch {}
+          const el = document.getElementById('err-email');
+          el.textContent = msg;
+          el.style.display = 'block';
           return;
         }
 
         if (r.status === 400) {
-          const j = await r.json();
-          if (j.errors) {
-            for (const [field, message] of Object.entries(j.errors)) {
-              const el = document.getElementById('err-' + field);
-              if (el) {
-                el.textContent = message;
-                el.style.display = 'block';
+          try {
+            const j = await r.json();
+            if (j.errors) {
+              for (const [field, message] of Object.entries(j.errors)) {
+                const el = document.getElementById('err-' + field);
+                if (el) { el.textContent = message; el.style.display = 'block'; }
               }
+            } else if (j.message) {
+              alert(j.message);
             }
-          } else if (j.message) {
-            alert(j.message);
+          } catch {
+            alert('Erro de validação.');
           }
           return;
         }

@@ -1,121 +1,134 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
- <meta charset="utf-8">
+  <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Entrar • CodeStore</title>
+  <title>Meu Perfil • CodeStore</title>
   <link rel="stylesheet" href="perfil.css">
-  <link rel="stylesheet" href="./loja.css"> 
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+  <link rel="stylesheet" href="./loja.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
-  <!-- Cabeçalho -->
-  <nav>  
-    <div class="nav-inner"> 
-      <div class="left-group"> 
+  <nav>
+    <div class="nav-inner">
+      <div class="left-group">
         <p class="brand">CodeStore</p>
-
-        <form class="search" role="search" action="/buscar" method="GET" aria-label="Pesquisar"> 
-          <span class="material-icons" id="src-icon" style="color: #9aa0a6;">search</span>
+        <form class="search" role="search" action="/buscar" method="GET" aria-label="Pesquisar">
+          <span class="material-icons" id="src-icon" style="color:#9aa0a6;">search</span>
           <input id="search-input" name="q" type="search" placeholder="Pesquisar..." />
         </form>
       </div>
 
-	  <div class="icons">
-	    <div class="cart-wrap" id="cartWrap" aria-haspopup="true" aria-expanded="false">
-	      <a class="cart-link" href="./carrinho.html" aria-label="Ir para o carrinho">
-	        <span class="material-icons">shopping_cart</span>
-	      </a>
+      <div class="icons">
+        <div class="cart-wrap" id="cartWrap" aria-haspopup="true" aria-expanded="false">
+          <a class="cart-link" href="./carrinho.html" aria-label="Ir para o carrinho">
+            <span class="material-icons">shopping_cart</span>
+          </a>
+          <div class="mini-cart" id="miniCart" role="dialog" aria-label="Prévia do carrinho">
+            <div class="mini-arrow"></div>
+            <div class="mini-cart-body" id="miniCartBody"></div>
+            <div class="mini-cart-footer">
+              <div class="mini-total"><span>Total:</span><span id="miniTotal">R$ 0,00</span></div>
+              <a href="./carrinho.html" class="btn-mini">Ver carrinho</a>
+            </div>
+          </div>
+        </div>
 
-	      <div class="mini-cart" id="miniCart" role="dialog" aria-label="Prévia do carrinho">
-	        <div class="mini-arrow"></div>
-	        <div class="mini-cart-body" id="miniCartBody"></div>
-	        <div class="mini-cart-footer">
-	          <div class="mini-total"><span>Total:</span><span id="miniTotal">R$ 0,00</span></div>
-	          <a href="./carrinho.html" class="btn-mini">Ver carrinho</a>
-	        </div>
-	      </div>
-	    </div>
-
-	    <span class="material-icons" style="color: #FFD700;">favorite</span>
-      <a class="cart-link" href="./perfil.html" aria-label="Ir para o perfil">
-	        <span class="material-icons">person</span>
-	      </a>
-	  </div>
+        <span class="material-icons" style="color:#FFD700;">favorite</span>
+        <a class="cart-link" href="./perfil.html" aria-label="Ir para o perfil">
+          <span class="material-icons">person</span>
+        </a>
+      </div>
     </div>
   </nav>
 
-  <!-- Conteúdo principal -->
   <main class="perfil-container">
+	<a href="./loja.html" class="back-link">Voltar à loja</a>
     <h1>Meu Perfil</h1>
+
+    <!-- CARD DO PERFIL -->
     <div class="perfil-content">
       <img src="https://cdn-icons-png.flaticon.com/512/6997/6997662.png" alt="Avatar" class="avatar">
 
+      <!-- bloco de informações pessoais -->
       <section class="info-section">
         <h2>Informações Pessoais</h2>
-        <p><strong>Nome:</strong> Nome Usuário <img src="assets/edit-icon.svg" class="edit-icon" alt="Editar"></p>
-        <p><strong>Email:</strong> usuario@gmail.com <img src="assets/edit-icon.svg" class="edit-icon" alt="Editar"></p>
-        <p><strong>Telefone:</strong> (xx) xxxxx-xxxx <img src="assets/edit-icon.svg" class="edit-icon" alt="Editar"></p>
+
+        <p class="line">
+          <strong>Nome:</strong>
+          <span id="vNome" class="value"></span>
+          <img src="assets/edit-icon.svg" class="edit-icon" data-field="nome" alt="Editar">
+          <small id="err-nome" class="field-err"></small>
+        </p>
+
+        <p class="line">
+          <strong>Email:</strong>
+          <span id="vEmail" class="value"></span>
+          <img src="assets/edit-icon.svg" class="edit-icon" data-field="email" alt="Editar">
+          <small id="err-email" class="field-err"></small>
+        </p>
+
+        <p class="line">
+          <strong>Telefone:</strong>
+          <span id="vTelefone" class="value"></span>
+          <img src="assets/edit-icon.svg" class="edit-icon" data-field="telefone" alt="Editar">
+          <small id="err-telefone" class="field-err"></small>
+        </p>
 
         <h2>Endereço de Entrega</h2>
         <p>Rua Exemplo, 123 - Centro, São Paulo/SP <img src="assets/edit-icon.svg" class="edit-icon" alt="Editar"></p>
+
+        <!-- ações abaixo das infos -->
+        <div class="actions-row">
+          <button class="btn-save" type="button">Salvar alterações</button>
+        </div>
       </section>
+
+      <!-- lado direito: alterar senha -->
+      <aside class="side-actions">
+        <button id="btnToggleSenha" class="btn-alt-senha" type="button">
+          alterar senha
+        </button>
+
+        <form id="formSenha" class="change-pass" autocomplete="off" style="display:none">
+          <div class="field">
+            <label for="novaSenha">Senha nova</label>
+            <input id="novaSenha" type="password" placeholder="••••••••" minlength="8">
+            <small id="err-senha" class="field-err"></small>
+          </div>
+          <div class="field">
+            <label for="confirmaSenha">Confirmar senha</label>
+            <input id="confirmaSenha" type="password" placeholder="••••••••" minlength="8">
+            <small id="err-confirma" class="field-err"></small>
+          </div>
+          <p class="hint">Mínimo de 8 caracteres.</p>
+        </form>
+      </aside>
     </div>
 
     <hr class="divider">
 
     <!-- Meus pedidos -->
-    <section class="pedidos">
-      <h2>Meus pedidos</h2>
-      <table class="tabela-pedidos">
-        <thead>
-          <tr>
-            <th>Pedido</th>
-            <th>Total</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              <div class="pedido-info">
-                <div class="foto-produto"><img src="assets/cel1.jpg" alt="Celular"></div>
-                <div class="detalhes-pedido">
-                  <strong>id pedido</strong><br>
-                  iPhone 15 Roxo
-                </div>
-              </div>
-            </td>
-            <td>R$ 49,90</td>
-            <td><span class="status entregue">Entregue</span></td>
-          </tr>
-          <tr>
-            <td>
-              <div class="pedido-info">
-                <div class="foto-produto"><img src="assets/computador-desktop-apple.jpg" alt="Computador"></div>
-                <div class="detalhes-pedido">
-                  <strong>id pedido</strong><br>
-                  Computador Desktop Apple
-                </div>
-              </div>
-            </td>
-            <td>R$ 99,90</td>
-            <td><span class="status processando">Processando</span></td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
+	<section class="pedidos">
+	  <h2>Meus pedidos</h2>
+	  <table class="tabela-pedidos">
+	    <thead>
+	      <tr>
+	        <th>Pedido</th>
+	        <th>Total</th> 
+	        <th>Status</th> 
+	      </tr> 
+	    </thead> 
+	    <tbody></tbody> 
+	  </table> 
+	</section> 
 
-    <div class="buttons">
-      <button class="btn-save">Salvar alterações</button>
-      <button class="btn-back">Voltar à loja</button>
-    </div>
-  </main>
+  </main> 
+ 
+  <footer class="footer"> 
+    <p>CodeStore - Todos os Direitos Reservados</p> 
+  </footer> 
 
-  <!-- Rodapé -->
-  <footer class="footer">
-    <p>CodeStore - Todos os Direitos Reservados</p>
-  </footer>
+  <script src="./perfil.js"></script> 
 </body>
-<script src="./script.js"></script>
 </html>

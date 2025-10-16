@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 
 
 public class PedidoResponse {
+	
+	private Long id;
 
 	private Long usuarioId;
 	
@@ -19,11 +21,18 @@ public class PedidoResponse {
 	
 	private BigDecimal total;
 	
-
+	public Long getId() {
+		return id; 
+	}
+	
+    public void setId(Long id) {
+    	this.id = id; 
+    }
+	
 	public Long getUsuarioId() {
 		return usuarioId;
 	}
-
+	
 	public void setUsuarioId(Long usuarioId) {
 		this.usuarioId = usuarioId;
 	}

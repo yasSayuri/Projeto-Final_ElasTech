@@ -391,7 +391,7 @@ footer{
 .mini-arrow{
   position: absolute;
   top: -8px;
-  right: 20px;
+  right: 10px;
   width: 16px; height: 16px;
   background: #fff;
   border-left: 1px solid #e5e7eb;
@@ -488,3 +488,94 @@ footer{
 @media (hover:hover){
   .cart-wrap:hover .mini-cart{ display:block; }
 }
+
+/* hover do icone perfil */
+.greet {
+  font-size: 14px;
+  color: #fff;
+  margin: 0 10px;
+  white-space: nowrap;
+  font-weight: 600;            
+  letter-spacing: .2px;
+}
+
+.greet strong,
+.mini-profile .mini-name {
+  font-weight: 800;            
+}
+.profile-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.profile-wrap .profile-link .material-icons {
+  vertical-align: middle;
+}
+
+.mini-profile {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 220px;
+  background: #fff;
+  border: 1px solid #e6eaee;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.12);
+  display: none;
+  z-index: 40;
+  padding: 12px;
+}
+
+.profile-wrap.open .mini-profile { display: block; }
+
+.mini-profile .mini-arrow {
+  position: absolute;
+  top: -8px;
+  right: 27px;
+  width: 14px;
+  height: 14px;
+  background: #fff;
+  border-left: 1px solid #e6eaee;
+  border-top: 1px solid #e6eaee;
+  transform: rotate(45deg);
+}
+
+.mini-profile-body {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+}
+
+.mini-profile .avatar {
+  font-size: 44px;
+  color: #7b8794;
+}
+
+.mini-profile .mini-name {
+  color: #1f2b37;
+}
+
+.btn-mini.logout {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px;
+  border: 1px solid #9ad4c6;
+  border-radius: 10px;
+  background: #9ad4c6;   
+  cursor: pointer;
+  font-weight: 700;
+  color: #222;
+  transition: background .2s ease, border-color .2s ease, transform .12s ease;
+}
+
+.btn-mini.logout:hover {
+  background: #83B4A8;          
+  transform: translateY(-1px);
+}
+
+.profile-wrap .profile-link {
+  margin-right: 24px;
+}
+

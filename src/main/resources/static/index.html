@@ -98,6 +98,7 @@
 
         if (r.ok) {
           const user = await r.json();
+          localStorage.setItem('user', JSON.stringify(user)); // <- salva usuário
           if (user.role === 'ADMIN' || (Array.isArray(user.roles) && user.roles.includes('ADMIN'))) {
             window.location.href = '/admin.html';
           } else {

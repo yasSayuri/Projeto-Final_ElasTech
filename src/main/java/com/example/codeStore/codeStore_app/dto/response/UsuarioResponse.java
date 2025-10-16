@@ -4,6 +4,8 @@ import java.util.List;
 
 public class UsuarioResponse {
 	
+	private Long id;
+	
 	private String nome;
 
 	private String email;
@@ -15,6 +17,14 @@ public class UsuarioResponse {
 	private String role;
 	
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
 	public String getNome() {
 		return nome;
 	}

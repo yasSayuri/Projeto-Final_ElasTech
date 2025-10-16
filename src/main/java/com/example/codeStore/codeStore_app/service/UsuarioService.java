@@ -64,4 +64,10 @@ public class UsuarioService {
         return repository.findByEmailAndSenha(email, senha)
             .orElseThrow(() -> new EntidadeNaoEncontradaException("Credenciais inválidas"));
     }
+    
+    @Transactional(readOnly = true)
+    public boolean emailExiste(String email) {
+        return repository.findByEmail(email).isPresent();
+    }
+
 }

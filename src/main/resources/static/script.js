@@ -30,12 +30,21 @@ const produtos = [
   {id:28, nome:"Mousepad Estampa Roxa", preco:24.90, img:"./assets/mousepad3.jpg", categoria:"Acessórios" },
 ];
 
-// ==================== CONFIG/API & HELPERS (mesmo do carrinho) ====================
+// ==================== USER + KEYS POR USUÁRIO ====================
+function getUserSafe(){ try { return JSON.parse(localStorage.getItem('user')); } catch { return null; } }
+const CURRENT_USER = getUserSafe();
+const USER_ID = CURRENT_USER?.id || null;
+function k(name){ return USER_ID ? `${name}_${USER_ID}` : name; }
+
+// ==================== CONFIG/API & HELPERS ====================
 const API = "http://localhost:8080/api/pedidos";
 
-function getPedidoId() { return localStorage.getItem('pedidoId'); }
-function setPedidoId(id) { localStorage.setItem('pedidoId', String(id)); }
-function clearPedidoId() { localStorage.removeItem('pedidoId'); }
+function getPedidoId(){ return localStorage.getItem(k('pedidoId')); }
+function setPedidoId(id){ localStorage.setItem(k('pedidoId'), String(id)); }
+function clearPedidoId(){ localStorage.removeItem(k('pedidoId')); }
+
+function loadCarrinho(){ return JSON.parse(localStorage.getItem(k('carrinho'))) || []; }
+function saveCarrinho(c){ localStorage.setItem(k('carrinho'), JSON.stringify(c)); }
 
 function calcularTotais(carrinho){
   const subtotal = carrinho.reduce((acc, p) => acc + (p.preco * p.quantidade), 0);
@@ -45,41 +54,28 @@ function calcularTotais(carrinho){
 }
 
 async function syncPedidoBackend(statusOverride){
-  const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+  const carrinho = loadCarrinho();
   const { subtotal, frete } = calcularTotais(carrinho);
   const status = statusOverride || "PENDENTE";
   const pedidoId = getPedidoId();
-
+  if (!USER_ID) return;
   if (carrinho.length === 0) {
     if (pedidoId) {
-      try { await fetch(`${API}/${pedidoId}`, { method: "DELETE" }); }
-      catch(e){ console.error("Erro ao deletar pedido:", e); }
+      try { await fetch(`${API}/${pedidoId}`, { method: "DELETE" }); } catch(e){}
       clearPedidoId();
     }
     return;
   }
-
-  const body = { usuarioId: 1, status, subtotal, descontoTotal: 0, frete };
-
+  const body = { usuarioId: USER_ID, status, subtotal, descontoTotal: 0, frete };
   try {
     if (!pedidoId) {
-      const r = await fetch(API, {
-        method: "POST",
-        headers: {"Content-Type":"application/json"},
-        body: JSON.stringify(body)
-      });
+      const r = await fetch(API, { method: "POST", headers: {"Content-Type":"application/json"}, body: JSON.stringify(body) });
       const data = await r.json();
       if (data && data.id) setPedidoId(data.id);
     } else {
-      await fetch(`${API}/${pedidoId}`, {
-        method: "PUT",
-        headers: {"Content-Type":"application/json"},
-        body: JSON.stringify({ ...body, id: Number(pedidoId) })
-      });
+      await fetch(`${API}/${pedidoId}`, { method: "PUT", headers: {"Content-Type":"application/json"}, body: JSON.stringify({ ...body, id: Number(pedidoId) }) });
     }
-  } catch(err){
-    console.error("Erro ao sincronizar pedido:", err);
-  }
+  } catch(err){}
 }
 
 // ==================== RENDERIZAÇÃO DA LOJA ====================
@@ -88,7 +84,7 @@ const links = document.querySelectorAll('.cat-link');
 const iconeFavorito = '<span class="material-icons" style="color:#FFD700;">favorite</span>';
 const iconeCarrinho = '<span class="material-icons add-cart">shopping_cart</span>';
 
-function formatarPreco(v){return v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});}
+function formatarPreco(v){ return v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'}); }
 
 function cardTemplate(p){
   return `
@@ -105,6 +101,7 @@ function cardTemplate(p){
 }
 
 function render(lista){
+  if (!elLista) return;
   elLista.innerHTML = lista.map(cardTemplate).join('');
   addClickListeners();
 }
@@ -136,46 +133,41 @@ function addClickListeners() {
 }
 
 async function adicionarAoCarrinho(produto) {
-  let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+  let carrinho = loadCarrinho();
   const existente = carrinho.find(p => p.id === produto.id);
-  if (existente) {
-    existente.quantidade += 1;
-  } else {
-    carrinho.push({...produto, quantidade: 1});
-  }
-  localStorage.setItem('carrinho', JSON.stringify(carrinho));
-
-  await syncPedidoBackend();   // cria/atualiza pedido
+  if (existente) existente.quantidade += 1;
+  else carrinho.push({...produto, quantidade: 1});
+  saveCarrinho(carrinho);
+  await syncPedidoBackend();
   renderMiniCart();
   mostrarToast(`${produto.nome} adicionado ao carrinho!`);
 }
 
 function removerDoCarrinho(id) {
-  let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+  let carrinho = loadCarrinho();
   carrinho = carrinho.filter(p => p.id !== id);
-  localStorage.setItem('carrinho', JSON.stringify(carrinho));
-  syncPedidoBackend();         // atualiza/deleta pedido
+  saveCarrinho(carrinho);
+  syncPedidoBackend();
   renderMiniCart();
   mostrarToast('Produto removido do carrinho!');
 }
 
-// ==================== MINI-CART (spoiler) ====================
-const cartWrap   = document.getElementById('cartWrap');
-const miniCart   = document.getElementById('miniCart');
+// ==================== MINI-CART ====================
+const cartWrap = document.getElementById('cartWrap');
+const miniCart = document.getElementById('miniCart');
 const miniCartBody = document.getElementById('miniCartBody');
-const miniTotalEl  = document.getElementById('miniTotal');
+const miniTotalEl = document.getElementById('miniTotal');
 
 let hideTimer;
 
 function renderMiniCart() {
-  const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
-
+  if (!miniCartBody || !miniTotalEl) return;
+  const carrinho = loadCarrinho();
   if (carrinho.length === 0) {
     miniCartBody.innerHTML = `<p class="mini-empty">Seu carrinho está vazio</p>`;
     miniTotalEl.textContent = 'R$ 0,00';
     return;
   }
-
   let total = 0;
   miniCartBody.innerHTML = carrinho.map(p => {
     const linhaTotal = p.preco * p.quantidade;
@@ -192,9 +184,7 @@ function renderMiniCart() {
       </div>
     `;
   }).join('');
-
   miniTotalEl.textContent = `R$ ${total.toFixed(2)}`;
-
   document.querySelectorAll('.mini-delete').forEach(btn => {
     btn.addEventListener('click', e => {
       const id = parseInt(e.target.closest('.mini-row').dataset.id);
@@ -215,7 +205,6 @@ cartWrap?.addEventListener('mouseleave', ()=>{
     cartWrap.setAttribute('aria-expanded','false');
   }, 120);
 });
-// clique no ícone -> navega pro carrinho
 cartWrap?.addEventListener('click', (e) => {
   const link = e.target.closest('.cart-link');
   if (link) {
@@ -227,16 +216,47 @@ cartWrap?.addEventListener('click', (e) => {
   if (isOpen) renderMiniCart();
 });
 
+// ==================== MINI-PERFIL ====================
+const profileWrap = document.getElementById('profileWrap');
+const miniProfile = document.getElementById('miniProfile');
+let profileHideTimer;
+
+profileWrap?.addEventListener('mouseenter', () => {
+  clearTimeout(profileHideTimer);
+  profileWrap.classList.add('open');
+  profileWrap.setAttribute('aria-expanded', 'true');
+});
+profileWrap?.addEventListener('mouseleave', () => {
+  profileHideTimer = setTimeout(() => {
+    profileWrap.classList.remove('open');
+    profileWrap.setAttribute('aria-expanded', 'false');
+  }, 120);
+});
+profileWrap?.addEventListener('click', (e) => {
+  const link = e.target.closest('.profile-link');
+  if (link) {
+    window.location.href = './perfil.html';
+    return;
+  }
+  const isOpen = profileWrap.classList.toggle('open');
+  profileWrap.setAttribute('aria-expanded', String(isOpen));
+});
+document.addEventListener('click', (e)=>{
+  if (!profileWrap) return;
+  if (!profileWrap.contains(e.target)) {
+    profileWrap.classList.remove('open');
+    profileWrap.setAttribute('aria-expanded','false');
+  }
+});
+
 // ==================== Toast ====================
 function mostrarToast(mensagem) {
   const antigo = document.querySelector('.toast');
   if (antigo) antigo.remove();
-
   const toast = document.createElement('div');
   toast.className = 'toast';
   toast.textContent = mensagem;
   document.body.appendChild(toast);
-
   setTimeout(() => toast.classList.add('show'), 50);
   setTimeout(() => {
     toast.classList.remove('show');
@@ -244,6 +264,21 @@ function mostrarToast(mensagem) {
   }, 2200);
 }
 
-// inicializa a loja
+// ==================== Saudação / mini perfil ====================
+function getFirstName(nome) {
+  if (!nome) return 'Visitante';
+  const p = nome.trim().split(/\s+/);
+  return p[0] || 'Visitante';
+}
+(function initGreeting(){
+  const u = CURRENT_USER;
+  const first = getFirstName(u?.nome);
+  const fnEl = document.getElementById('firstName');
+  const miniName = document.getElementById('miniName');
+  if (fnEl) fnEl.textContent = first;
+  if (miniName) miniName.textContent = first;
+})();
+
+// ==================== Inicialização ====================
 render(produtos.filter(p=>p.categoria==="Computadores"));
 renderMiniCart();
