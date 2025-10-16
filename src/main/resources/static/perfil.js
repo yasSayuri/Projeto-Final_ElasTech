@@ -267,7 +267,14 @@
       }
     });
 
-    carregarPedidosDoUsuario(u.id);
+	const isAdmin = String(u.role || '').toUpperCase() === 'ADMIN';
+	if (isAdmin) {
+	  document.querySelector('.pedidos')?.remove();
+	  document.querySelector('.divider')?.remove();
+	} else {
+	  carregarPedidosDoUsuario(u.id);
+	}
+
   }
 
   function carregarPedidosDoUsuario(uid){
