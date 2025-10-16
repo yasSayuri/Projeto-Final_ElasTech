@@ -133,15 +133,16 @@ ou sirva os arquivos com uma extensão como Live Server (VSCode).
 
 🧪 **Endpoints Principais (Exemplo)**
 
-| Método | Endpoint                 | Descrição                        |
-|--------|--------------------------|----------------------------------|
-| GET    | /produtos                | Lista todos os produtos          |
-| GET    | /produtos/{id}           | Retorna produto por ID           |
-| POST   | /produtos                | Cadastra novo produto (admin)    |
-| PUT    | /produtos/{id}           | Atualiza produto existente       |
-| DELETE | /produtos/{id}           | Exclui produto (admin)           |
-| POST   | /pedidos                 | Cria um novo pedido              |
-| PUT    | /pedidos/{id}/status     | Atualiza status do pedido        |
+| **Método** | **Endpoint** | **Descrição** |
+| --- | --- | --- |
+| GET | /api/produtos | Lista todos os produtos |
+| GET | api/produtos/{id} | Retorna produto por ID |
+| POST | /api/produtos/salvar | Cadastra novo produto (admin) |
+| PUT | /api/produtos/atualizar/{id} | Atualiza produto existente |
+| DELETE | api/produtos/{id} | Exclui produto (admin) |
+| GET | api/produtos/produtoNome/{nome} | Lista produtos pelo nome |
+| GET | api/produtos/precoAsc | Lista produtos ordenados pelo preço, do menor ao maior |
+| GET | api/produtos/precoDesc | Lista produtos ordenados pelo preço, do maior ao menor |
 
 # 🎨 Interface e Experiência do Usuário
 
