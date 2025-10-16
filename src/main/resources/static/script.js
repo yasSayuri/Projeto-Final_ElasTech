@@ -245,6 +245,24 @@ function addClickListeners() {
   });
 }
 
+// logout handler
+document.addEventListener("DOMContentLoaded", () => {
+  const logoutBtn = document.getElementById("logoutBtn");
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", () => {
+      // limpa dados do usuário / carrinho / favoritos
+      localStorage.removeItem("user");
+      localStorage.removeItem("carrinho");
+      localStorage.removeItem("pedidoId");
+      localStorage.removeItem("categorias_por_pedido");
+
+      // redireciona pra página inicial
+      window.location.href = "./index.html";
+    });
+  }
+});
+
+
 async function adicionarAoCarrinho(produto) {
   let carrinho = loadCarrinho();
   const existente = carrinho.find(p => p.id === produto.id);

@@ -86,6 +86,34 @@
 
   async function init() {
     const u = await ensureUser();
+	// toggle do formulário de troca de senha
+	const btnToggleSenha = byId('btnToggleSenha');
+	const formSenha = byId('formSenha');
+
+	if (btnToggleSenha && formSenha) {
+	  btnToggleSenha.addEventListener('click', () => {
+	    const aberto = getComputedStyle(formSenha).display !== 'none';
+	    // alterna visibilidade
+	    formSenha.style.display = aberto ? 'none' : 'block';
+	    // acessibilidade e rótulo
+	    btnToggleSenha.setAttribute('aria-expanded', String(!aberto));
+	    btnToggleSenha.textContent = aberto ? 'Alterar senha' : 'Cancelar';
+
+	    // limpa erros e foca o primeiro campo quando abrir
+	    if (!aberto) {
+	      const ns = byId('novaSenha');
+	      const cs = byId('confirmaSenha');
+	      const err1 = byId('err-senha');
+	      const err2 = byId('err-confirma');
+	      if (ns) ns.value = '';
+	      if (cs) cs.value = '';
+	      if (err1) { err1.textContent = ''; err1.style.display = 'none'; }
+	      if (err2) { err2.textContent = ''; err2.style.display = 'none'; }
+	      setTimeout(() => ns?.focus(), 0);
+	    }
+	  });
+	}
+
     if (!u) return;
 
     const vNome = byId('vNome'), vEmail = byId('vEmail'), vTelefone = byId('vTelefone');

@@ -88,9 +88,14 @@
 
       <!-- lado direito: alterar senha -->
       <aside class="side-actions">
-        <button id="btnToggleSenha" class="btn-alt-senha" type="button">
-          alterar senha
-        </button>
+		<button id="btnToggleSenha"
+		        class="btn-alt-senha"
+		        type="button"
+		        aria-controls="formSenha"
+		        aria-expanded="false">
+		  alterar senha
+		</button>
+
 
         <form id="formSenha" class="change-pass" autocomplete="off" style="display:none">
           <div class="field">
