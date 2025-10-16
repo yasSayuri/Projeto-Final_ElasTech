@@ -14,7 +14,7 @@
     <div class="card">
       <aside class="right">
         <div class="panel">
-          <h2>Seja bem vindo!</h2>
+          <h2>Seja bem-vindo!</h2>
           <p>Entre com seus dados para continuar ou crie sua conta para começar sua jornada.</p>
           <a class="btn btn-ghost" href="/register.html">Criar conta</a>
         </div>
@@ -24,7 +24,7 @@
         <div class="brand">
           <div>
             <h1 class="title">Entrar em CodeStore</h1>
-            <div class="subtitle">acessar sua conta</div>
+            <div class="subtitle">Acesse sua conta</div>
           </div>
         </div>
 
@@ -35,10 +35,11 @@
         </div>
 
         <div class="divider">ou use seu e-mail</div>
-        <div id="mOk" class="msg ok" style="display:none">Cadastro realizado com sucesso. Faça o login.</div>
-        <div id="mErr" class="msg err" style="display:none">E-mail ou senha inválidos.</div>
 
-        <form id="loginForm" action="/api/login" method="post" autocomplete="on">
+        <div id="mOk" class="msg ok" style="display:none" aria-live="polite"></div>
+        <div id="mErr" class="msg err" style="display:none" aria-live="polite"></div>
+
+        <form id="loginForm" autocomplete="on">
           <div>
             <label for="email">E-mail</label>
             <input class="input" id="email" name="email" type="email" placeholder="Digite seu email..." required>
@@ -57,14 +58,63 @@
   </div>
 
   <script>
-    const p = new URLSearchParams(location.search);
-    if (p.get('ok') === '1') document.getElementById('mOk').style.display = 'block';
-    if (p.get('erro') === '1') document.getElementById('mErr').style.display = 'block';
+    const elOk = document.getElementById('mOk');
+    const elErr = document.getElementById('mErr');
+
+    function clearMsgs() {
+      [elOk, elErr].forEach(el => {
+        el.style.display = 'none';
+        el.textContent = '';
+      });
+    }
+
+    function showMsg(type, text) {
+      clearMsgs();
+      const el = type === 'ok' ? elOk : elErr;
+      el.textContent = text;
+      el.style.display = 'block';
+    }
+
+    const params = new URLSearchParams(location.search);
+    if (params.get('ok') === '1') showMsg('ok', 'Cadastro realizado com sucesso. Faça o login.');
+    if (params.get('erro') === '1') showMsg('err', 'Usuário não encontrado ou senha inválida.');
 
     const form = document.getElementById('loginForm');
-    form.addEventListener('submit', function(e) {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      window.location.href = '/loja.html';
+      clearMsgs();
+
+      const payload = {
+        email: document.getElementById('email').value.trim(),
+        senha: document.getElementById('senha').value
+      };
+
+      try {
+        const r = await fetch('/api/usuarios/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (r.ok) {
+          const user = await r.json();
+          if (user.role === 'ADMIN' || (Array.isArray(user.roles) && user.roles.includes('ADMIN'))) {
+            window.location.href = '/admin.html';
+          } else {
+            window.location.href = '/loja.html';
+          }
+          return;
+        }
+
+        if (r.status === 404) {
+          showMsg('err', 'Usuário não encontrado ou senha inválida.');
+          return;
+        }
+
+        showMsg('err', 'Erro ao entrar.');
+      } catch {
+        showMsg('err', 'Falha de conexão.');
+      }
     });
   </script>
 </body>

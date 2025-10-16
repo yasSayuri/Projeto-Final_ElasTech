@@ -37,6 +37,7 @@ body {
   grid-template-columns: 1.15fr .85fr;
   min-height: 520px;
   transition: box-shadow .3s ease, transform .3s ease;
+  margin-top:-10px;
 }
 
 .panel-colored {
@@ -221,3 +222,18 @@ label {
   .form-side { order: 1; }
   .grid-2 { grid-template-columns: 1fr; }
 }
+
+.role-toggle { 
+	display: flex; 
+	align-items: center; 
+	gap: 8px; 
+	margin-top: 8px; 
+}
+
+.field-error { 
+	color: #b50028; 
+	font-size: 12px; 
+	margin-top: 4px; 
+	display: none; 
+}
+

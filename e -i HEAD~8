@@ -1,0 +1,46 @@
+[33m268e78b[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m fix: ajuste no css
+[33m9155f8d[m festure: dinamicidade do carrinho e ligado ao backend
+[33m1745778[m fix: arrumei erros minimos que nao deixava o projeto rodar + algumas mudanças no css
+[33mb4d19de[m update: css atualizado da pagina principal
+[33mf8f62d4[m resolverd merge final
+[33mc32a12f[m resolverd merge
+[33m5ea5eda[m resolved merge conflicts
+[33m43c467c[m Merge branch 'main' of https://github.com/yasSayuri/Projeto-Final_ElasTech
+[33mf05439e[m  Implementação do CRUD de produto, métodos de ordenação por preço de produto, produto mapper, dtos de produto, criação da Enum de categoria do produto e ajustes na service.
+[33mb9af22f[m controller, dtos de request/response e service de usuarios
+[33mf2b6cba[m evolução nos dtos, ajuste no model e no controller de pedido
+[33m1a5fc18[m update: mudanças no front da tela principal
+[33mcbdff8b[m feat: Ajustes de estrutura da página da tela inicial da loja
+[33mf6931ee[m style: adicionar arquivo de estilização da página admin
+[33m0c58037[m feat: Criação da tela de admin
+[33ma1be06a[m update: icones novos e alguns ajustes no css da loja
+[33mfc47a70[m feat: ajustar caminho do link clicável que redireciona para carrinho
+[33m747a825[m style: ajustar estilização dos cards dos produtos e posição dos ícones
+[33m5540053[m feat: Adicionar ícones de produto favorito e carrinho de compras
+[33mfa93443[m agr vai
+[33m87d0e93[m up: novo css do carrinho
+[33m0972cae[m feature: carrinho hmtl e css iniciais
+[33mf0b47f0[m fix: login é a nova entrada do codigo + conectei as telas
+[33me40804f[m Ajustes na model de produtos, adição da ProdutoMapper e controller.
+[33mdfcff75[m img: adicionar fotos estáticas para exibir os produtos na tela
+[33m14f41f0[m style: adicionar classes de estilização dos cards e efeitos de transição
+[33m66bf23c[m feat: Adicionar cards dos produtos na tela inicial da loja
+[33m1f0b3f0[m Ajustes no pom: Remoção de dependência.
+[33m80dac5a[m Remove classes que não serão usadas. Ajustes nos métodos que pesquisam os produtos pelo preço e ordenam em ordem crescente e decrescente.
+[33m78c94d6[m Merge branch 'main' of https://github.com/yasSayuri/Projeto-Final_ElasTech
+[33m6c80f7b[m Implementação da model, service, request dto, response dto e repository da classe produto.
+[33m7025071[m Merge branch 'main' of https://github.com/yasSayuri/Projeto-Final_ElasTech
+[33m0b3f5b2[m add service,repository,controller p/ pedido
+[33m049a432[m feat: Criação da pasta bin para armazenamento das configurações do Spring
+[33mf2a5004[m feat: Remoção de algumas palavras da tela de login
+[33mb3dae0a[m chore: exclusão da página gitTeste
+[33m9d66aad[m feat: Pasta contendo todas as fotos utilizadas na aplicação
+[33m2cac75a[m feat: Criação do arquivo de estilização da tela principal da loja
+[33med01697[m feat: Criação do arquivo js para fazer animações e interatividade
+[33m4f0d5c3[m Merge branch 'main' of https://github.com/yasSayuri/Projeto-Final_ElasTech
+[33m67e2bd3[m feat: Criação da página inicial da loja com os produtos
+[33mb724e14[m add classes iniciais de pedido
+[33m7d8fa47[m apenas um teste do git
+[33m80e83ce[m feat/login and register screms
+[33mb16bb43[m Primeiro commit com o projeto
+[33mcb92774[m Initial commit

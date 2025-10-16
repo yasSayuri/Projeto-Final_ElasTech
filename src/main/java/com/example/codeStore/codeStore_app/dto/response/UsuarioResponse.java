@@ -12,7 +12,9 @@ public class UsuarioResponse {
 
 	private String telefone;
 	
+	private String role;
 	
+
 	public String getNome() {
 		return nome;
 	}
@@ -43,5 +45,13 @@ public class UsuarioResponse {
 
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
+	}
+	
+	public String getRole() {
+		return role;
+	}
+	
+	public void setRole(String role) {
+		this.role = role;
 	}
 }

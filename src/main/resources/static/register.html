@@ -22,33 +22,47 @@
         </div>
 
         <div class="divider">ou use seu e-mail para cadastro</div>
-        <div id="mErr" class="msg err" style="display:none">E-mail já cadastrado.</div>
 
-        <form action="/api/usuarios" method="post" autocomplete="on">
+        <form id="registerForm" autocomplete="on">
           <div>
             <label for="nome">Nome</label>
             <input class="input" id="nome" name="nome" placeholder="Seu nome" required>
+            <div id="err-nome" class="field-error"></div>
           </div>
 
           <div>
             <label for="email">E-mail</label>
             <input class="input" id="email" name="email" type="email" placeholder="voce@exemplo.com" required>
+            <div id="err-email" class="field-error"></div>
           </div>
 
           <div class="grid-2">
             <div>
               <label for="cpf">CPF</label>
-              <input class="input" id="cpf" name="cpf" placeholder="000.000.000-00" required>
+              <input class="input" id="cpf" name="cpf" placeholder="00000000000" required>
+              <div id="err-cpf" class="field-error"></div>
             </div>
             <div>
               <label for="telefone">Telefone</label>
-              <input class="input" id="telefone" name="telefone" placeholder="(00) 90000-0000" required>
+              <input class="input" id="telefone" name="telefone" placeholder="41999999999" required>
+              <div id="err-telefone" class="field-error"></div>
             </div>
           </div>
 
           <div>
             <label for="senha">Senha</label>
             <input class="input" id="senha" name="senha" type="password" placeholder="Crie uma senha" required>
+            <div id="err-senha" class="field-error"></div>
+          </div>
+
+          <div class="grid-2">
+            <div>
+              <label>Tipo de conta</label>
+              <div class="role-toggle">
+                <input type="checkbox" id="isAdmin">
+                <label for="isAdmin">Administrador</label>
+              </div>
+            </div>
           </div>
 
           <button class="btn btn-primary" type="submit">Criar conta</button>
@@ -66,18 +80,69 @@
   </div>
 
   <script>
-    const p = new URLSearchParams(location.search);
-    if (p.get('erro') === 'email') document.getElementById('mErr').style.display = 'block';
+    const form = document.getElementById('registerForm');
+    const isAdmin = document.getElementById('isAdmin');
 
-    const goLogin = document.getElementById('goLogin');
-    goLogin.addEventListener('click', () => {
-      sessionStorage.setItem('transition', 'register-to-login');
-    });
-
-    if (sessionStorage.getItem('transition') === 'login-to-register') {
-      document.body.classList.add('from-login');
-      sessionStorage.removeItem('transition');
+    function clearErrors() {
+      document.querySelectorAll('.field-error').forEach(e => {
+        e.style.display = 'none';
+        e.textContent = '';
+      });
     }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      clearErrors();
+
+      const data = {
+        nome: document.getElementById('nome').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        cpf: document.getElementById('cpf').value.replace(/\D/g, ''),
+        telefone: document.getElementById('telefone').value.replace(/\D/g, ''),
+        senha: document.getElementById('senha').value,
+        role: isAdmin.checked ? 'ADMIN' : 'CLIENTE'
+      };
+
+      try {
+        const r = await fetch('/api/usuarios/cadastrar', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        if (r.status === 201) {
+          location.href = '/index.html?ok=1';
+          return;
+        }
+
+        if (r.status === 409) {
+          const msg = await r.text();
+          document.getElementById('err-email').textContent = msg || 'E-mail já cadastrado.';
+          document.getElementById('err-email').style.display = 'block';
+          return;
+        }
+
+        if (r.status === 400) {
+          const j = await r.json();
+          if (j.errors) {
+            for (const [field, message] of Object.entries(j.errors)) {
+              const el = document.getElementById('err-' + field);
+              if (el) {
+                el.textContent = message;
+                el.style.display = 'block';
+              }
+            }
+          } else if (j.message) {
+            alert(j.message);
+          }
+          return;
+        }
+
+        alert('Erro ao cadastrar.');
+      } catch {
+        alert('Falha de conexão.');
+      }
+    });
   </script>
 </body>
 </html>

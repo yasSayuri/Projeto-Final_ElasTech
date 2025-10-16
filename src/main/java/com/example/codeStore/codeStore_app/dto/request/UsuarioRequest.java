@@ -24,6 +24,9 @@ public class UsuarioRequest {
 	@NotBlank(message = "A senha é obrigatória!")
 	@Size(min = 8, message = "A senha deve ter no mínimo 8 caracteres!")
 	private String senha;
+	
+	@NotBlank(message = "A role é obrigatória!")
+    private String role;
 
 	public String getNome() {
 		return nome;
@@ -63,5 +66,13 @@ public class UsuarioRequest {
 
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+	
+	public String getRole() {
+		return role;
+	}
+	
+	public void setRole(String role) {
+		this.role = role;
 	}
 }

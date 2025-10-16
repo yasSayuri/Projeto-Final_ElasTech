@@ -28,8 +28,8 @@ public class Usuario {
 	@Column(nullable = false)
 	private String senha;
 	
-	@Column(name = "role")
-	private String roles = "USUARIO COMUM"; 
+	@Column(nullable = false, length = 20)
+    private String role = "CLIENTE";
 	
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
 	List<Pedido> pedidos;
@@ -80,6 +80,14 @@ public class Usuario {
 
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+	
+	public String getRole() {
+		return role;
+	}
+	
+	public void setRole(String role) {
+		this.role = role;
 	}
 
 	public List<Pedido> getPedidos() {
