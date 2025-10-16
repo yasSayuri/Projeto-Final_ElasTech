@@ -15,13 +15,11 @@ function saveCarrinho(c){ localStorage.setItem(k('carrinho'), JSON.stringify(c))
 
 function round2(n){ return Number(n.toFixed(2)); }
 function calcularTotais(carrinho){
-  const subtotalRaw = carrinho.reduce((acc, p) => acc + (p.preco * p.quantidade), 0);
-  const subtotal = round2(subtotalRaw);
+  const subtotal = round2(carrinho.reduce((acc, p) => acc + (p.preco * p.quantidade), 0));
   const frete = subtotal >= 200 ? 0 : (subtotal > 0 ? 20 : 0);
   const total = round2(subtotal + frete);
   return { subtotal, frete, total };
 }
-
 
 async function syncPedidoBackend(statusOverride){
   const carrinho = loadCarrinho();
@@ -30,10 +28,7 @@ async function syncPedidoBackend(statusOverride){
   const pedidoId = getPedidoId();
   if (!USER_ID) return;
   if (carrinho.length === 0) {
-    if (pedidoId) {
-      try { await fetch(`${API}/${pedidoId}`, { method: "DELETE" }); } catch(e){}
-      clearPedidoId();
-    }
+    if (pedidoId) { try { await fetch(`${API}/${pedidoId}`, { method: "DELETE" }); } catch(e){} clearPedidoId(); }
     return;
   }
   const body = { usuarioId: USER_ID, status, subtotal, descontoTotal: 0, frete };
@@ -48,41 +43,43 @@ async function syncPedidoBackend(statusOverride){
   } catch(err){}
 }
 
+function salvarCategoriasSnapshot(pid, carrinho){
+  const key = k('categorias_por_pedido');
+  const store = JSON.parse(localStorage.getItem(key) || '{}');
+
+  const set = new Set(carrinho.map(i => String(i.categoria)));
+  const categorias = Array.from(set).join(', ');
+
+  const thumb = (carrinho.find(i => i.img)?.img) || './assets/placeholder.png';
+
+  store[String(pid)] = { categorias, thumb };
+  localStorage.setItem(key, JSON.stringify(store));
+}
+
+
 async function finalizarPedidoComCarrinho(carrinho){
   const { subtotal, frete, total } = calcularTotais(carrinho);
   if (!USER_ID) throw new Error("LOGIN");
   if (!carrinho.length) throw new Error("VAZIO");
 
-  const body = {
-    usuarioId: USER_ID,
-    status: 'PENDENTE',
-    subtotal,
-    descontoTotal: 0,
-    frete,
-    total
-  };
+  const body = { usuarioId: USER_ID, status: STATUS.PENDENTE, subtotal, descontoTotal: 0, frete, total };
 
   const pedidoId = getPedidoId();
   if (pedidoId) {
     const rPut = await fetch(`${API}/${pedidoId}`, {
-      method: 'PUT',
-      headers: { 'Content-Type':'application/json' },
+      method: 'PUT', headers: { 'Content-Type':'application/json' },
       body: JSON.stringify({ ...body, id: Number(pedidoId) })
     });
-    if (rPut.ok) return;
+    if (rPut.ok) { salvarCategoriasSnapshot(pedidoId, carrinho); return; }
     if (rPut.status !== 404) throw new Error('PUT_FAIL');
     clearPedidoId();
   }
-  const rPost = await fetch(API, {
-    method: 'POST',
-    headers: { 'Content-Type':'application/json' },
-    body: JSON.stringify(body)
-  });
+
+  const rPost = await fetch(API, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
   if (!rPost.ok) throw new Error('POST_FAIL');
   const data = await rPost.json().catch(()=>null);
-  if (data?.id) setPedidoId(data.id);
+  if (data?.id) { setPedidoId(data.id); salvarCategoriasSnapshot(data.id, carrinho); }
 }
-
 
 const corpoCarrinho = document.querySelector('.cart-body');
 
@@ -171,7 +168,6 @@ document.getElementById('btnFazerPedido')?.addEventListener('click', async ()=>{
     carregarCarrinho();
     atualizarTotais();
     mostrarToast("Pedido enviado! Status: PENDENTE");
-    setTimeout(()=> { window.location.href = '/perfil.html?pedido=ok'; }, 650);
   } catch(e){
     mostrarToast("Não foi possível finalizar o pedido.");
   }
