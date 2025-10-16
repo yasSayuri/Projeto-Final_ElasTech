@@ -227,40 +227,80 @@
     });
 
     // === Personalização Admin ===
-    if (isAdmin) {
-      // remove seção de pedidos
-      document.querySelector('.pedidos')?.remove();
-      document.querySelector('.divider')?.remove();
+	if (isAdmin) {
+	  // marca o body para CSS escopado
+	  document.body.classList.add('is-admin');
 
-      // botão voltar → estoque
-      const back = document.querySelector('.back-link');
-      if (back) {
-        back.textContent = 'Voltar ao estoque';
-        back.href = './admin.html';
-      }
+	  // remove seção de pedidos/divisor
+	  document.querySelector('.pedidos')?.remove();
+	  document.querySelector('.divider')?.remove();
 
-      // cabeçalho admin
-      const header = document.querySelector('header');
-      if (header) {
-        header.innerHTML = `
-          <nav class="admin-nav">
-            <div class="brand">CodeStore</div>
-            <h1 class="admin-title">Painel Administrativo</h1>
-            <div class="logout-area">
-              <button id="logoutBtn" class="btn-mini logout">
-                <span class="material-icons">logout</span> Sair
-              </button>
-            </div>
-          </nav>
-        `;
-        byId('logoutBtn')?.addEventListener('click', () => {
-          localStorage.clear();
-          window.location.href = './index.html';
-        });
-      }
-    } else {
-      carregarPedidosDoUsuario(u.id);
-    }
+	  // botão voltar → estoque
+	  const back = document.querySelector('.back-link');
+	  if (back) {
+	    back.textContent = 'Voltar ao estoque';
+	    back.href = './admin.html';
+	  }
+
+	  // recria o NAV com o markup do admin.html
+	  const first = (u.nome || 'Admin').trim().split(/\s+/)[0];
+	  const nav = document.querySelector('nav');
+	  if (nav) {
+	    nav.innerHTML = `
+	      <div class="nav-inner">
+	        <div class="left-group">
+	          <p class="brand">CodeStore</p>
+	        </div>
+
+	        <h1 class="admin-title">Área Administrativa</h1>
+
+	        <div class="icons">
+	          <span id="greet" class="greet">Bem-vindo, <strong id="firstName">${first}</strong>!</span>
+
+	          <div class="profile-wrap" id="profileWrap" aria-haspopup="true" aria-expanded="false">
+	            <a class="profile-link" href="./perfil.html" aria-label="Ir para o perfil">
+	              <span class="material-icons">person</span>
+	            </a>
+
+	          </div>
+	        </div>
+	      </div>`;
+	  }
+
+	  // tira a busca/carrinho da versão loja (se existirem)
+	  document.querySelector('form.search')?.remove();
+	  document.getElementById('cartWrap')?.remove();
+
+	  // reatacha interações do mini-profile e logout
+	  const profileWrap = document.getElementById('profileWrap');
+	  let profileHideTimer;
+	  profileWrap?.addEventListener('mouseenter', () => {
+	    clearTimeout(profileHideTimer);
+	    profileWrap.classList.add('open');
+	    profileWrap.setAttribute('aria-expanded', 'true');
+	  });
+	  profileWrap?.addEventListener('mouseleave', () => {
+	    profileHideTimer = setTimeout(() => {
+	      profileWrap.classList.remove('open');
+	      profileWrap.setAttribute('aria-expanded', 'false');
+	    }, 120);
+	  });
+	  profileWrap?.addEventListener('click', (e) => {
+	    const link = e.target.closest('.profile-link');
+	    if (link) { window.location.href = './perfil.html'; return; }
+	    const isOpen = profileWrap.classList.toggle('open');
+	    profileWrap.setAttribute('aria-expanded', String(isOpen));
+	  });
+	  document.getElementById('logoutBtn')?.addEventListener('click', () => {
+	    localStorage.clear();
+	    window.location.href = './index.html';
+	  });
+
+	} else {
+	  carregarPedidosDoUsuario(u.id);
+	}
+
+
   }
 
   function carregarPedidosDoUsuario(uid) {

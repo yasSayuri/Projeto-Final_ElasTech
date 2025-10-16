@@ -1,3 +1,4 @@
+
 /*LAYOUT DO FORM CONTAINER */
 .cadastro-container {
   width: 100%;
@@ -225,3 +226,8 @@
     grid-template-columns: 1fr;
   }
 }
+
+.page-cad-prod footer { display: none; }
+
+html, body { overflow-x: hidden; }
+

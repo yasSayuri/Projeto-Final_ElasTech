@@ -331,4 +331,160 @@ body {
 .btn-cancel:hover { background: #d1d5db; }
 
 
+:root { --nav-h: 64px; }
+
+/* ====== NAVBAR ADMIN — escopo só quando body.is-admin ====== */
+body.is-admin nav {
+  background: #9AD4C6;
+  padding: 12px 20px;
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 1000;
+  border-bottom: none; /* garante que não soma com estilos da loja */
+}
+
+body.is-admin .nav-inner {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 12px;
+}
+
+body.is-admin .left-group { 
+  display: flex; 
+  align-items: center; 
+  gap: 16px; 
+}
+
+body.is-admin .brand { 
+  font-weight: 700; 
+  font-size: 1.4rem; 
+  color: #fff; 
+}
+
+body.is-admin .admin-title { 
+  font-size: 1.2rem; 
+  color: #fff; 
+  font-weight: 800; 
+  text-align: center; 
+  margin: 0; 
+}
+
+body.is-admin .icons { 
+  display: flex; 
+  align-items: center; 
+  justify-content: flex-end; 
+  gap: 12px; 
+}
+
+body.is-admin .material-icons { 
+  color: #fff; 
+  font-size: 28px; 
+  line-height: 1; 
+}
+
+/* mini-profile */
+body.is-admin .profile-wrap { 
+  position: relative; 
+  display: inline-flex; 
+  align-items: center; 
+}
+
+body.is-admin .profile-link { 
+  display: inline-flex; 
+  color: #fff; 
+  text-decoration: none; 
+}
+
+body.is-admin .profile-link .material-icons { 
+  transition: transform .18s ease; 
+}
+
+body.is-admin .profile-link:hover .material-icons,
+body.is-admin .profile-wrap.open .profile-link .material-icons { 
+  transform: scale(1.18); 
+}
+
+body.is-admin .mini-profile {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 220px;
+  background: #fff;
+  border: 1px solid #e6eaee;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.12);
+  display: none;
+  z-index: 40;
+  padding: 12px;
+}
+
+body.is-admin .profile-wrap.open .mini-profile { display: block; }
+
+body.is-admin .mini-arrow {
+  position: absolute;
+  top: -8px;
+  right: 5px;
+  width: 14px; height: 14px;
+  background: #fff;
+  border-left: 1px solid #e6eaee;
+  border-top: 1px solid #e6eaee;
+  transform: rotate(45deg);
+}
+
+body.is-admin .mini-profile-body { 
+  display: grid; 
+  justify-items: center; 
+  gap: 10px; 
+}
+
+body.is-admin .mini-profile .avatar { 
+  font-size: 44px; 
+  color: #7b8794; 
+}
+
+body.is-admin .mini-profile .mini-name { 
+  color: #1f2b37; 
+  font-weight: 800; 
+}
+
+body.is-admin .btn-mini.logout {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px;
+  border: 1px solid #9ad4c6;
+  border-radius: 10px;
+  background: #9ad4c6;
+  cursor: pointer;
+  font-weight: 700;
+  color: #222;
+  transition: background .2s ease, transform .12s ease;
+}
+body.is-admin .btn-mini.logout:hover { 
+  background: #83B4A8; 
+  transform: translateY(-1px); 
+}
+
+/* Ajuste de layout do conteúdo com nav fixa */
+body.is-admin .perfil-container {
+  padding-top: calc(var(--nav-h) + 16px);
+}
+
+/* Saudação */
+body.is-admin .greet { 
+  color: #ffffff; 
+  font-weight: 600; 
+  white-space: nowrap; 
+}
+body.is-admin .greet strong { 
+  color: #ffffff; 
+  font-weight: 800; 
+}
+
+/* Responsivo */
+@media (max-width: 720px) {
+  body.is-admin .nav-inner{ grid-template-columns: auto auto auto; }
+  body.is-admin .admin-title{ font-size: clamp(1rem, 3vw, 1.2rem); }
+}
 
