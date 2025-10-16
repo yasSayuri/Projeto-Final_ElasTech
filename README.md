@@ -1,4 +1,4 @@
-# 🛒 CodeStore — Projeto Final Bootcamp #ElasTech PagBank 
+# 🛒 CodeStore: Projeto Final Bootcamp #ElasTech PagBank 
 
 # 📖 Descrição do Projeto
 
