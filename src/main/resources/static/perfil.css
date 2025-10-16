@@ -5,10 +5,9 @@
   font-family: "Arial", sans-serif;
 }
 
-/* Cabeçalho */
 .perfil-container {
   
-  margin-left: 50px;      /* centraliza horizontalmente */
+  margin-left: 50px;
 }
 .perfil-container h1 {
   color: #222;

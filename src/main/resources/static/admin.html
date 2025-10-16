@@ -66,16 +66,75 @@
         </aside>
 
         <main class="content">
-            <h2>Estoque de produtos</h2>
-        </main>
+            <div class="header-produtos">
+                <h2>Estoque de produtos</h2>
+                <button class="btn-novo-produto">+ Novo Produto</button>
+            </div>
 
-        <div>
-            <button class="btn-novo-produto">+ Novo Produto</button>
-        </div>
+            <div id="lista-produtos"></div>
+        </main>
     </div>
 
     <footer>
         CodeStore - Todos os Direitos Reservados
     </footer>
+
+    <script>
+        async function carregarProdutos() {
+            try {
+                const response = await fetch('http://localhost:8080/api/produtos'); 
+                if (!response.ok) throw new Error('Erro ao buscar produtos');
+                const produtos = await response.json();
+
+                const container = document.getElementById('lista-produtos');
+                container.innerHTML = '';
+
+                produtos.forEach(produto => {
+                    container.innerHTML += `
+                        <div class="produto" data-id="${produto.id}">
+                            <h3>${produto.nome}</h3>
+                            <p>R$ ${produto.preco}</p>
+                            <button onclick="editarProduto(${produto.id})">Editar</button>
+                            <button onclick="deletarProduto(${produto.id})">Deletar</button>
+                        </div>
+                    `;
+                });
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        async function deletarProduto(id) {
+            try {
+                await fetch(`http://localhost:8080/api/produtos/${id}`, { method: 'DELETE' });
+                carregarProdutos();
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        function editarProduto(id) {
+            const novoNome = prompt("Digite o novo nome do produto:");
+            const novoPreco = prompt("Digite o novo preço do produto:");
+            if (novoNome && novoPreco) {
+                atualizarProduto(id, { nome: novoNome, preco: parseFloat(novoPreco) });
+            }
+        }
+
+        async function atualizarProduto(id, novoProduto) {
+            try {
+                await fetch(`http://localhost:8080/api/produtos/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(novoProduto)
+                });
+                carregarProdutos();
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        window.onload = carregarProdutos;
+    </script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-# 🛒 CodeStore — Projeto Final Bootcamp #ElasTech PagBank 
+# 🛒 CodeStore: Projeto Final Bootcamp #ElasTech PagBank 
 
 # 📖 Descrição do Projeto
 
@@ -133,15 +133,16 @@ ou sirva os arquivos com uma extensão como Live Server (VSCode).
 
 🧪 **Endpoints Principais (Exemplo)**
 
-| Método | Endpoint                 | Descrição                        |
-|--------|--------------------------|----------------------------------|
-| GET    | /produtos                | Lista todos os produtos          |
-| GET    | /produtos/{id}           | Retorna produto por ID           |
-| POST   | /produtos                | Cadastra novo produto (admin)    |
-| PUT    | /produtos/{id}           | Atualiza produto existente       |
-| DELETE | /produtos/{id}           | Exclui produto (admin)           |
-| POST   | /pedidos                 | Cria um novo pedido              |
-| PUT    | /pedidos/{id}/status     | Atualiza status do pedido        |
+| **Método** | **Endpoint** | **Descrição** |
+| --- | --- | --- |
+| GET | /api/produtos | Lista todos os produtos |
+| GET | api/produtos/{id} | Retorna produto por ID |
+| POST | /api/produtos/salvar | Cadastra novo produto (admin) |
+| PUT | /api/produtos/atualizar/{id} | Atualiza produto existente |
+| DELETE | api/produtos/{id} | Exclui produto (admin) |
+| GET | api/produtos/produtoNome/{nome} | Lista produtos pelo nome |
+| GET | api/produtos/precoAsc | Lista produtos ordenados pelo preço, do menor ao maior |
+| GET | api/produtos/precoDesc | Lista produtos ordenados pelo preço, do maior ao menor |
 
 # 🎨 Interface e Experiência do Usuário
 
@@ -166,9 +167,10 @@ O CodeStore oferece:
 
 ✅ Documentação completa
 
-| Integrante           | GitHub                                    | Cargo                                      | Foto                                                                 |
-|----------------------|-------------------------------------------|-------------------------------------------|----------------------------------------------------------------------|
-| Maria de Fátima      | [alvesmariadefatima](https://github.com/alvesmariadefatima) | UX Designer & Desenvolvedora Full-Stack  | <img src="https://avatars.githubusercontent.com/u/94319702?v=4" width="80"/> |
-| Yasmin Sayuri        | [yasSayuri](https://github.com/yasSayuri) | UX Designer & Desenvolvedora Full-Stack  | <img src="https://avatars.githubusercontent.com/u/122479117?v=4" width="80"/> |
-| Delfina Vicente             | [Delfina8](https://github.com/Delfina8)   | Desenvolvedora Backend                    | <img src="https://avatars.githubusercontent.com/u/112349738?v=4" width="80"/> |
-| Beatriz Balestrieiro | [beatrizbalestrieiro](https://github.com/beatrizbalestrieiro) | Desenvolvedora Frontend                   | <img src="https://avatars.githubusercontent.com/u/237589687?v=4" width="80"/> |
+| Integrante           | GitHub                                                                 | Foto                                                                 |
+|----------------------|----------------------------------------------------------------------|----------------------------------------------------------------------|
+| Maria de Fátima      | [alvesmariadefatima](https://github.com/alvesmariadefatima)         | <img src="https://avatars.githubusercontent.com/u/94319702?v=4" width="80"/> |
+| Yasmin Sayuri        | [yasSayuri](https://github.com/yasSayuri)                           | <img src="https://avatars.githubusercontent.com/u/122479117?v=4" width="80"/> |
+| Delfina Vicente      | [Delfina8](https://github.com/Delfina8)                              | <img src="https://avatars.githubusercontent.com/u/112349738?v=4" width="80"/> |
+| Beatriz Balestrieiro | [beatrizbalestrieiro](https://github.com/beatrizbalestrieiro)       | <img src="https://avatars.githubusercontent.com/u/237589687?v=4" width="80"/> |
+| Isabella Teixeira    | [bellasilva015](https://github.com/bellasilva015)                    | <img src="https://avatars.githubusercontent.com/u/237448436?v=4" width="80"/> |

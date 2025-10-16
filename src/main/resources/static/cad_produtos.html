@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+ <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Entrar • CodeStore</title>
+  <link rel="stylesheet" href="cad_produtos.css">
+  <link rel="stylesheet" href="./loja.css"> 
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+</head>
+<body>
+  <!-- Cabeçalho -->
+  <nav>  
+    <div class="nav-inner"> 
+      <div class="left-group"> 
+        <p class="brand">CodeStore</p>
+
+        <form class="search" role="search" action="/buscar" method="GET" aria-label="Pesquisar"> 
+          <span class="material-icons" id="src-icon" style="color: #9aa0a6;">search</span>
+          <input id="search-input" name="q" type="search" placeholder="Pesquisar..." />
+        </form>
+      </div>
+
+	  <div class="icons">
+	    <div class="cart-wrap" id="cartWrap" aria-haspopup="true" aria-expanded="false">
+	      <a class="cart-link" href="./carrinho.html" aria-label="Ir para o carrinho">
+	        <span class="material-icons">shopping_cart</span>
+	      </a>
+
+	      <div class="mini-cart" id="miniCart" role="dialog" aria-label="Prévia do carrinho">
+	        <div class="mini-arrow"></div>
+	        <div class="mini-cart-body" id="miniCartBody"></div>
+	        <div class="mini-cart-footer">
+	          <div class="mini-total"><span>Total:</span><span id="miniTotal">R$ 0,00</span></div>
+	          <a href="./carrinho.html" class="btn-mini">Ver carrinho</a>
+	        </div>
+	      </div>
+	    </div>
+
+	    <span class="material-icons" style="color: #FFD700;">favorite</span>
+      <a class="cart-link" href="./perfil.html" aria-label="Ir para o perfil">
+	        <span class="material-icons">person</span>
+	      </a>
+	  </div>
+    </div>
+  </nav>
+
+  <!-- Conteúdo principal -->
+  <main class="cadastro-container">
+    <h1>Cadastrar Produto</h1>
+
+    <form class="form-cadastro">
+      <label for="nome">Nome:</label>
+      <input type="text" id="nome" name="nome" required>
+
+      <label for="descricao">Descrição do Produto:</label>
+      <textarea id="descricao" name="descricao" rows="4" required></textarea>
+
+      <label for="preco">Preço:</label>
+      <input type="number" id="preco" name="preco" step="0.01" required>
+
+      <label for="foto">Upload de foto</label>
+      <input type="file" id="foto" name="foto" accept=".jpg, .jpeg, .png" required>
+      <p class="alerta-extensoes">Arquivos aceitáveis: jpg , jpeg e png</p>
+
+      <label for="categoria">Categoria</label>
+      <select id="categoria" name="categoria" required>
+        <option value="">Selecione a categoria do produto</option>
+        <option value="roupas">Roupas</option>
+        <option value="acessorios">Acessórios</option>
+        <option value="calcados">Calçados</option>
+        <option value="eletronicos">Eletrônicos</option>
+      </select>
+
+      <div class="buttons">
+        <button type="button" class="btn-back">Voltar</button>
+        <button type="submit" class="btn-save">Cadastrar Produto</button>
+      </div>
+    </form>
+  </main>
+  
+  <!-- Rodapé -->
+  <footer class="footer">
+    <p>CodeStore - Todos os Direitos Reservados</p>
+  </footer>
+</body>
+<script src="./script.js"></script>
+</html>
