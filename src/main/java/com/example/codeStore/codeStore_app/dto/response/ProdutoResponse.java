@@ -1,6 +1,12 @@
 package com.example.codeStore.codeStore_app.dto.response;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
+
+import com.example.codeStore.codeStore_app.model.Pedido;
+
+import jakarta.persistence.ManyToMany;
 
 public class ProdutoResponse {
 	
@@ -9,8 +15,10 @@ public class ProdutoResponse {
 	private String descricao;
 	private BigDecimal preco;
 	private String categoriaProduto;
-
-
+	
+	@ManyToMany(mappedBy = "produtos")
+	private Set<Pedido> pedidos = new HashSet<Pedido>();
+	
 	public Long getId() {
 		return id;
 	}
@@ -51,4 +59,11 @@ public class ProdutoResponse {
 		this.categoriaProduto = categoriaProduto;
 	}
 	
+	public Set<Pedido> getPedidos() {
+		return pedidos;
+	}
+
+	public void setPedidos(Set<Pedido> pedidos) {
+		this.pedidos = pedidos;
+	}
 }
