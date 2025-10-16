@@ -131,18 +131,41 @@ O backend será iniciado em:
 Abra o arquivo frontend/index.html diretamente no navegador
 ou sirva os arquivos com uma extensão como Live Server (VSCode).
 
-🧪 **Endpoints Principais (Exemplo)**
+🧪 **Endpoints Da API**
 
+Produto
 | **Método** | **Endpoint** | **Descrição** |
 | --- | --- | --- |
 | GET | /api/produtos | Lista todos os produtos |
 | GET | api/produtos/{id} | Retorna produto por ID |
+| GET | api/produtos/precoDesc | Lista produtos ordenados pelo preço, do maior ao menor |
+| GET | api/produtos/precoAsc | Lista produtos ordenados pelo preço, do menor ao maior |
+| GET | api/produtos/produtoNome/{nome} | Lista produtos pelo nome |
 | POST | /api/produtos/salvar | Cadastra novo produto (admin) |
 | PUT | /api/produtos/atualizar/{id} | Atualiza produto existente |
 | DELETE | api/produtos/{id} | Exclui produto (admin) |
-| GET | api/produtos/produtoNome/{nome} | Lista produtos pelo nome |
-| GET | api/produtos/precoAsc | Lista produtos ordenados pelo preço, do menor ao maior |
-| GET | api/produtos/precoDesc | Lista produtos ordenados pelo preço, do maior ao menor |
+
+Usuário
+| **Método** | **Endpoint** | **Descrição** |
+| --- | --- | --- |
+| GET | api/usuarios | Lista todos os usuários |
+| GET | api/usuarios/{id} | Pesquisa o usuário por ID |
+| GET | /api/usuarios/buscarEmail/{email} | Pesquisa o usuário por e-mail |
+| POST | api/usuarios/cadastrar | Cadastra um usuário |
+| POST | api/usuarios/login | Simula o login do usuário |
+| PUT | api/usuarios/{id} | Atualiza o usuário |
+| PACTH | api/usuarios/{id} | Atualiza parcialmente o usuário |
+| DELETE | api/usuarios/{id} | Apaga o usuário |
+
+Pedido
+| **Método** | **Endpoint** | **Descrição** |
+| --- | --- | --- |
+| GET | /api/pedidos | Lista todos os pedidos |
+| GET | api/pedidos/{id} | Retorna pedido por ID |
+| POST | /api/pedidos | Cadastra novo pedido |
+| PUT | api/pedidos/{id} | Atualiza o pedido |
+| DELETE | api/produtos/{id} | Exclui o pedido |
+
 
 # 🎨 Interface e Experiência do Usuário
 
