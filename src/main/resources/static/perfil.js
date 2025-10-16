@@ -115,6 +115,38 @@
 	}
 
     if (!u) return;
+	
+	const btnExcluir = byId('btnExcluirConta');
+	const modalExcluir = byId('modalExcluir');
+	const btnConfirmarExcluir = byId('btnConfirmarExcluir');
+	const btnCancelarExcluir = byId('btnCancelarExcluir');
+
+	if (btnExcluir && modalExcluir) {
+	  btnExcluir.addEventListener('click', () => {
+	    modalExcluir.classList.add('show');
+	  });
+
+	  btnCancelarExcluir?.addEventListener('click', () => {
+	    modalExcluir.classList.remove('show');
+	  });
+
+	  btnConfirmarExcluir?.addEventListener('click', async () => {
+	    const u = await ensureUser();
+	    if (!u) return;
+	    try {
+	      const r = await fetch(`/api/usuarios/${u.id}`, { method: 'DELETE' });
+	      if (r.ok || r.status === 204) {
+	        modalExcluir.classList.remove('show');
+	        localStorage.clear();
+	        window.location.href = './index.html?account=deleted';
+	        return;
+	      }
+	      mostrarToast('Erro ao excluir conta.');
+	    } catch {
+	      mostrarToast('Falha de conexão.');
+	    }
+	  });
+	}
 
     const vNome = byId('vNome'), vEmail = byId('vEmail'), vTelefone = byId('vTelefone');
     if (vNome) vNome.textContent = u.nome || u.name || '';

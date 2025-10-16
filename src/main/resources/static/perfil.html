@@ -110,6 +110,7 @@
           </div>
           <p class="hint">Mínimo de 8 caracteres.</p>
         </form>
+		<button id="btnExcluirConta" class="btn-delete" type="button">deletar minha conta</button>
       </aside>
     </div>
 
@@ -135,6 +136,18 @@
   <footer class="footer"> 
     <p>CodeStore - Todos os Direitos Reservados</p> 
   </footer> 
+  
+  <!-- Modal de confirmação -->
+  <div class="modal-overlay" id="modalExcluir">
+    <div class="modal">
+      <h3>Tem certeza que deseja deletar sua conta?</h3>
+      <p>Esta ação é irreversível e todas as suas informações serão permanentemente excluídas.</p>
+      <div class="modal-actions">
+        <button id="btnConfirmarExcluir" class="btn-confirm">Sim, deletar</button>
+        <button id="btnCancelarExcluir" class="btn-cancel">Cancelar</button>
+      </div>
+    </div>
+  </div>
 
   <script src="./perfil.js"></script> 
 </body>
