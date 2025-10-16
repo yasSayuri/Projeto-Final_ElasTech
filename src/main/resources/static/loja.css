@@ -577,3 +577,86 @@ footer{
   margin-right: 24px;
 }
 
+/* SORT BAR — alinhada à esquerda e largura só do conteúdo */
+.sort-bar {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  margin: 16px 20px 0;
+}
+
+.sort-bar label {
+  font-weight: 700;
+  color: #0f172a;
+}
+
+/* container */
+.custom-select {
+  position: relative;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #0f172a;
+  user-select: none;
+}
+
+/* botão principal */
+.custom-select .selected {
+  border: 1px solid #9AD4C6;
+  border-radius: 8px;
+  padding: 8px 12px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 140px;
+  transition: all 0.2s ease;
+}
+
+.custom-select .selected::after {
+  content: "▾";
+  color: #9AD4C6;
+  margin-left: 8px;
+}
+
+/* opções */
+.custom-select .options {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 1px solid #9AD4C6;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,.08);
+  display: none;
+  list-style: none;
+  padding: 4px;
+  margin: 0;
+  z-index: 100;
+}
+
+.custom-select.open .options {
+  display: block;
+}
+
+.custom-select .options li {
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.custom-select .options li:hover {
+  background: #9AD4C6;
+  color: #fff;
+}
+
+.custom-select .options li.active {
+  background: #f0faf7;
+  color: #0f172a;
+  font-weight: 700;
+}
