@@ -110,7 +110,7 @@ nav{
   gap:8px;
   background:#9AD4C6;
   color:#fff;
-  padding:10px 12px;
+  padding:11px 12px;
   border:none;
   border-radius:14px;
   cursor:pointer;
@@ -180,4 +180,42 @@ footer{
   color: #ffffff; 
   font-weight: 800;
 }
+
+.header-produtos {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.header-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-dados {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #9AD4C6;       
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  padding: 8px 12px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .08);
+}
+
+.btn-dados:hover {
+	background:#83B4A8;
+	transform:translateY(-1px);
+	box-shadow:0 8px 18px rgba(0,0,0,.12);
+}
+
+
 
