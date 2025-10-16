@@ -39,33 +39,6 @@ Inclui endpoints para:
 | Usuario    | 1 → N         | Pedido     |
 | Pedido     | N → N         | Produto    |
 
-# 📦 Estrutura de Pastas
-
-<pre> ``` CodeStore/ 
-            ├── backend/
-            │ ├── src/main/java/com/codestore/ 
-            │ │ ├── controller/ 
-            │ │ ├── model/ 
-            │ │ ├── repository/ 
-            │ │ ├── service/ 
-            │ │ └── CodestoreApplication.java 
-            │ ├── src/main/resources/ 
-            │ │ ├── application.properties 
-            │ │ └── data.sql 
-            │ └── pom.xml 
-            │ ├── frontend/ 
-            │ ├── index.html
-            │ ├── admin.html 
-            │ ├── carrinho.html
-            │ ├── css/ 
-            │ │ └── style.css 
-            │ ├── js/ 
-            │ │ ├── main.js 
-            │ │ └── carrinho.js
-            │ └── assets/
-            │ └── imagens-produtos/ 
-            │ └── README.md ``` </pre>
-
 # ⚙️ Funcionalidades Principais
 
 👤 **Usuário**
