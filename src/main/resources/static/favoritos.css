@@ -1,0 +1,158 @@
+/* =========================
+   Base / Reset
+   ========================= */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  display: flex;
+  flex-direction: column;
+  font-family: "Segoe UI", system-ui, Arial, sans-serif;
+  color: #111827;
+  background: #fff;
+}
+
+/* =========================
+   Navbar
+   ========================= */
+nav { background: #9ad4c6; padding: 12px 20px; }
+.nav-inner { display: flex; align-items: center; justify-content: space-between; }
+.left-group { display: flex; align-items: center; gap: 16px; }
+.brand { font-weight: 700; font-size: 1.4rem; color: #fff; }
+.search { display: flex; align-items: center; background: #f3f4f6; border-radius: 9999px; padding: 6px 12px; width: 240px; }
+.search input { border: none; outline: none; background: transparent; font-size: .95rem; width: 100%; color: #111827; }
+.search input::placeholder { color: #9aa0a6; }
+.icons { display: flex; align-items: center; gap: 20px; }
+.icons .material-icons { color: #fff; cursor: pointer; transition: transform .2s ease; }
+.icons .material-icons:hover { transform: scale(1.1); }
+.cart-link, .profile-link { text-decoration: none; outline: none; }
+
+/* =========================
+   Container principal (mais largo)
+   ========================= */
+   .container {
+     /* usa quase toda a tela — só 6% de margem lateral total */
+     width: min(95vw, 1200px);
+     margin: 24px auto 0;
+     padding: 0 40px 32px;
+     display: flex;
+     flex-direction: column;
+     flex: 1;
+     min-height: 0;
+     gap: 16px;
+   }
+
+.back-link{
+  display:inline-block; color:#099683; text-decoration:none; margin-bottom:6px;
+}
+.back-link:hover{ color:#06695f; text-decoration:underline; }
+.page-title{ font-size:2rem; margin-bottom:6px; }
+
+/* =========================
+   Favoritos (prepara layout com scroll interno)
+   ========================= */
+   .fav-box {
+     background: #fff;
+     border: 1px solid #e5e7eb;
+     border-radius: 12px;
+     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+     display: grid;
+     grid-template-rows: auto 1fr;
+     width: 100%;
+     height: clamp(600px, 78vh, 900px); /* mais alto */
+     overflow: hidden;
+   }
+
+
+/* Cabeçalho com sticky para ficar visível durante o scroll */
+.fav-head{
+  display:grid;
+  grid-template-columns: 2fr 0.7fr 0.4fr;
+  gap:16px;
+  padding:14px 18px;
+  border-bottom:1px solid #e5e7eb;
+  color:#6b7280;
+  font-weight:700;
+
+  position: sticky; /* gruda no topo da fav-box */
+  top: 0;
+  background:#fff;
+  z-index: 1;
+}
+
+/* Corpo com SCROLL interno */
+.fav-body{
+  overflow:auto;
+  min-height: 0; /* necessário para o overflow funcionar dentro do grid */
+}
+
+/* Linha */
+.fav-row{
+  display:grid;
+  grid-template-columns: 2fr 0.7fr 0.4fr;
+  gap:16px;
+  align-items:center;
+  padding:16px 18px;
+  border-bottom:1px solid #f0f0f0;
+}
+.fav-row:last-child{ border-bottom:0; }
+
+/* Produto (thumb + infos) */
+.prod{ display:grid; grid-template-columns: 112px 1fr; gap:14px; align-items:center; }
+.thumb{
+  width:112px; height:84px; border-radius:10px;
+  background:#e5e7eb center/cover no-repeat;
+}
+.info .name{ font-weight:700; margin-bottom:4px; line-height:1.3; }
+.info .attrs{ color:#6b7280; font-size:.92rem; }
+
+/* Preço e ações */
+.price{ color:#374151; font-weight:600; }
+.actions{ display:flex; align-items:center; gap:8px; }
+.remove-icon{ color:#e0605e; font-size:22px; cursor:pointer; transition:transform .2s ease, color .2s ease; }
+.remove-icon:hover{ transform:scale(1.2); color:#b71c1c; }
+
+/* Vazio */
+.empty{ padding:22px; color:#6b7280; text-align:center; }
+
+/* =========================
+   Scrollbar bonitinha (opcional)
+   ========================= */
+.fav-body::-webkit-scrollbar{ width: 10px; }
+.fav-body::-webkit-scrollbar-track{ background:#f3f4f6; border-radius:10px; }
+.fav-body::-webkit-scrollbar-thumb{ background:#cfd8dc; border-radius:10px; }
+.fav-body::-webkit-scrollbar-thumb:hover{ background:#b0bec5; }
+
+/* =========================
+   Footer
+   ========================= */
+footer{
+  width:100%; background:#a6e7d9; color:#222;
+  display:flex; align-items:center; justify-content:center;
+  padding:16px; box-shadow:0 -6px 18px rgba(0,0,0,.06);
+}
+
+/* =========================
+   Toast
+   ========================= */
+.toast{
+  position:fixed; left:50%; top:10%;
+  transform:translate(-50%,-50%) scale(.98);
+  background:#ffd166; color:#fff; padding:14px 28px; border-radius:12px; font-weight:600;
+  box-shadow:0 8px 20px rgba(0,0,0,.25); z-index:3000; opacity:0; pointer-events:none;
+  transition:transform .2s ease, opacity .2s ease; will-change:transform,opacity;
+}
+.toast.show{ opacity:1; transform:translate(-50%,-50%) scale(1); }
+
+/* =========================
+   Responsivo
+   ========================= */
+@media (max-width: 1200px){
+  .fav-head, .fav-row{ grid-template-columns: 2fr 0.8fr 0.5fr; }
+  .prod{ grid-template-columns: 96px 1fr; }
+  .thumb{ width:96px; height:72px; }
+}
+@media (max-width: 860px){
+  /* empilha melhor em telas menores */
+  .fav-head, .fav-row{ grid-template-columns: 1.6fr .7fr .3fr; }
+  .container{ max-width: 96vw; padding: 0 16px 20px; }
+}

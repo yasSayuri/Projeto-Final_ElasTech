@@ -64,9 +64,42 @@ async function syncPedidoBackend(statusOverride){
       const data = await r.json();
       if (data && data.id) setPedidoId(data.id);
     } else {
-      await fetch(`${API_PEDIDOS}/${pedidoId}`, { method: "PUT", headers: {"Content-Type":"application/json"}, body: JSON.stringify({ ...body, id: Number(pedidoId) }) });
+      await fetch(`${API_PEDIDOS}/${pedidoId}`, {
+        method: "PUT",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({ ...body, id: Number(pedidoId) })
+      });
     }
   } catch(err){}
+}
+
+// ====== FAVORITOS helpers ======
+function loadFavoritos(){ return JSON.parse(localStorage.getItem(k('favoritos')) || '[]'); }
+function saveFavoritos(favs){ localStorage.setItem(k('favoritos'), JSON.stringify(favs)); }
+function isFav(id){ return loadFavoritos().some(f => Number(f.id) === Number(id)); }
+
+function toggleFavorito(produto){
+  let favs = loadFavoritos();
+  const idx = favs.findIndex(f => Number(f.id) === Number(produto.id));
+  if (idx >= 0) {
+    favs.splice(idx,1);
+    saveFavoritos(favs);
+    mostrarToast('Removido dos favoritos!');
+    return false; // agora não é mais favorito
+  } else {
+    // salva apenas os campos usados em favoritos.html
+    const novo = {
+      id: produto.id,
+      nome: produto.nome,
+      preco: produto.preco,
+      img: produto.img,
+      categoria: produto.categoria
+    };
+    favs.push(novo);
+    saveFavoritos(favs);
+    mostrarToast('Adicionado aos favoritos!');
+    return true; // agora é favorito
+  }
 }
 
 // ====== CATÁLOGO da API (fallback ao array antigo) ======
@@ -95,6 +128,7 @@ async function carregarProdutos() {
       _raw: p
     }));
   } catch {
+    // fallback local (mesmo seu array)
     produtos = [
       {id:1, nome:"Computador Desktop Apple",preco:49.90,img:"./assets/computador-desktop-apple.jpg",categoria:"Computadores"},
       {id:2, nome:"Computador Desktop Intel Core",preco:45.90,img:"./assets/computador-desktop-intel-core.jpg",categoria:"Computadores"},
@@ -131,7 +165,11 @@ async function carregarProdutos() {
 // ====== RENDER LOJA ======
 const elLista = document.getElementById('produtos');
 const links = document.querySelectorAll('.cat-link');
-const iconeFavorito = '<span class="material-icons" style="color:#FFD700;">favorite</span>';
+const iconeFavorito = id => {
+  const active = isFav(id);
+  // aria-pressed e classe ajudam na acessibilidade/estilo
+  return `<span class="material-icons fav-toggle${active?' is-fav':''}" aria-pressed="${active}" title="${active?'Remover dos favoritos':'Adicionar aos favoritos'}">favorite</span>`;
+};
 const iconeCarrinho = '<span class="material-icons add-cart">shopping_cart</span>';
 
 function formatarPreco(v){ return v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'}); }
@@ -143,7 +181,7 @@ function cardTemplate(p){
       <p>${p.nome}</p>
       <p>${formatarPreco(p.preco)}</p>
       <div class="icon-card">
-        ${iconeFavorito}
+        ${iconeFavorito(p.id)}
         ${iconeCarrinho}
       </div>
     </div>
@@ -170,14 +208,39 @@ links.forEach(a=>{
   });
 });
 
-// ====== AÇÕES CARRINHO ======
+// ====== AÇÕES CARRINHO + FAVORITOS ======
 function addClickListeners() {
+  // carrinho
   document.querySelectorAll('.add-cart').forEach(btn => {
     btn.addEventListener('click', async e => {
       const produtoEl = e.target.closest('.produto');
       const id = parseInt(produtoEl.dataset.id, 10);
       const produto = produtos.find(p => p.id === id);
       await adicionarAoCarrinho(produto);
+    });
+  });
+
+  // favoritos
+  document.querySelectorAll('.fav-toggle').forEach(btn => {
+    btn.addEventListener('click', e => {
+      const produtoEl = e.target.closest('.produto');
+      if (!produtoEl) return;
+      const id = parseInt(produtoEl.dataset.id, 10);
+      const produto = produtos.find(p => p.id === id);
+      if (!produto) return;
+
+      const nowFav = toggleFavorito(produto);
+
+      // atualiza UI do coração
+      if (nowFav) {
+        e.target.classList.add('is-fav');
+        e.target.setAttribute('aria-pressed','true');
+        e.target.title = 'Remover dos favoritos';
+      } else {
+        e.target.classList.remove('is-fav');
+        e.target.setAttribute('aria-pressed','false');
+        e.target.title = 'Adicionar aos favoritos';
+      }
     });
   });
 }

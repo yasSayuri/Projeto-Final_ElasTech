@@ -3,7 +3,20 @@
   const byId = (id) => document.getElementById(id);
   const jget = (k) => { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } };
 
+  // ===== Toast helper (igual ao resto do site)
+  function mostrarToast(msg){
+    const antigo = document.querySelector('.toast');
+    if (antigo) antigo.remove();
+    const t = document.createElement('div');
+    t.className = 'toast';
+    t.textContent = msg;
+    document.body.appendChild(t);
+    requestAnimationFrame(()=> t.classList.add('show'));
+    setTimeout(()=>{ t.classList.remove('show'); setTimeout(()=>t.remove(), 250); }, 2200);
+  }
+
   let user = jget('user');
+
   async function fetchMe() {
     try {
       const r = await fetch('/api/usuarios/me', { headers: { 'Accept': 'application/json' } });
@@ -13,6 +26,7 @@
       return me;
     } catch { return null; }
   }
+
   async function ensureUser() {
     if (user && user.id) return user;
     const me = await fetchMe();
@@ -49,7 +63,7 @@
     const t = (p.total != null) ? Number(p.total) : (subtotal - desconto + frete);
     return isNaN(t) ? 0 : t;
   }
-  
+
   function getCategoriasStore() {
     const user = JSON.parse(localStorage.getItem('user') || 'null');
     const key = user?.id ? `categorias_por_pedido_${user.id}` : 'categorias_por_pedido';
@@ -62,11 +76,11 @@
     if (!entry) return '—';
     return (typeof entry === 'string') ? entry : (entry.categorias || '—');
   }
-  
+
   function thumbSnapshot(pedidoId){
     const store = getCategoriasStore();
     const entry = store[String(pedidoId)];
-    if (!entry || typeof entry === 'string') return null; 
+    if (!entry || typeof entry === 'string') return null;
     return entry.thumb || null;
   }
 
@@ -115,6 +129,7 @@
 
     $('.btn-save')?.addEventListener('click', async () => {
       ['nome','email','telefone'].forEach(k => { const el = byId('err-' + k); if (el) { el.textContent=''; el.style.display='none'; } });
+
       const nomeAtual = getSpanVal(vNome, 'nome');
       const emailAtual = getSpanVal(vEmail, 'email');
       const telAtual   = getSpanVal(vTelefone, 'telefone');
@@ -138,10 +153,18 @@
         }
       }
 
-      if (!Object.keys(payload).length) { alert('Nada para atualizar.'); return; }
+      if (!Object.keys(payload).length) {
+        mostrarToast('Nada para atualizar.');
+        return;
+      }
 
       try {
-        const r = await fetch(`/api/usuarios/${u.id}`, { method:'PATCH', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
+        const r = await fetch(`/api/usuarios/${u.id}`, {
+          method:'PATCH',
+          headers:{'Content-Type':'application/json'},
+          body: JSON.stringify(payload)
+        });
+
         if (r.ok) {
           const updated = await r.json();
           user = { ...u, ...updated };
@@ -153,9 +176,11 @@
           original.email = (vEmail?.textContent || '').trim();
           original.telefone = (user.telefone || '').replace(/\D/g, '');
           if (f) { const ns = byId('novaSenha'); const cs = byId('confirmaSenha'); if (ns) ns.value=''; if (cs) cs.value=''; }
-          alert('Dados atualizados com sucesso!');
+
+          mostrarToast('Dados atualizados com sucesso!');
           return;
         }
+
         if (r.status === 400) {
           const j = await r.json().catch(() => null);
           if (j?.errors) {
@@ -165,18 +190,20 @@
             }
             return;
           }
-          alert(j?.message || 'Erro de validação.');
+          mostrarToast(j?.message || 'Erro de validação.');
           return;
         }
+
         if (r.status === 409) {
           const j = await r.json().catch(() => null);
           const el = byId('err-email');
           if (el) { el.textContent = (j?.message || 'E-mail já cadastrado.'); el.style.display = 'block'; }
           return;
         }
-        alert('Erro ao salvar alterações.');
+
+        mostrarToast('Erro ao salvar alterações.');
       } catch {
-        alert('Falha de conexão.');
+        mostrarToast('Falha de conexão.');
       }
     });
 
@@ -222,7 +249,6 @@
       `;
     }).join('');
   }
-
 
   init();
 })();
