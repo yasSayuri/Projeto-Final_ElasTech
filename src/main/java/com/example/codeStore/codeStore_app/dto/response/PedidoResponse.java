@@ -1,14 +1,13 @@
 package com.example.codeStore.codeStore_app.dto.response;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 
 public class PedidoResponse {
 	
 	private Long id;
 
-	private Long usuarioId;
-	
 	private String nomeUsuario;
 	
 	private String status;
@@ -21,22 +20,8 @@ public class PedidoResponse {
 	
 	private BigDecimal total;
 	
-	public Long getId() {
-		return id; 
-	}
+	private List<ProdutoResponse> produtos;
 	
-    public void setId(Long id) {
-    	this.id = id; 
-    }
-	
-	public Long getUsuarioId() {
-		return usuarioId;
-	}
-	
-	public void setUsuarioId(Long usuarioId) {
-		this.usuarioId = usuarioId;
-	}
-
 	public String getNomeUsuario() {
 		return nomeUsuario;
 	}
@@ -84,6 +69,20 @@ public class PedidoResponse {
 	public void setTotal(BigDecimal total) {
 		this.total = total;
 	}
-	
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
+	public List<ProdutoResponse> getProdutos() {
+	    return produtos;
+	}
+
+	public void setProdutos(List<ProdutoResponse> produtos) {
+	    this.produtos = produtos;
+	}
 }

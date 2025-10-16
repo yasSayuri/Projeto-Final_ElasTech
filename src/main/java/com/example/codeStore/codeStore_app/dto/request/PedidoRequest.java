@@ -1,24 +1,24 @@
 package com.example.codeStore.codeStore_app.dto.request;
 
-import java.math.BigDecimal;
+import java.util.List;
 
 import com.example.codeStore.codeStore_app.enums.PedidoStatusEnum;
+
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 public class PedidoRequest {
 	private Long id;
 	
+	@NotNull
+	@Positive(message = "O id do usuário não pode ser negativo.")
 	private Long usuarioId;
 	
+	@NotNull(message = "O status é obrigatória.")
 	private PedidoStatusEnum status;
 	
-	private BigDecimal subtotal;
+	private List<ProdutoItemRequest> produtos;
 	
-	private BigDecimal descontoTotal;
-	
-	private BigDecimal frete;
-	
-
-
 	public Long getUsuarioId() {
 		return usuarioId;
 	}
@@ -35,28 +35,12 @@ public class PedidoRequest {
 		this.status = status;
 	}
 
-	public BigDecimal getSubtotal() {
-		return subtotal;
+	public List<ProdutoItemRequest> getProdutos() {
+		return produtos;
 	}
 
-	public void setSubtotal(BigDecimal subtotal) {
-		this.subtotal = subtotal;
-	}
-
-	public BigDecimal getDescontoTotal() {
-		return descontoTotal;
-	}
-
-	public void setDescontoTotal(BigDecimal descontoTotal) {
-		this.descontoTotal = descontoTotal;
-	}
-
-	public BigDecimal getFrete() {
-		return frete;
-	}
-
-	public void setFrete(BigDecimal frete) {
-		this.frete = frete;
+	public void setProdutos(List<ProdutoItemRequest> produtos) {
+		this.produtos = produtos;
 	}
 
 	public Long getId() {
