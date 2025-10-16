@@ -16,14 +16,18 @@ async function carregarProdutos(){
     el.innerHTML = '';
     lista.forEach(prod => {
       el.innerHTML += `
-        <div class="produto" data-id="${prod.id}">
-          <h3>${prod.nome}</h3>
-          <p>R$ ${Number(prod.preco).toFixed(2)}</p>
-          <div class="acoes">
-            <button onclick="editarProduto(${prod.id})">Editar</button>
-            <button class="danger" onclick="deletarProduto(${prod.id})">Deletar</button>
-          </div>
-        </div>
+	  <div class="produto" data-id="${prod.id}">
+	    <h3>${prod.nome}</h3>
+	    <p class="preco">R$ ${Number(prod.preco).toFixed(2)}</p>
+	    <div class="acoes">
+	      <button class="btn-editar" onclick="editarProduto(${prod.id})">
+	        <i class="fa-solid fa-pen-to-square"></i> Editar
+	      </button>
+	      <button class="btn-deletar" onclick="deletarProduto(${prod.id})">
+	        <i class="fa-solid fa-trash"></i> Deletar
+	      </button>
+	    </div>
+	  </div>
       `;
     });
   }catch(e){ console.error(e); }
