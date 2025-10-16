@@ -491,13 +491,11 @@ footer{
 
 /* hover do icone perfil */
 .greet {
-  font-size: 14px;
-  color: #fff;
-  margin: 0 10px;
+  color: #ffffff; 
+  font-weight: 600;
   white-space: nowrap;
-  font-weight: 600;            
-  letter-spacing: .2px;
 }
+
 
 .greet strong,
 .mini-profile .mini-name {
