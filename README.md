@@ -167,9 +167,10 @@ O CodeStore oferece:
 
 ✅ Documentação completa
 
-| Integrante           | GitHub                                    | Cargo                                      | Foto                                                                 |
-|----------------------|-------------------------------------------|-------------------------------------------|----------------------------------------------------------------------|
-| Maria de Fátima      | [alvesmariadefatima](https://github.com/alvesmariadefatima) | UX Designer & Desenvolvedora Full-Stack  | <img src="https://avatars.githubusercontent.com/u/94319702?v=4" width="80"/> |
-| Yasmin Sayuri        | [yasSayuri](https://github.com/yasSayuri) | UX Designer & Desenvolvedora Full-Stack  | <img src="https://avatars.githubusercontent.com/u/122479117?v=4" width="80"/> |
-| Delfina Vicente             | [Delfina8](https://github.com/Delfina8)   | Desenvolvedora Backend                    | <img src="https://avatars.githubusercontent.com/u/112349738?v=4" width="80"/> |
-| Beatriz Balestrieiro | [beatrizbalestrieiro](https://github.com/beatrizbalestrieiro) | Desenvolvedora Frontend                   | <img src="https://avatars.githubusercontent.com/u/237589687?v=4" width="80"/> |
+| Integrante           | GitHub                                                                 | Foto                                                                 |
+|----------------------|----------------------------------------------------------------------|----------------------------------------------------------------------|
+| Maria de Fátima      | [alvesmariadefatima](https://github.com/alvesmariadefatima)         | <img src="https://avatars.githubusercontent.com/u/94319702?v=4" width="80"/> |
+| Yasmin Sayuri        | [yasSayuri](https://github.com/yasSayuri)                           | <img src="https://avatars.githubusercontent.com/u/122479117?v=4" width="80"/> |
+| Delfina Vicente      | [Delfina8](https://github.com/Delfina8)                              | <img src="https://avatars.githubusercontent.com/u/112349738?v=4" width="80"/> |
+| Beatriz Balestrieiro | [beatrizbalestrieiro](https://github.com/beatrizbalestrieiro)       | <img src="https://avatars.githubusercontent.com/u/237589687?v=4" width="80"/> |
+| Isabella Teixeira    | [bellasilva015](https://github.com/bellasilva015)                    | <img src="https://avatars.githubusercontent.com/u/131969277?v=4" width="80"/> |
