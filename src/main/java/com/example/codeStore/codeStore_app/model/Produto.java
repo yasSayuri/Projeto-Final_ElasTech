@@ -34,7 +34,6 @@ public class Produto {
 	@Column(nullable = false, name = "categoria_produto")
 	private CategoriaProduto categoriaProduto;
 	
-	
 	public Long getId() {
 		return id;
 	}
@@ -74,5 +73,6 @@ public class Produto {
 	public void setCategoriaProduto(CategoriaProduto categoriaProduto) {
 		this.categoriaProduto = categoriaProduto;
 	}
+	
 	
 }

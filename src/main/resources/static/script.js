@@ -4,10 +4,11 @@ const CURRENT_USER = getUserSafe();
 const USER_ID = CURRENT_USER?.id || null;
 function k(name){ return USER_ID ? `${name}_${USER_ID}` : name; }
 
-// ====== API PEDIDOS ======
-const API_PEDIDOS = "http://localhost:8080/api/pedidos";
+// ====== API ENDPOINTS ======
 
-// ====== IMG MAP (enquanto o backend não tem imagemUrl) ======
+const API_PEDIDOS = "/api/pedidos";
+
+// ====== IMG MAP (fallback se não vier da API) ====
 const IMG_BY_ID = {
   1:"./assets/computador-desktop-apple.jpg",2:"./assets/computador-desktop-intel-core.jpg",
   3:"./assets/computador-hp.jpg",4:"./assets/computador-samsung.jpg",
@@ -25,7 +26,7 @@ const IMG_BY_ID = {
   27:"./assets/mousepad2.jpg",28:"./assets/mousepad3.jpg",
 };
 
-// ====== CARRINHO helpers ======
+// ====== CARRINHO helpers (localStorage + backend) =====
 function getPedidoId(){ return localStorage.getItem(k('pedidoId')); }
 function setPedidoId(id){ localStorage.setItem(k('pedidoId'), String(id)); }
 function clearPedidoId(){ localStorage.removeItem(k('pedidoId')); }
@@ -60,8 +61,12 @@ async function syncPedidoBackend(statusOverride){
 
   try {
     if (!pedidoId) {
-      const r = await fetch(API_PEDIDOS, { method: "POST", headers: {"Content-Type":"application/json"}, body: JSON.stringify(body) });
-      const data = await r.json();
+      const r = await fetch(API_PEDIDOS, {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify(body)
+      });
+      const data = await r.json().catch(()=>null);
       if (data && data.id) setPedidoId(data.id);
     } else {
       await fetch(`${API_PEDIDOS}/${pedidoId}`, {
@@ -73,7 +78,7 @@ async function syncPedidoBackend(statusOverride){
   } catch(err){}
 }
 
-// ====== FAVORITOS helpers ======
+// ====== FAVORITOS helpers (local) =======
 function loadFavoritos(){ return JSON.parse(localStorage.getItem(k('favoritos')) || '[]'); }
 function saveFavoritos(favs){ localStorage.setItem(k('favoritos'), JSON.stringify(favs)); }
 function isFav(id){ return loadFavoritos().some(f => Number(f.id) === Number(id)); }
@@ -85,25 +90,21 @@ function toggleFavorito(produto){
     favs.splice(idx,1);
     saveFavoritos(favs);
     mostrarToast('Removido dos favoritos!');
-    return false; // agora não é mais favorito
+    return false;
   } else {
-    // salva apenas os campos usados em favoritos.html
-    const novo = {
-      id: produto.id,
-      nome: produto.nome,
-      preco: produto.preco,
-      img: produto.img,
-      categoria: produto.categoria
-    };
+    const novo = { id: produto.id, nome: produto.nome, preco: produto.preco, img: produto.img, categoria: produto.categoria };
     favs.push(novo);
     saveFavoritos(favs);
     mostrarToast('Adicionado aos favoritos!');
-    return true; // agora é favorito
+    return true;
   }
 }
 
-// ====== CATÁLOGO da API (fallback ao array antigo) ======
+// ====== CATÁLOGO (API + override de imagem) =====
 let produtos = [];
+
+// chave de override de imagem salva pela tela de cadastro
+function imgKey(id){ return `img_override_${id}`; }
 
 function normalizeCategoria(c) {
   const map = {
@@ -119,16 +120,21 @@ async function carregarProdutos() {
     const r = await fetch('/api/produtos');
     if (!r.ok) throw new Error('API_ERROR');
     const lista = await r.json();
-    produtos = lista.map(p => ({
-      id: Number(p.id),
-      nome: p.nome,
-      preco: Number(p.preco),
-      img: IMG_BY_ID[p.id] || './assets/placeholder.png',
-      categoria: normalizeCategoria(p.categoriaProduto),
-      _raw: p
-    }));
+
+    produtos = lista.map(p => {
+      const id = Number(p.id);
+      const override = localStorage.getItem(imgKey(id)); // base64 salvo no cadastro
+      return {
+        id,
+        nome: p.nome,
+        preco: Number(p.preco),
+        img: override || p.imagemUrl || IMG_BY_ID[id] || './assets/placeholder.png',
+        categoria: normalizeCategoria(p.categoriaProduto),
+        _raw: p
+      };
+    });
   } catch {
-    // fallback local (mesmo seu array)
+    // fallback local
     produtos = [
       {id:1, nome:"Computador Desktop Apple",preco:49.90,img:"./assets/computador-desktop-apple.jpg",categoria:"Computadores"},
       {id:2, nome:"Computador Desktop Intel Core",preco:45.90,img:"./assets/computador-desktop-intel-core.jpg",categoria:"Computadores"},
@@ -162,12 +168,12 @@ async function carregarProdutos() {
   }
 }
 
-// ====== RENDER LOJA ======
+// ====== RENDER DA VITRINE =========
 const elLista = document.getElementById('produtos');
 const links = document.querySelectorAll('.cat-link');
+
 const iconeFavorito = id => {
   const active = isFav(id);
-  // aria-pressed e classe ajudam na acessibilidade/estilo
   return `<span class="material-icons fav-toggle${active?' is-fav':''}" aria-pressed="${active}" title="${active?'Remover dos favoritos':'Adicionar aos favoritos'}">favorite</span>`;
 };
 const iconeCarrinho = '<span class="material-icons add-cart">shopping_cart</span>';
@@ -208,7 +214,7 @@ links.forEach(a=>{
   });
 });
 
-// ====== AÇÕES CARRINHO + FAVORITOS ======
+// ====== AÇÕES CARRINHO + FAVORITOS =====
 function addClickListeners() {
   // carrinho
   document.querySelectorAll('.add-cart').forEach(btn => {
@@ -245,45 +251,63 @@ function addClickListeners() {
   });
 }
 
-// logout handler
+// ====== LOGOUT/PROFILE/SAUDAÇÃO ====
 document.addEventListener("DOMContentLoaded", () => {
   const logoutBtn = document.getElementById("logoutBtn");
   if (logoutBtn) {
     logoutBtn.addEventListener("click", () => {
-      // limpa dados do usuário / carrinho / favoritos
       localStorage.removeItem("user");
       localStorage.removeItem("carrinho");
       localStorage.removeItem("pedidoId");
       localStorage.removeItem("categorias_por_pedido");
-
-      // redireciona pra página inicial
       window.location.href = "./index.html";
     });
   }
 });
 
+const profileWrap = document.getElementById('profileWrap');
+let profileHideTimer;
 
-async function adicionarAoCarrinho(produto) {
-  let carrinho = loadCarrinho();
-  const existente = carrinho.find(p => p.id === produto.id);
-  if (existente) existente.quantidade += 1;
-  else carrinho.push({...produto, quantidade: 1});
-  saveCarrinho(carrinho);
-  await syncPedidoBackend();
-  renderMiniCart();
-  mostrarToast(`${produto.nome} adicionado ao carrinho!`);
+profileWrap?.addEventListener('mouseenter', () => {
+  clearTimeout(profileHideTimer);
+  profileWrap.classList.add('open');
+  profileWrap.setAttribute('aria-expanded', 'true');
+});
+profileWrap?.addEventListener('mouseleave', () => {
+  profileHideTimer = setTimeout(() => {
+    profileWrap.classList.remove('open');
+    profileWrap.setAttribute('aria-expanded', 'false');
+  }, 120);
+});
+profileWrap?.addEventListener('click', (e) => {
+  const link = e.target.closest('.profile-link');
+  if (link) { window.location.href = './perfil.html'; return; }
+  const isOpen = profileWrap.classList.toggle('open');
+  profileWrap.setAttribute('aria-expanded', String(isOpen));
+});
+document.addEventListener('click', (e)=>{
+  if (!profileWrap) return;
+  if (!profileWrap.contains(e.target)) {
+    profileWrap.classList.remove('open');
+    profileWrap.setAttribute('aria-expanded','false');
+  }
+});
+
+function getFirstName(nome) {
+  if (!nome) return 'Visitante';
+  const p = nome.trim().split(/\s+/);
+  return p[0] || 'Visitante';
 }
+(function initGreeting(){
+  const u = CURRENT_USER;
+  const first = getFirstName(u?.nome);
+  const fnEl = document.getElementById('firstName');
+  const miniName = document.getElementById('miniName');
+  if (fnEl) fnEl.textContent = first;
+  if (miniName) miniName.textContent = first;
+})();
 
-function removerDoCarrinho(id) {
-  let carrinho = loadCarrinho();
-  carrinho = carrinho.filter(p => p.id !== id);
-  saveCarrinho(carrinho);
-  syncPedidoBackend();
-  renderMiniCart();
-  mostrarToast('Produto removido do carrinho!');
-}
-
-// ====== MINI-CART ======
+// ====== MINI-CART =====
 const cartWrap = document.getElementById('cartWrap');
 const miniCartBody = document.getElementById('miniCartBody');
 const miniTotalEl = document.getElementById('miniTotal');
@@ -342,59 +366,37 @@ cartWrap?.addEventListener('click', (e) => {
   if (isOpen) renderMiniCart();
 });
 
-// ====== MINI PERFIL + SAUDAÇÃO ======
-const profileWrap = document.getElementById('profileWrap');
-let profileHideTimer;
-
-profileWrap?.addEventListener('mouseenter', () => {
-  clearTimeout(profileHideTimer);
-  profileWrap.classList.add('open');
-  profileWrap.setAttribute('aria-expanded', 'true');
-});
-profileWrap?.addEventListener('mouseleave', () => {
-  profileHideTimer = setTimeout(() => {
-    profileWrap.classList.remove('open');
-    profileWrap.setAttribute('aria-expanded', 'false');
-  }, 120);
-});
-profileWrap?.addEventListener('click', (e) => {
-  const link = e.target.closest('.profile-link');
-  if (link) { window.location.href = './perfil.html'; return; }
-  const isOpen = profileWrap.classList.toggle('open');
-  profileWrap.setAttribute('aria-expanded', String(isOpen));
-});
-document.addEventListener('click', (e)=>{
-  if (!profileWrap) return;
-  if (!profileWrap.contains(e.target)) {
-    profileWrap.classList.remove('open');
-    profileWrap.setAttribute('aria-expanded','false');
-  }
-});
-
-function getFirstName(nome) {
-  if (!nome) return 'Visitante';
-  const p = nome.trim().split(/\s+/);
-  return p[0] || 'Visitante';
-}
-(function initGreeting(){
-  const u = CURRENT_USER;
-  const first = getFirstName(u?.nome);
-  const fnEl = document.getElementById('firstName');
-  const miniName = document.getElementById('miniName');
-  if (fnEl) fnEl.textContent = first;
-  if (miniName) miniName.textContent = first;
-})();
-
-// ====== BOOTSTRAP ======
-(async function bootstrapLoja(){
-  await carregarProdutos();
-  const listaInicial = produtos.filter(p => p.categoria === "Computadores");
-  render(listaInicial.length ? listaInicial : produtos);
+// ====== CARRINHO ======
+async function adicionarAoCarrinho(produto) {
+  let carrinho = loadCarrinho();
+  const existente = carrinho.find(p => p.id === produto.id);
+  if (existente) existente.quantidade += 1;
+  else carrinho.push({...produto, quantidade: 1});
+  saveCarrinho(carrinho);
+  await syncPedidoBackend();
   renderMiniCart();
-})();
+  mostrarToast(`${produto.nome} adicionado ao carrinho!`);
+}
 
-// ====== Toast ======
+function removerDoCarrinho(id) {
+  let carrinho = loadCarrinho();
+  carrinho = carrinho.filter(p => p.id !== id);
+  saveCarrinho(carrinho);
+  syncPedidoBackend();
+  renderMiniCart();
+  mostrarToast('Produto removido do carrinho!');
+}
+
+// ====== TOAST =====
+function garantirEstilosToast(){
+  if(document.querySelector('style[data-toast]')) return;
+  const s = document.createElement('style');
+  s.setAttribute('data-toast','');
+  s.textContent = ".toast{position:fixed;top:10%;left:50%;transform:translate(-50%,-50%);background:#FFD166;color:#fff;padding:14px 28px;border-radius:12px;font-weight:700;box-shadow:0 4px 15px rgba(0,0,0,.25);opacity:0;transition:all .3s ease;z-index:2000}.toast.show{opacity:1;transform:translate(-50%,-50%) scale(1.05)}";
+  document.head.appendChild(s);
+}
 function mostrarToast(mensagem) {
+  garantirEstilosToast();
   const antigo = document.querySelector('.toast');
   if (antigo) antigo.remove();
   const toast = document.createElement('div');
@@ -404,3 +406,12 @@ function mostrarToast(mensagem) {
   setTimeout(() => toast.classList.add('show'), 50);
   setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 250); }, 2200);
 }
+
+
+// ====== BOOT ========
+(async function bootstrapLoja(){
+  await carregarProdutos();
+  const listaInicial = produtos.filter(p => p.categoria === "Computadores");
+  render(listaInicial.length ? listaInicial : produtos);
+  renderMiniCart();
+})();

@@ -27,7 +27,7 @@ public class ProdutoRequest {
 	@NotNull(message = "A categoria é obrigatória.")
 	private CategoriaProduto categoriaProduto;
 	
-
+	
 	public String getNome() {
 		return nome;
 	}

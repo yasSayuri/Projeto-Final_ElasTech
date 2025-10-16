@@ -18,6 +18,7 @@ public class ProdutoMapper {
 		produto.setDescricao(pRequest.getDescricao());
 		produto.setPreco(pRequest.getPreco());
 		produto.setCategoriaProduto(pRequest.getCategoriaProduto());
+
 		return produto;
 	}
 	

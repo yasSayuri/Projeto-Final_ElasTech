@@ -1,88 +1,113 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
- <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Entrar • CodeStore</title>
-  <link rel="stylesheet" href="cad_produtos.css">
-  <link rel="stylesheet" href="./loja.css"> 
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CodeStore - Cadastrar Produto</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="./admin.css">
+  <link rel="stylesheet" href="./cad_produtos.css">
 </head>
 <body>
-  <!-- Cabeçalho -->
-  <nav>  
-    <div class="nav-inner"> 
-      <div class="left-group"> 
-        <p class="brand">CodeStore</p>
-
-        <form class="search" role="search" action="/buscar" method="GET" aria-label="Pesquisar"> 
-          <span class="material-icons" id="src-icon" style="color: #9aa0a6;">search</span>
-          <input id="search-input" name="q" type="search" placeholder="Pesquisar..." />
-        </form>
+  <nav>
+    <div class="nav-inner">
+      <div class="left-group"><p class="brand">CodeStore</p></div>
+      <h1 class="admin-title">Área Administrativa</h1>
+      <div class="icons">
+        <span id="greet" class="greet">Bem-vindo, <strong id="firstName">Visitante</strong>!</span>
+        <div class="profile-wrap" id="profileWrap" aria-haspopup="true" aria-expanded="false">
+          <a class="profile-link" href="./perfil.html" aria-label="Ir para o perfil">
+            <span class="material-icons">person</span>
+          </a>
+          <div class="mini-profile" id="miniProfile" role="dialog" aria-label="Minha conta">
+            <div class="mini-arrow"></div>
+            <div class="mini-profile-body">
+              <span class="material-icons avatar">account_circle</span>
+              <div class="mini-name" id="miniName">—</div>
+              <button id="logoutBtn" class="btn-mini logout">
+                <span class="material-icons">logout</span> Sair
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
-
-	  <div class="icons">
-	    <div class="cart-wrap" id="cartWrap" aria-haspopup="true" aria-expanded="false">
-	      <a class="cart-link" href="./carrinho.html" aria-label="Ir para o carrinho">
-	        <span class="material-icons">shopping_cart</span>
-	      </a>
-
-	      <div class="mini-cart" id="miniCart" role="dialog" aria-label="Prévia do carrinho">
-	        <div class="mini-arrow"></div>
-	        <div class="mini-cart-body" id="miniCartBody"></div>
-	        <div class="mini-cart-footer">
-	          <div class="mini-total"><span>Total:</span><span id="miniTotal">R$ 0,00</span></div>
-	          <a href="./carrinho.html" class="btn-mini">Ver carrinho</a>
-	        </div>
-	      </div>
-	    </div>
-
-	    <span class="material-icons" style="color: #FFD700;">favorite</span>
-      <a class="cart-link" href="./perfil.html" aria-label="Ir para o perfil">
-	        <span class="material-icons">person</span>
-	      </a>
-	  </div>
     </div>
   </nav>
 
-  <!-- Conteúdo principal -->
-  <main class="cadastro-container">
-    <h1>Cadastrar Produto</h1>
-
-    <form class="form-cadastro">
-      <label for="nome">Nome:</label>
-      <input type="text" id="nome" name="nome" required>
-
-      <label for="descricao">Descrição do Produto:</label>
-      <textarea id="descricao" name="descricao" rows="4" required></textarea>
-
-      <label for="preco">Preço:</label>
-      <input type="number" id="preco" name="preco" step="0.01" required>
-
-      <label for="foto">Upload de foto</label>
-      <input type="file" id="foto" name="foto" accept=".jpg, .jpeg, .png" required>
-      <p class="alerta-extensoes">Arquivos aceitáveis: jpg , jpeg e png</p>
-
-      <label for="categoria">Categoria</label>
-      <select id="categoria" name="categoria" required>
-        <option value="">Selecione a categoria do produto</option>
-        <option value="roupas">Roupas</option>
-        <option value="acessorios">Acessórios</option>
-        <option value="calcados">Calçados</option>
-        <option value="eletronicos">Eletrônicos</option>
-      </select>
-
-      <div class="buttons">
-        <button type="button" class="btn-back">Voltar</button>
-        <button type="submit" class="btn-save">Cadastrar Produto</button>
+  <main class="main">
+    <div class="header-produtos-wrapper">
+      <div class="header-produtos-top">
+        <a class="back-link" href="./admin.html">Voltar ao estoque</a>
+        <h2>Cadastrar produto</h2>
       </div>
-    </form>
+    </div>
+
+    <section class="cadastro-container">
+      <form id="formProduto" class="form-cadastro" novalidate>
+        <div class="grid-2">
+          <div>
+            <label for="nome">Nome</label>
+            <input id="nome" name="nome" type="text" required maxlength="120" />
+          </div>
+
+          <div>
+            <label for="preco">Preço (R$)</label>
+            <input id="preco" name="preco" type="number" step="0.01" min="0.10" required />
+          </div>
+        </div>
+
+        <div>
+          <label for="categoriaProduto">Categoria</label>
+          <select id="categoriaProduto" name="categoriaProduto" required>
+            <option value="">Selecione</option>
+            <option value="COMPUTADORES">Computadores</option>
+            <option value="NOTEBOOKS">Notebooks</option>
+            <option value="TABLETS">Tablets</option>
+            <option value="SMARTPHONES">Smartphones</option>
+            <option value="ACESSÓRIOS">Acessórios</option>
+            <option value="PERIFÉRICOS">Periféricos</option>
+            <option value="COMPONENTES">Componentes</option>
+            <option value="OUTROS">Outros</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="descricao">Descrição</label>
+          <textarea id="descricao" name="descricao" rows="4" minlength="5" required></textarea>
+        </div>
+
+        <!-- upload de foto + preview -->
+		<div>
+		  <label for="foto">Foto do produto</label>
+
+		  <div class="file-input-wrap">
+		    <input id="foto" name="foto" type="file"
+		           accept=".jpg,.jpeg,.png"
+		           class="file-input-visually-hidden" />
+		    <label for="foto" id="customFileBtn" class="btn-file">Escolher arquivo</label>
+		    <span id="fileName" class="file-name">Nenhum arquivo selecionado</span>
+		  </div>
+
+
+		  <small class="hint">Arquivos aceitáveis: JPG, JPEG, PNG</small>
+
+		  <div class="preview-wrap">
+		    <img id="previewImg" alt="Pré-visualização" />
+		  </div>
+		</div>
+
+        <div class="buttons">
+          <a href="./admin.html" class="btn-back">Cancelar</a>
+          <button type="submit" class="btn-save">
+             Cadastrar
+          </button>
+        </div>
+        <p id="formMsg" class="form-msg" role="alert" aria-live="polite"></p>
+      </form>
+    </section>
   </main>
-  
-  <!-- Rodapé -->
-  <footer class="footer">
-    <p>CodeStore - Todos os Direitos Reservados</p>
-  </footer>
+
+  <footer>CodeStore - Todos os Direitos Reservados</footer>
+  <script src="./cad_produtos.js"></script>
 </body>
-<script src="./script.js"></script>
 </html>

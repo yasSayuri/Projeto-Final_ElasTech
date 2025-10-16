@@ -9,7 +9,7 @@ public class ProdutoResponse {
 	private String descricao;
 	private BigDecimal preco;
 	private String categoriaProduto;
-	
+
 
 	public Long getId() {
 		return id;
@@ -51,5 +51,4 @@ public class ProdutoResponse {
 		this.categoriaProduto = categoriaProduto;
 	}
 	
-
 }
