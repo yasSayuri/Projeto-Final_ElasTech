@@ -7,7 +7,7 @@ import com.example.codeStore.codeStore_app.enums.PedidoStatusEnum;
 public class PedidoRequest {
 	private Long id;
 	
-	private int usuarioId;
+	private Long usuarioId;
 	
 	private PedidoStatusEnum status;
 	
@@ -17,11 +17,13 @@ public class PedidoRequest {
 	
 	private BigDecimal frete;
 	
-	public int getUsuarioId() {
+
+
+	public Long getUsuarioId() {
 		return usuarioId;
 	}
 
-	public void setUsuarioId(int usuarioId) {
+	public void setUsuarioId(Long usuarioId) {
 		this.usuarioId = usuarioId;
 	}
 

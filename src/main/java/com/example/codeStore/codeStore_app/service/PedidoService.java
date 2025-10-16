@@ -9,18 +9,23 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.codeStore.codeStore_app.dto.mapper.PedidoMapper;
 import com.example.codeStore.codeStore_app.dto.request.PedidoRequest;
+import com.example.codeStore.codeStore_app.exception.EntidadeNaoEncontradaException;
 import com.example.codeStore.codeStore_app.model.Pedido;
+import com.example.codeStore.codeStore_app.model.Usuario;
 import com.example.codeStore.codeStore_app.repository.PedidoRepository;
+import com.example.codeStore.codeStore_app.repository.UsuarioRepository;
 
 @Service
 public class PedidoService {
 
     private final PedidoRepository repository;
     private final PedidoMapper pedidoMapper;
+    private final UsuarioRepository usuarioRepository;
 
-    public PedidoService(PedidoRepository repository, PedidoMapper pedidoMapper) {
+    public PedidoService(PedidoRepository repository, PedidoMapper pedidoMapper, UsuarioRepository usuarioRepository) {
         this.repository = repository;
         this.pedidoMapper = pedidoMapper;
+        this.usuarioRepository = usuarioRepository;
     }
 
     @Transactional(readOnly = true)
@@ -35,7 +40,10 @@ public class PedidoService {
 
     @Transactional
     public Pedido cadastrarPedido(PedidoRequest dto) {
-    	Pedido pedido = pedidoMapper.toEntity(dto); 
+    	Usuario usuario = usuarioRepository.findById(dto.getUsuarioId())
+    			.orElseThrow(() -> new EntidadeNaoEncontradaException("Usuário não encontrado!"));
+    	
+    	Pedido pedido = pedidoMapper.toEntity(dto, usuario); 
         normalizarValores(pedido);
         aplicarFreteERecalcularTotal(pedido);
         return repository.save(pedido);
@@ -46,7 +54,6 @@ public class PedidoService {
         Pedido existente = obterPorId(id);
 
         // Atualiza campos editáveis
-        existente.setUsuarioId(dto.getUsuarioId());
         existente.setStatus(dto.getStatus());
         existente.setSubtotal(zeroSeNulo(dto.getSubtotal()));
         existente.setDescontoTotal(zeroSeNulo(dto.getDescontoTotal()));

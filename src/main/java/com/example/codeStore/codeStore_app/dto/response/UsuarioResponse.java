@@ -1,6 +1,9 @@
 package com.example.codeStore.codeStore_app.dto.response;
 
+import java.util.List;
+
 public class UsuarioResponse {
+	
 	private String nome;
 
 	private String email;
@@ -8,7 +11,8 @@ public class UsuarioResponse {
 	private String cpf;
 
 	private String telefone;
-
+	
+	
 	public String getNome() {
 		return nome;
 	}

@@ -1,6 +1,6 @@
 package com.example.codeStore.codeStore_app.dto.mapper;
 
-import java.math.BigDecimal;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,13 +9,13 @@ import org.springframework.stereotype.Component;
 import com.example.codeStore.codeStore_app.dto.request.PedidoRequest;
 import com.example.codeStore.codeStore_app.dto.response.PedidoResponse;
 import com.example.codeStore.codeStore_app.model.Pedido;
+import com.example.codeStore.codeStore_app.model.Usuario;
 
 @Component
 public class PedidoMapper {	
-	public Pedido toEntity(PedidoRequest pRequest) {
+	public Pedido toEntity(PedidoRequest pRequest, Usuario usuario) {
 		Pedido produto = new Pedido();
-		//produto.setId(pRequest.getId());
-		produto.setUsuarioId(pRequest.getUsuarioId());
+		produto.setUsuario(usuario);
 		produto.setStatus(pRequest.getStatus());
 		produto.setSubtotal(pRequest.getSubtotal());
 		produto.setDescontoTotal(pRequest.getDescontoTotal());
@@ -26,7 +26,8 @@ public class PedidoMapper {
 	
 	public PedidoResponse toResponse(Pedido produto) {
 		PedidoResponse p2 = new PedidoResponse();
-		p2.setUsuarioId(produto.getUsuarioId());
+		p2.setUsuarioId(produto.getUsuario().getId());
+		p2.setNomeUsuario(produto.getUsuario().getNome());
 		p2.setStatus(produto.getStatus().name());
 		p2.setSubtotal(produto.getSubtotal());
 		p2.setDescontoTotal(produto.getDescontoTotal());

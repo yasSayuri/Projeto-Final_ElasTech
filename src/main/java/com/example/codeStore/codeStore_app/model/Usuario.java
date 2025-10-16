@@ -1,5 +1,7 @@
 package com.example.codeStore.codeStore_app.model;
 
+import java.util.List;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
@@ -28,6 +30,9 @@ public class Usuario {
 	
 	@Column(name = "role")
 	private String roles = "USUARIO COMUM"; 
+	
+	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+	List<Pedido> pedidos;
 
 	public Long getId() {
 		return id;
@@ -76,4 +81,14 @@ public class Usuario {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
+
+	public List<Pedido> getPedidos() {
+		return pedidos;
+	}
+
+	public void setPedidos(List<Pedido> pedidos) {
+		this.pedidos = pedidos;
+	}
+	
+	
 }
