@@ -19,6 +19,8 @@ public class ProdutoResponse {
 	@ManyToMany(mappedBy = "produtos")
 	private Set<Pedido> pedidos = new HashSet<Pedido>();
 	
+	private Integer quantidade;
+
 	public Long getId() {
 		return id;
 	}
@@ -66,4 +68,12 @@ public class ProdutoResponse {
 	public void setPedidos(Set<Pedido> pedidos) {
 		this.pedidos = pedidos;
 	}
+	public Integer getQuantidade() { 
+		return quantidade;
+	}
+	
+    public void setQuantidade(Integer quantidade) {
+    	this.quantidade = quantidade; 
+    }
+	
 }

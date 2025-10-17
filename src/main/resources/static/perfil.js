@@ -114,7 +114,7 @@
         item.span.textContent = novo;
         item.span.className = 'status ' + statusClass(novo);
       });
-    }, 10000); // 10 segundos
+    }, 5000); 
   }
 
   async function init() {

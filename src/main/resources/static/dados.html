@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CodeStore - Dados de Rastreio</title>
+
+  <!-- Ícones / fontes -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <!-- CSS compartilhado do admin (navbar, botões, etc.) -->
+  <link rel="stylesheet" href="./admin.css">
+  <!-- CSS específico desta página -->
+  <link rel="stylesheet" href="./dados.css">
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav>
+    <div class="nav-inner">
+      <div class="left-group">
+        <p class="brand">CodeStore</p>
+      </div>
+
+      <h1 class="admin-title">Área Administrativa</h1>
+
+      <div class="icons">
+        <span id="greet" class="greet">
+          Bem-vindo, <strong id="firstName">Visitante</strong>!
+        </span>
+
+        <div class="profile-wrap" id="profileWrap" aria-haspopup="true" aria-expanded="false">
+          <a class="profile-link" href="./perfil.html" aria-label="Ir para o perfil">
+            <span class="material-icons">person</span>
+          </a>
+
+          <div class="mini-profile" id="miniProfile" role="dialog" aria-label="Minha conta">
+            <div class="mini-arrow"></div>
+            <div class="mini-profile-body">
+              <span class="material-icons avatar">account_circle</span>
+              <div class="mini-name" id="miniName">—</div>
+              <button id="logoutBtn" class="btn-mini logout">
+                <span class="material-icons">logout</span>
+                Sair
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- CONTEÚDO -->
+  <main class="main">
+    <div class="header-pedidos">
+      <h2>Dados de rastreio (Pedidos)</h2>
+
+      <div class="header-buttons">
+        <a href="./admin.html" class="btn-dados">
+          <span class="material-icons">arrow_back</span>
+          Voltar ao estoque
+        </a>
+      </div>
+    </div>
+
+    <!-- Search -->
+    <form id="buscaPedidosForm" class="estoque-search" role="search" aria-label="Pesquisar pedidos">
+      <span class="material-icons">search</span>
+      <input
+        id="buscaPedidosInput"
+        type="search"
+        placeholder="Pesquisar por ID do pedido ou e-mail do usuário..."
+        autocomplete="off"
+      />
+      <button type="submit">Buscar</button>
+    </form>
+
+    <!-- Lista de pedidos -->
+    <section class="pedidos-wrap">
+      <div class="pedidos-head">
+        <span>Pedido</span>
+        <span>Total</span>
+        <span>Cliente</span>
+      </div>
+      <div class="pedidos-body" id="lista-pedidos"></div>
+    </section>
+  </main>
+
+  <footer>CodeStore - Todos os Direitos Reservados</footer>
+
+  <script src="./dados.js"></script>
+</body>
+</html>

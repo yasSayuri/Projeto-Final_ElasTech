@@ -70,6 +70,12 @@ function sanitizeNumber(v){
   if(!v && v !== 0) return 0;
   return Number(String(v).replace(',','.'));
 }
+function toInteger(v){
+  if (typeof v === 'number') return Math.trunc(v);
+  if(!v && v !== 0) return NaN;
+  var n = Number(String(v).replace(',','.'));
+  return Number.isFinite(n) ? Math.trunc(n) : NaN;
+}
 
 /* ========= preview ========= */
 function initPreview(){
@@ -159,8 +165,11 @@ async function submitProduto(e){
   var descricao = (document.getElementById('descricao') && document.getElementById('descricao').value || '').trim();
   var preco = sanitizeNumber(document.getElementById('preco') && document.getElementById('preco').value);
   var categoriaProduto = document.getElementById('categoriaProduto') && document.getElementById('categoriaProduto').value;
+  var quantidadeStr = document.getElementById('quantidade') && document.getElementById('quantidade').value;
+  var quantidade = toInteger(quantidadeStr);
   var fotoFile = (document.getElementById('foto') && document.getElementById('foto').files && document.getElementById('foto').files[0]) || null;
 
+  // validações
   if(!nome || !descricao || !categoriaProduto || !preco || preco < 0.1){
     showMsg('Preencha todos os campos corretamente (preço mínimo 0,10).');
     mostrarToast('Falha ao cadastrar');
@@ -171,10 +180,22 @@ async function submitProduto(e){
     mostrarToast('Falha ao cadastrar');
     return;
   }
+  if(Number.isNaN(quantidade) || quantidade < 0){
+    showMsg('Quantidade inválida (mínimo 0).');
+    mostrarToast('Falha ao cadastrar');
+    return;
+  }
 
   try{
     // Salva no backend (JSON)
-    var payload = { nome: nome, descricao: descricao, preco: preco, categoriaProduto: categoriaProduto };
+    var payload = {
+      nome: nome,
+      descricao: descricao,
+      preco: preco,
+      categoriaProduto: categoriaProduto,
+      quantidade: quantidade     // <<<<<< OBRIGATÓRIO PARA PASSAR NA VALIDAÇÃO DO BACKEND
+    };
+
     var resp = await fetch(API_JSON, {
       method: 'POST',
       headers: { 'Content-Type':'application/json' },
@@ -182,7 +203,6 @@ async function submitProduto(e){
     });
 
     if(!resp.ok){
-      // Não mostra payload de erro na tela (só feedback simples)
       showMsg('Falha ao salvar produto.');
       mostrarToast('Falha ao cadastrar');
       return;
@@ -191,7 +211,7 @@ async function submitProduto(e){
     var data = await resp.json().catch(function(){ return null; });
     var novoId = data && data.id;
 
-    // Se teve foto, guarda base64 no localStorage para a loja usar como override
+    // Se teve foto, guarda base64 no localStorage para a loja/admin usar como override
     if(novoId && fotoFile){
       try{
         var dataUrl = await fileToDataURL(fotoFile);
@@ -200,11 +220,10 @@ async function submitProduto(e){
     }
 
     mostrarToast('Cadastrado com sucesso');
-	resetForm();
+    resetForm();
     localStorage.setItem('novo_produto_msg', 'Produto "' + nome + '" cadastrado!');
 
   }catch(err){
-    // Silencioso no UI (mensagem amigável):
     showMsg('Erro de comunicação com o servidor.');
     mostrarToast('Falha ao cadastrar');
   }

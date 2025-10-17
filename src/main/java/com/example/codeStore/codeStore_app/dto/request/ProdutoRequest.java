@@ -27,6 +27,9 @@ public class ProdutoRequest {
 	@NotNull(message = "A categoria é obrigatória.")
 	private CategoriaProduto categoriaProduto;
 	
+    @NotNull(message = "A quantidade é obrigatória.")  
+    @jakarta.validation.constraints.Min(0)
+    private Integer quantidade;  
 	
 	public String getNome() {
 		return nome;
@@ -60,5 +63,12 @@ public class ProdutoRequest {
 		this.categoriaProduto = categoriaProduto;
 	}
 	
+	public Integer getQuantidade() { 
+		return quantidade; 
+	}
+	
+    public void setQuantidade(Integer quantidade) { 
+    	this.quantidade = quantidade; 
+    }
 
 }

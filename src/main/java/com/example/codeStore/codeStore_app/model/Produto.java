@@ -43,6 +43,9 @@ public class Produto {
 
 	private Set<Pedido> pedidos = new HashSet<>();
 
+	@Column(nullable = false)
+    private Integer quantidade = 0;
+	
 	public Long getId() {
 		return id;
 	}
@@ -90,4 +93,12 @@ public class Produto {
 	public void setPedidos(Set<Pedido> pedidos) {
 	    this.pedidos = pedidos;
 	}	
-}
+	
+	public Integer getQuantidade() {
+		return quantidade;
+	}
+	
+    public void setQuantidade(Integer quantidade) {
+    	this.quantidade = quantidade; 
+    }
+	}
