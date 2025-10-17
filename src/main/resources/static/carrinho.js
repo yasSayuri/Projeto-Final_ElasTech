@@ -24,24 +24,43 @@ function calcularTotais(carrinho){
 async function syncPedidoBackend(statusOverride){
   const carrinho = loadCarrinho();
   const { subtotal, frete } = calcularTotais(carrinho);
-  const status = statusOverride || STATUS.PENDENTE;
+  const status = statusOverride || "PENDENTE";
   const pedidoId = getPedidoId();
   if (!USER_ID) return;
+
   if (carrinho.length === 0) {
-    if (pedidoId) { try { await fetch(`${API}/${pedidoId}`, { method: "DELETE" }); } catch(e){} clearPedidoId(); }
+    if (pedidoId) { try { await fetch(`${API_PEDIDOS}/${pedidoId}`, { method: "DELETE" }); } catch(e){}; clearPedidoId(); }
     return;
   }
-  const body = { usuarioId: USER_ID, status, subtotal, descontoTotal: 0, frete };
+
+  const body = {
+    usuarioId: USER_ID,
+    status,
+    subtotal,
+    descontoTotal: 0,
+    frete,
+    produtos: buildProdutosPayload(carrinho) 
+  };
+
   try {
     if (!pedidoId) {
-      const r = await fetch(API, { method: "POST", headers: {"Content-Type":"application/json"}, body: JSON.stringify(body) });
-      const data = await r.json();
+      const r = await fetch(API_PEDIDOS, {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body: JSON.stringify(body)
+      });
+      const data = await r.json().catch(()=>null);
       if (data && data.id) setPedidoId(data.id);
     } else {
-      await fetch(`${API}/${pedidoId}`, { method: "PUT", headers: {"Content-Type":"application/json"}, body: JSON.stringify({ ...body, id: Number(pedidoId) }) });
+      await fetch(`${API_PEDIDOS}/${pedidoId}`,{
+        method:"PUT",
+        headers:{"Content-Type":"application/json"},
+        body: JSON.stringify({ ...body, id: Number(pedidoId) })
+      });
     }
-  } catch(err){}
+  } catch(e){}
 }
+
 
 function salvarCategoriasSnapshot(pid, carrinho){
   const key = k('categorias_por_pedido');
@@ -56,18 +75,33 @@ function salvarCategoriasSnapshot(pid, carrinho){
   localStorage.setItem(key, JSON.stringify(store));
 }
 
+function buildProdutosPayload(carrinho) {
+  return carrinho.map(item => ({
+    id: Number(item.id),
+    quantidade: Number(item.quantidade || 1),
+  }));
+}
 
 async function finalizarPedidoComCarrinho(carrinho){
   const { subtotal, frete, total } = calcularTotais(carrinho);
   if (!USER_ID) throw new Error("LOGIN");
   if (!carrinho.length) throw new Error("VAZIO");
 
-  const body = { usuarioId: USER_ID, status: STATUS.PENDENTE, subtotal, descontoTotal: 0, frete, total };
+  const body = {
+    usuarioId: USER_ID,
+    status: STATUS.PENDENTE,
+    subtotal,
+    descontoTotal: 0,
+    frete,
+    total,
+    produtos: buildProdutosPayload(carrinho)   
+  };
 
   const pedidoId = getPedidoId();
   if (pedidoId) {
     const rPut = await fetch(`${API}/${pedidoId}`, {
-      method: 'PUT', headers: { 'Content-Type':'application/json' },
+      method: 'PUT',
+      headers: { 'Content-Type':'application/json' },
       body: JSON.stringify({ ...body, id: Number(pedidoId) })
     });
     if (rPut.ok) { salvarCategoriasSnapshot(pedidoId, carrinho); return; }
@@ -75,11 +109,16 @@ async function finalizarPedidoComCarrinho(carrinho){
     clearPedidoId();
   }
 
-  const rPost = await fetch(API, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
+  const rPost = await fetch(API, {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify(body)
+  });
   if (!rPost.ok) throw new Error('POST_FAIL');
   const data = await rPost.json().catch(()=>null);
   if (data?.id) { setPedidoId(data.id); salvarCategoriasSnapshot(data.id, carrinho); }
 }
+
 
 const corpoCarrinho = document.querySelector('.cart-body');
 

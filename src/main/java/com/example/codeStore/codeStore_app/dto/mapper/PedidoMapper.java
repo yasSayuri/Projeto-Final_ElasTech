@@ -41,6 +41,7 @@ public class PedidoMapper {
             item.setDescricao(pp.getProduto().getDescricao());
             item.setPreco(pp.getProduto().getPreco());
             item.setCategoriaProduto(pp.getProduto().getCategoriaProduto().name());
+            item.setQuantidade(pp.getQuantidade());
             produtos.add(item);
         }
         dto.setProdutos(produtos);

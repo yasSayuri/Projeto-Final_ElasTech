@@ -78,7 +78,7 @@ body {
 }
 .estoque-search .material-icons {
   color: #9aa0a6;
-  font-size: 18px;
+  font-size: 22px;
 }
 .estoque-search input {
   flex: 1;
@@ -112,7 +112,7 @@ body {
 }
 .pedidos-head {
   display: grid;
-  grid-template-columns: 0.8fr 2.2fr 1.4fr;
+  grid-template-columns: 0.8fr 2.2fr 1fr 1.2fr; 
   align-items: center;
   background: #f8fafc;
   color: #0f172a;
@@ -120,10 +120,11 @@ body {
   padding: 14px 16px;
   border-bottom: 1px solid #eef2f7;
 }
+
 .pedidos-body { display: block; }
 .pedido-row {
   display: grid;
-  grid-template-columns: 0.8fr 2.2fr 1.4fr;
+  grid-template-columns: 0.8fr 2.2fr 1fr 1.2fr; 
   align-items: center;
   padding: 16px;
   border-bottom: 1px solid #f1f5f9;

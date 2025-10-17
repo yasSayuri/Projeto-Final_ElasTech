@@ -187,11 +187,10 @@ function toProdutoRequestFromResponse(resp, overrides) {
     descricao: base.descricao,
     preco: base.preco,
     categoriaProduto: base.categoriaProduto,
-    quantidade: (base.quantidade ?? 0)  
+    quantidade: (base.quantidade ?? 0)
   };
   return { ...req, ...(overrides || {}) };
 }
-
 
 async function apiAtualizarProduto(id, produtoRequest) {
   const r = await fetch(API_ATUALIZAR(id), {
@@ -206,6 +205,31 @@ async function apiAtualizarProduto(id, produtoRequest) {
 async function apiDeletarProduto(id) {
   const r = await fetch(API_DELETAR(id), { method: 'DELETE' });
   if (!r.ok && r.status !== 204) throw new Error('Falha ao deletar produto');
+}
+
+/* =========================
+   MODAL DE EXCLUSÃO (Estoque)
+   ========================= */
+let produtoParaExcluirId = null;
+let produtoParaExcluirBtn = null;
+
+function abrirModalExcluirProduto(nome) {
+  const overlay = document.getElementById('modalExcluirProduto');
+  const msg = document.getElementById('textoModalProduto');
+  if (msg) {
+    msg.textContent = `Tem certeza que deseja excluir "${nome}" do estoque? Esta ação é irreversível.`;
+  }
+  overlay?.classList.add('show');
+}
+
+function fecharModalExcluirProduto() {
+  const overlay = document.getElementById('modalExcluirProduto');
+  overlay?.classList.remove('show');
+  produtoParaExcluirId = null;
+  if (produtoParaExcluirBtn) {
+    produtoParaExcluirBtn.removeAttribute('aria-disabled');
+    produtoParaExcluirBtn = null;
+  }
 }
 
 /* =========================
@@ -241,12 +265,24 @@ function renderLista(lista) {
             <button class="mais" aria-label="aumentar">+</button>
           </div>
         </div>
-        <div class="col-status">${badgeHtml(st)}</div>
+        <div class="col-status">
+          <div class="row-actions">
+            ${badgeHtml(st)}
+            <span
+              class="material-icons icon-delete"
+              title="Excluir produto"
+              role="button"
+              aria-label="Excluir produto">
+              delete
+            </span>
+          </div>
+        </div>
       </div>
     `;
   }).join('');
 
   wireQuantidadeHandlers();
+  wireDeleteHandlers();
 }
 
 /* =========================
@@ -308,6 +344,29 @@ function wireQuantidadeHandlers() {
 }
 
 /* =========================
+   HANDLER DA LIXEIRA (com modal)
+   ========================= */
+function wireDeleteHandlers(){
+  const container = document.getElementById('lista-produtos');
+  if(!container) return;
+
+  container.querySelectorAll('.icon-delete').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const row = e.target.closest('.estoque-row');
+      if (!row) return;
+
+      const id = Number(row.dataset.id);
+      const nome = row.querySelector('.prod-nome')?.textContent?.trim() || 'este produto';
+
+      produtoParaExcluirId = id;
+      produtoParaExcluirBtn = btn;
+      btn.setAttribute('aria-disabled', 'true');
+      abrirModalExcluirProduto(nome);
+    });
+  });
+}
+
+/* =========================
    BUSCA POR NOME (FORM)
    ========================= */
 async function aplicarBusca(termo) {
@@ -342,7 +401,7 @@ function initBusca() {
 }
 
 /* =========================
-   CRUD EXTRA
+   CRUD EXTRA (usados em fluxos externos)
    ========================= */
 async function deletarProduto(id) {
   try {
@@ -382,7 +441,7 @@ async function carregarProdutos() {
     const lista = await apiListarTodos();
     renderLista(lista);
 
-    // Se vier uma flag de novo cadastro, mostra um toast simples:
+    // Toast opcional pós-cadastro
     const msg = localStorage.getItem('novo_produto_msg');
     if (msg) {
       try { mostrarToast(msg); } catch {}
@@ -422,6 +481,30 @@ window.addEventListener('load', () => {
   initBusca();
   carregarProdutos();
 
+  // Botão de cadastro
   const novoBtn = document.getElementById('novoProdutoBtn');
-  if (novoBtn) novoBtn.addEventListener('click', () => { window.location.href = './cad_produtos.html'; });
+  if (novoBtn) {
+    novoBtn.addEventListener('click', () => {
+      window.location.href = './cad_produtos.html';
+    });
+  }
+
+  // Liga botões do modal de exclusão
+  const btnOk = document.getElementById('btnConfirmarExcluirProduto');
+  const btnCancel = document.getElementById('btnCancelarExcluirProduto');
+
+  btnOk?.addEventListener('click', async () => {
+    if (!produtoParaExcluirId) return fecharModalExcluirProduto();
+    try {
+      await apiDeletarProduto(produtoParaExcluirId);
+      fecharModalExcluirProduto();
+      await carregarProdutos();
+    } catch (err) {
+      console.error(err);
+      fecharModalExcluirProduto();
+      alert('Falha ao excluir o produto.');
+    }
+  });
+
+  btnCancel?.addEventListener('click', () => fecharModalExcluirProduto());
 });

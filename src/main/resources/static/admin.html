@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>CodeStore - Gestão de Estoque</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel="stylesheet" href="./admin.css">
+
+  <!-- ícones -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+
+  <!-- estilos -->
+  <link rel="stylesheet" href="./admin.css"/>
 </head>
 <body>
   <nav>
@@ -22,7 +26,7 @@
 
         <div class="profile-wrap" id="profileWrap" aria-haspopup="true" aria-expanded="false">
           <a class="profile-link" href="./perfil.html" aria-label="Ir para o perfil">
-            <span class="material-icons" >person</span>
+            <span class="material-icons">person</span>
           </a>
 
           <div class="mini-profile" id="miniProfile" role="dialog" aria-label="Minha conta">
@@ -41,41 +45,59 @@
     </div>
   </nav>
 
-
   <main class="main">
-	<div class="header-produtos">
-	  <h2>Estoque de produtos</h2>
+    <div class="header-produtos">
+      <h2>Estoque de produtos</h2>
 
-	  <div class="header-buttons">
-	    <a href="./dados.html" class="btn-dados">
-	      <span class="material-icons">local_shipping</span>
-	      Dados de rastreio
-	    </a>
+      <div class="header-buttons">
+        <a href="./dados.html" class="btn-dados">
+          <span class="material-icons">local_shipping</span>
+          Dados de rastreio
+        </a>
 
-	    <button class="btn-novo-produto" id="novoProdutoBtn">
-	      <span class="material-icons">add</span>
-	      Cadastrar Produtos
-	    </button>
-	  </div>
-	</div>
+        <button class="btn-novo-produto" id="novoProdutoBtn">
+          <span class="material-icons">add</span>
+          Cadastrar Produtos
+        </button>
+      </div>
+    </div>
 
-	<form id="buscaForm" class="estoque-search" role="search" aria-label="Pesquisar produto">
-	  <span class="material-icons">search</span>
-	  <input id="buscaInput" type="search" placeholder="Pesquisar produto por nome..." />
-	  <button type="submit">Buscar</button>
-	</form>
+    <form id="buscaForm" class="estoque-search" role="search" aria-label="Pesquisar produto">
+      <span class="material-icons">search</span>
+      <input id="buscaInput" type="search" placeholder="Pesquisar produto por nome..." />
+      <button type="submit">Buscar</button>
+    </form>
 
-	<section class="estoque-wrap">
-	  <div class="estoque-head">
-	    <span>Produto</span><span>Categoria</span><span>Preço</span><span>Quantidade</span><span>Status</span>
-	  </div>
-	  <div class="estoque-body" id="lista-produtos"></div>
-	</section>
+    <section class="estoque-wrap">
+      <div class="estoque-head">
+        <span>Produto</span>
+        <span>Categoria</span>
+        <span>Preço</span>
+        <span>Quantidade</span>
+        <span>Status</span>
+      </div>
+      <div class="estoque-body" id="lista-produtos"></div>
+    </section>
   </main>
 
   <footer>
     CodeStore - Todos os Direitos Reservados
   </footer>
+
+  <!-- ========= MODAL DE EXCLUSÃO ========= -->
+  <div class="modal-overlay" id="modalExcluirProduto" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="tituloModalProduto">
+      <h3 id="tituloModalProduto">Excluir produto</h3>
+      <p id="textoModalProduto">
+        Tem certeza que deseja excluir este produto do estoque? Esta ação é irreversível.
+      </p>
+      <div class="modal-actions">
+        <button id="btnConfirmarExcluirProduto" class="btn-confirm">Sim, excluir</button>
+        <button id="btnCancelarExcluirProduto" class="btn-cancel">Cancelar</button>
+      </div>
+    </div>
+  </div>
+  <!-- ===================================== -->
 
   <script src="./admin.js"></script>
 </body>

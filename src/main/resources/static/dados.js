@@ -101,19 +101,39 @@ async function apiObterPedidosPorUsuario(usuarioId) {
 }
 
 /* =========================
-   FORMATADORES
+   FORMATADORES / HELPERS
    ========================= */
 function formatarValor(v){
-  if(v == null) return 'R$ 0,00';
-  return `R$ ${parseFloat(v).toFixed(2).replace('.', ',')}`;
+  const n = Number(v ?? 0);
+  return n.toLocaleString('pt-BR', { style:'currency', currency:'BRL' });
+}
+
+function normalizar(s) {
+  return String(s || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "") 
+    .toLowerCase()
+    .trim();
 }
 
 function extrairNomeUsuario(pedido) {
+  // vem como nomeUsuario do DTO; fallback para pedido.usuario.nome se existir
   return (
     pedido?.nomeUsuario ??
     pedido?.usuario?.nome ??
     '-'
   );
+}
+
+function extrairProdutosStr(pedido){
+  // Espera-se: pedido.produtos: [{ id, nome, quantidade, ... }]
+  const itens = Array.isArray(pedido?.produtos) ? pedido.produtos : [];
+  if (!itens.length) return '—';
+  return itens.map(it => {
+    const nome = it?.nome ?? 'Produto';
+    const qtd  = Number(it?.quantidade ?? 1);
+    return `${nome} (x${qtd})`;
+  }).join(', ');
 }
 
 /* =========================
@@ -128,22 +148,25 @@ function renderPedidos(pedidos) {
     el.innerHTML = `
       <div class="pedido-row">
         <div class="pedido-id">—</div>
-        <div class="pedido-total">Nenhum pedido encontrado.</div>
+        <div class="pedido-produtos">Nenhum pedido encontrado.</div>
+        <div class="pedido-total">—</div>
         <div class="pedido-nome">—</div>
       </div>`;
     return;
   }
 
   el.innerHTML = arr.map(p => {
-    const id = p.id ?? '—';
-    const total = formatarValor(p.total);
-    const nomeUsuario = extrairNomeUsuario(p);
+    const id     = p.id ?? '—';
+    const prods  = extrairProdutosStr(p);           // << produtos após o ID
+    const total  = formatarValor(p.total);
+    const nome   = extrairNomeUsuario(p);
 
     return `
       <div class="pedido-row">
         <div class="pedido-id">#${id}</div>
+        <div class="pedido-produtos">${prods}</div>
         <div class="pedido-total">${total}</div>
-        <div class="pedido-nome">${nomeUsuario}</div>
+        <div class="pedido-nome">${nome}</div>
       </div>
     `;
   }).join('');
@@ -162,28 +185,37 @@ function ehNumero(valor){
 async function aplicarBuscaPedidos(termo) {
   const v = (termo || '').trim();
 
-  if(v === '') {
+  // vazio → lista tudo
+  if (v === '') {
     const lista = await apiListarPedidos();
     renderPedidos(lista);
     return;
   }
 
-  if(ehNumero(v)) {
+  // ID numérico → busca por ID (já funcionando)
+  if (ehNumero(v)) {
     const ped = await apiObterPedidoPorId(Number(v));
     renderPedidos(ped ? [ped] : []);
     return;
   }
 
-  if(ehEmail(v)) {
+  // e-mail → resolve usuário e lista pedidos dele (já funcionando)
+  if (ehEmail(v)) {
     const usuario = await apiObterUsuarioPorEmail(v);
-    if(!usuario) { renderPedidos([]); return; }
+    if (!usuario) { renderPedidos([]); return; }
     const pedidosUser = await apiObterPedidosPorUsuario(usuario.id);
     renderPedidos(pedidosUser);
     return;
   }
 
-  const lista = await apiListarPedidos();
-  renderPedidos(lista);
+  // NOME DO CLIENTE (parcial, sem acento, case-insensitive)
+  const termoNorm = normalizar(v);
+  const todos = await apiListarPedidos();
+  const filtrados = (todos || []).filter(p => {
+    const nome = extrairNomeUsuario(p);
+    return normalizar(nome).includes(termoNorm);
+  });
+  renderPedidos(filtrados);
 }
 
 function initBuscaPedidos() {
